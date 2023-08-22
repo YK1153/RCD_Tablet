@@ -1,0 +1,172 @@
+﻿using CommWrapper;
+using RcdCmn;
+using RcdOperationSystemConst;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RcdOperation.Control
+{
+    public partial class ControlMain
+    {
+        #region ※ 一時定数 ※ なくす必要あり
+        private const int C_MANAGEMENTCOMM_WAITTIME = 500;
+
+        #endregion
+
+        #region ### クラス変数 ###
+        private CommCl m_managementcl;
+        /// <summary>
+        /// Management接続状態
+        /// </summary>
+        private bool ManagementCommStatus;
+
+        #endregion
+
+        #region ###  ###
+        public void CommManagement()
+        {
+            m_managementcl = new CommCl( ConnectionConst.ManagementPC_IP, ConnectionConst.ManagementPC_Port );
+            m_managementcl.Connected += new CommCl.ClientConnectedEventHandler(ManagementClConnected);
+            m_managementcl.Disconnected += new CommCl.ClientConnectedEventHandler(ManagementClDisConnected);
+            m_managementcl.RecieveServerMessage += new CommCl.RecieveServerMessageEventHandler(ManagementclReceiveMessage);
+            m_managementcl.LogWriterRcv = new LogWriteComm("ManagementPCCl", "Rcv");
+            m_managementcl.LogWriterSnd = new LogWriteComm("ManagementPCCl", "Snd");
+            m_managementcl.ResponseTimeout = C_MANAGEMENTCOMM_WAITTIME;
+
+            m_managementcl.Connect();
+        }
+
+        #endregion
+
+        #region ### 接続・切断 ###
+        private void ManagementClConnected(ClientConnectedEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+                ManagementCommStatus = true;
+                LOGGER.Info("ManagementPCと接続しました");
+
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionConsoleProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        private void ManagementClDisConnected(ClientConnectedEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+                ManagementCommStatus = false;
+                LOGGER.Info("ManagementPCと切断しました");
+
+                //制御中に切断された場合に走行停止
+                //if (m_CarControlStatus == C_UNDER_CONTROL)
+                //{
+                //    EmergencyEndProcess(Res.ErrorStatus.C_ERR.Code);
+                //}
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionConsoleProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        #region ### 受信 ###
+        private void ManagementclReceiveMessage(RecieveServerMessageEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start {e.Message}");
+
+                string rcvid = CommMsgBase.GetMsgID(e.Message);
+
+                switch (rcvid)
+                {
+                    default:
+                        {
+
+                            break;
+                        }
+                }
+
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        #region ### 送信 ###
+
+        #region ## RFID取得要求 ##
+        /// <summary>
+        /// RFID取得要求
+        /// </summary>
+        /// <returns>RFID情報</returns>
+        private string GetRFID()
+        {
+            // ManagementPCへ要求
+
+            return "";
+        }
+        #endregion
+
+        private　string GetInspection()
+        {
+            // ManagementPCへ要求
+
+            return "";
+        }
+
+        #endregion
+
+        /// <summary>
+        /// RFID読み込み処理
+        /// </summary>
+        /// <returns></returns>
+        private bool RFID()
+        {
+            //RFID情報取得
+            GetRFID();
+
+            //RFID情報分解
+
+            //走行車両判定
+
+            //走行NG車両の場合※リターンの後に行う？？？
+            SelfPropelledNGProc();
+
+            return true;
+        }
+
+        /// <summary>
+        /// 検査情報取得処理
+        /// </summary>
+        /// <returns></returns>
+        private bool Inspection()
+        {
+            //検査情報取得
+            GetInspection();
+
+            //検査情報分解
+
+            //走行車両判定
+
+            //走行NG車両の場合※リターンの後に行う？？？
+            SelfPropelledNGProc();
+
+            return true;
+        }
+
+    }
+}

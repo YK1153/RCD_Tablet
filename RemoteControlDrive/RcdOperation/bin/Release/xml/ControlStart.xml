@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ControlStartClass xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <MainCamType>Pana</MainCamType>
+    <CarNo>01234</CarNo>
+    <CarSpecNo>00032</CarSpecNo>
+    <IPaddr>192.168.0.101</IPaddr>
+    <GoalNo>1</GoalNo>
+    <GearRate>15.64</GearRate>
+    <Wheelbase>2.85</Wheelbase>
+    <WidthDistance>1.86</WidthDistance>
+    <ForwardDistance>4.0</ForwardDistance>
+    <AreaAdjust>0</AreaAdjust>
+    <PORT1>10000</PORT1>
+    <CenterFrontLength>3.69</CenterFrontLength>
+    <CenterEndLength>1</CenterEndLength>
+</ControlStartClass>

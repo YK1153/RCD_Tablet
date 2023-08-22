@@ -1,0 +1,6 @@
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\bin\Release\RcdOperationSystemConst.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\bin\Release\RcdOperationSystemConst.pdb
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.csprojAssemblyReference.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.pdb

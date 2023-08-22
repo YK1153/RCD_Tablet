@@ -1,0 +1,439 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using AtrptCalc;
+using AtrptShare;
+using RcdCmn;
+using RcdOperationSystemConst;
+using static RcdDao.MCourseAreaDao;
+using static RcdDao.MCourseDao;
+using static RcdDao.MCourseNodeDao;
+
+namespace RcdOperation.Control
+{
+    public partial class ControlMain
+    {
+        #region 定数※DB設定値にする
+        private readonly string C_CONFIG_FILE_PATH = ConfigurationManager.AppSettings["C_CONFIG_FILE_PATH"];
+
+        private readonly int C_ACTUAL_ANGLE_WAIT = int.Parse(ConfigurationManager.AppSettings["C_ACTUAL_ANGLE"]);
+        private readonly double C_FIRST_POS_X = double.Parse(ConfigurationManager.AppSettings["C_FIRST_POS_X"]);
+        private readonly double C_FIRST_POS_Y = double.Parse(ConfigurationManager.AppSettings["C_FIRST_POS_Y"]);
+        private readonly double C_DIFF_X = double.Parse(ConfigurationManager.AppSettings["C_DIFF_X"]);
+        private readonly double C_DIFF_Y = double.Parse(ConfigurationManager.AppSettings["C_DIFF_Y"]);
+        private readonly int C_ERRMAX_COUNT = int.Parse(ConfigurationManager.AppSettings["C_ERRMAX_COUNT"]);
+        private readonly bool C_SCORE_ALLUSE = bool.Parse(ConfigurationManager.AppSettings["C_SCORE_ALLUSE"]);
+        private readonly int C_ANGLE_LIMIT_MODE = int.Parse(ConfigurationManager.AppSettings["C_ANGLE_LIMIT_MODE"]);
+        private readonly int C_ACCELERATION_MODE = int.Parse(ConfigurationManager.AppSettings["C_ACCELERATION_MODE"]);
+        private readonly int C_INCLUDE_JUDGE_AREA_COUNT = int.Parse(ConfigurationManager.AppSettings["C_INCLUDE_JUDGE_AREA_COUNT"]);
+        private readonly bool C_RCDLOGGER_USE = bool.Parse(ConfigurationManager.AppSettings["C_RCDLOGGER_USE"]);
+        private readonly string C_RCDLOGGER_PATH = ConfigurationManager.AppSettings["C_RCDLOGGER_PATH"];
+
+        private readonly int C_CC_CALC_WAITTIME = int.Parse(ConfigurationManager.AppSettings["C_CC_CALC_WAITTIME"]);
+        private readonly int C_CC_SEND_INTERVAL = int.Parse(ConfigurationManager.AppSettings["C_CC_SEND_INTERVAL"]);
+        private readonly int C_CARCORNER_OUTAREA_ALLOW_NUM = int.Parse(ConfigurationManager.AppSettings["C_CARCORNER_OUTAREA_ALLOW_NUM"]);
+
+        private readonly int C_CAR_WAITTIME = int.Parse(ConfigurationManager.AppSettings["C_CAR_WAITTIME"]);
+        private readonly bool C_SURVEILLANCE_CAR = bool.Parse(ConfigurationManager.AppSettings["C_SURVEILLANCE_CAR"]);
+        private readonly int C_SURVEILLANCE_INTERVALP_CAR = int.Parse(ConfigurationManager.AppSettings["C_SURVEILLANCE_INTERVALP_CAR"]);
+        private readonly int C_VCONTROLFLG_THROUGH_NUM = int.Parse(ConfigurationManager.AppSettings["C_VCONTROLFLG_THROUGH_NUM"]);
+        private readonly bool C_SNDRSESULT_CAR = bool.Parse(ConfigurationManager.AppSettings["C_SNDRSESULT_CAR"]);
+        private readonly int C_PORT1 = int.Parse(ConfigurationManager.AppSettings["C_PORT1"]);
+        private readonly int C_PORT2 = int.Parse(ConfigurationManager.AppSettings["C_PORT2"]);
+        private readonly int C_CARSTOP_SENDCOUNT = int.Parse(ConfigurationManager.AppSettings["C_CARSTOP_SENDCOUNT"]);
+        private readonly int C_CARSTOP_SENDDEREY = int.Parse(ConfigurationManager.AppSettings["C_CARSTOP_SENDDEREY"]);
+        private readonly int C_SURVEILLANCE_INTERVALFS_CAR = int.Parse(ConfigurationManager.AppSettings["C_SURVEILLANCE_INTERVALFS_CAR"]);
+        private readonly int C_SURVEILLANCE_INTERVALS_CAR = int.Parse(ConfigurationManager.AppSettings["C_SURVEILLANCE_INTERVALS_CAR"]);
+
+        private readonly int C_CI_INTERVAL = int.Parse(ConfigurationManager.AppSettings["C_CI_INTERVAL"]);
+
+        private readonly int C_SENSORCHECK_DELAY = int.Parse(ConfigurationManager.AppSettings["C_SENSORCHECK_DELAY"]);
+
+        internal readonly int m_MAX_IO_READ_WAIT = int.Parse(ConfigurationManager.AppSettings["IO_READ_MAX_WAIT"]);
+        internal readonly int m_STATUS_UPDATE_INTERVAL = int.Parse(ConfigurationManager.AppSettings["STATUS_UPDATE_INTERVAL"]);
+
+        private readonly int C_COMPARISONPOSITION = int.Parse(ConfigurationManager.AppSettings["C_COMPARISONPOSITION"]);
+
+        private readonly double C_CONTROLCARRADIUS = double.Parse(ConfigurationManager.AppSettings["C_CONTROLCARRADIUS"]);
+        #endregion
+
+        /// <summary>
+        /// 初期動作
+        /// </summary>
+        private void Dummy_firstprocess()
+        {
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            //設定ファイル読み込み
+            LoadFile();
+            
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End");
+        }
+
+        /// <summary>
+        /// 設定ファイル読み込み
+        /// </summary>
+        private void LoadFile()
+        {
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            try
+            {
+                if (File.Exists(C_CONFIG_FILE_PATH))
+                {
+                    System.Xml.Serialization.XmlSerializer xml = new System.Xml.Serialization.XmlSerializer(typeof(ConfigData));
+                    using (System.IO.FileStream fs = new System.IO.FileStream(C_CONFIG_FILE_PATH, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        m_ConfigData = (ConfigData)xml.Deserialize(fs);
+                    }
+
+                    //設定値反映
+                    SetConfig();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new UserException($"設定ファイルが不正です。{ex.Message}");
+            }
+
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End");
+        }
+
+        private void SetConfig()
+        {
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            //経路設定
+            CourseInfo courseInfo = new CourseInfo();
+            foreach (SpeedArea area in m_ConfigData.SpeedAreaList.SpeedArea)
+            {
+                CourseArea course = new CourseArea()
+                {
+                    SID = area.ID,
+                    Name = area.Name,
+                    LeftWidth = (float)area.LeftWidth,
+                    RightWidth = (float)area.RightWidth,
+                    AreaSpeed = (float)area.Speed,
+                    AccelerationPlus = area.Acceleration,
+                    AccelerationMinus = area.Deceleration,
+                };
+
+                courseInfo.CourseArea.Add(course);
+            }
+            foreach(RouteNode node in m_ConfigData.RouteNodeList.RouteNode)
+            {
+                CourseNode course = new CourseNode()
+                {
+                    SID = node.ID,
+                    Name = node.Name,
+                    Xcoordinate = node.X,
+                    Ycoordinate = node.Y
+                };
+
+                courseInfo.CourseNode.Add(course);
+            }
+
+            m_CourseInfoList = new List<CourseInfo>();
+            m_CourseInfoList.Add(courseInfo);
+
+            foreach(CourseNode routeNode in courseInfo.CourseNode)
+            {
+                m_RouteNodes.Add(routeNode.ToRoutenode()); ;
+            }
+            //foreach(CourseArea courseArea in courseInfo.CourseArea) 
+            for (int i = 0; i < courseInfo.CourseArea.Count; i++)
+            {
+                SpeedArea speedArea = courseInfo.CourseArea[i].ToSpeedArea();
+                speedArea.Area = AreaSet(i, speedArea, 0);
+                speedArea.SlowArea = AreaSet(i, speedArea, 1);
+                speedArea.PauseArea = AreaSet(i, speedArea, 2);
+                speedArea.StopArea = AreaSet(i, speedArea, 3);
+
+                m_SpeedAreas.Add(speedArea);
+            }
+
+            //その他エリアセット
+            m_otherArea = new OtherAreaRetention[m_ConfigData.OtherAreas.Count()];
+            for (int i = 0; i <= m_ConfigData.OtherAreas.Count() - 1; i++)
+            {
+                m_otherArea[i] = new OtherAreaRetention
+                {
+                    otherarea = new OtherArea()
+                };
+                m_otherArea[i].otherarea = m_ConfigData.OtherAreas[i];
+                m_otherArea[i].Done =　OperationConst.FacilityAreaStage.C_FACILITY_START;
+            }
+
+
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End");
+        }
+
+        private void WriteFile<T>(string filepath,ref T data)
+        {
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            //保存
+            System.Xml.Serialization.XmlSerializer xml = new System.Xml.Serialization.XmlSerializer(typeof(T));
+            using (System.IO.FileStream fs = new System.IO.FileStream(filepath, FileMode.Create, FileAccess.Write, FileShare.Read))
+            {
+                xml.Serialize(fs, data);
+            }
+
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End");
+        }
+
+        private void ReadFile<T>(string filepath,ref T data)
+        {
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            try
+            {
+                if (File.Exists(filepath))
+                {
+                    System.Xml.Serialization.XmlSerializer xml = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                    using (System.IO.FileStream fs = new System.IO.FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        data = (T)xml.Deserialize(fs);
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new UserException($"設定ファイルが不正です。{ex.Message}");
+            }
+
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End");
+        }
+
+
+        #region エリアの各座標値のセット
+        public PointF[] AreaSet(int i, SpeedArea NowSpeedArea, int num)
+        {
+            List<PointF> area = new List<PointF>();
+            int ncnt = i + 1;
+
+            double uedge = 0;
+            double vertical = 0;
+
+            uedge = m_RouteNodes[ncnt].X - m_RouteNodes[ncnt - 1].X; // 底辺
+            vertical = m_RouteNodes[ncnt].Y - m_RouteNodes[ncnt - 1].Y; // 高さ
+            double rad = Math.Atan2(vertical, uedge); // ラジアン
+            double cosθ = Math.Cos(rad);
+            double sinθ = Math.Sin(rad);
+
+            double rightwidth = AreaSelecterRight(NowSpeedArea, num);
+            double leftwidth = AreaSelecterLeft(NowSpeedArea, num);
+
+            // エリアの頂点座標の計算
+            area.Add(new PointF((float)(m_RouteNodes[ncnt - 1].X + rightwidth * sinθ), (float)(m_RouteNodes[ncnt - 1].Y - rightwidth * cosθ)));
+            area.Add(new PointF((float)(m_RouteNodes[ncnt].X + rightwidth * sinθ), (float)(m_RouteNodes[ncnt].Y - rightwidth * cosθ)));
+            area.Add(new PointF((float)(m_RouteNodes[ncnt].X - leftwidth * sinθ), (float)(m_RouteNodes[ncnt].Y + leftwidth * cosθ)));
+            area.Add(new PointF((float)(m_RouteNodes[ncnt - 1].X - leftwidth * sinθ), (float)(m_RouteNodes[ncnt - 1].Y + leftwidth * cosθ)));
+            area.Add(area[0]);
+
+            if (i > 0)
+            {
+                PointF O = new PointF(m_RouteNodes[ncnt - 2].X, m_RouteNodes[ncnt - 2].Y);
+                PointF A = new PointF(m_RouteNodes[ncnt - 1].X, m_RouteNodes[ncnt - 1].Y);
+                PointF B = new PointF(m_RouteNodes[ncnt].X, m_RouteNodes[ncnt].Y);
+
+                double Z = CommonProc.Gaiseki(O, A, B);
+                if (Z > 0)
+                {
+                    area.Insert(4, new PointF(m_RouteNodes[ncnt - 1].X, m_RouteNodes[ncnt - 1].Y));
+                    switch (num)
+                    {
+                        case 0:
+                            area.Insert(5, m_SpeedAreas[i - 1].Area[1]);
+                            break;
+                        case 1:
+                            area.Insert(5, m_SpeedAreas[i - 1].SlowArea[1]);
+                            break;
+                        case 2:
+                            area.Insert(5, m_SpeedAreas[i - 1].PauseArea[1]);
+                            break;
+                        case 3:
+                            area.Insert(5, m_SpeedAreas[i - 1].StopArea[1]);
+                            break;
+                    }
+
+                }
+                else if (Z < 0)
+                {
+                    switch (num)
+                    {
+                        case 0:
+                            area.Insert(4, m_SpeedAreas[i - 1].Area[2]);
+                            break;
+                        case 1:
+                            area.Insert(4, m_SpeedAreas[i - 1].SlowArea[2]);
+                            break;
+                        case 2:
+                            area.Insert(4, m_SpeedAreas[i - 1].PauseArea[2]);
+                            break;
+                        case 3:
+                            area.Insert(4, m_SpeedAreas[i - 1].StopArea[2]);
+                            break;
+                    }
+                    area.Insert(5, new PointF(m_RouteNodes[ncnt - 1].X, m_RouteNodes[ncnt - 1].Y));
+                }
+            }
+
+            return (PointF[])area.ToArray().Clone();
+        }
+
+        private double AreaSelecterRight(SpeedArea NowSpeedArea, int num)
+        {
+            double width = 0;
+
+            switch (num)
+            {
+                case 0:
+                    width = NowSpeedArea.RightWidth;
+                    break;
+                case 1:
+                    if (NowSpeedArea.SlowRightWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.SlowRightWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.SlowRightWidth);
+                    }
+                    break;
+                case 2:
+                    if (NowSpeedArea.PauseRightWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.PauseRightWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.PauseRightWidth);
+                    }
+                    break;
+                case 3:
+                    if (NowSpeedArea.StopRightWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.StopRightWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.StopRightWidth);
+                    }
+                    break;
+            }
+
+            return width;
+        }
+        private double AreaSelecterLeft(SpeedArea NowSpeedArea, int num)
+        {
+            double width = 0;
+
+            switch (num)
+            {
+                case 0:
+                    width = NowSpeedArea.LeftWidth;
+                    break;
+                case 1:
+                    if (NowSpeedArea.SlowLeftWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.SlowLeftWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.SlowLeftWidth);
+                    }
+                    break;
+                case 2:
+                    if (NowSpeedArea.PauseLeftWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.PauseLeftWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.PauseLeftWidth);
+                    }
+                    break;
+                case 3:
+                    if (NowSpeedArea.StopLeftWidth != null && NowSpeedArea.SlowRightWidth != "")
+                    {
+                        width = double.Parse(NowSpeedArea.StopLeftWidth);
+                    }
+                    else
+                    {
+                        width = double.Parse(m_ConfigData.StopLeftWidth);
+                    }
+                    break;
+            }
+
+            return width;
+        }
+        #endregion
+
+    }
+
+
+    public class ControlStartClass
+    {
+        public OperationConst.CamType MainCamType { get; set; }
+
+        public string CarNo { get; set; }
+        //= "01234";
+        public string CarSpecNo { get; set; }
+        // = "00032";
+        public string IPaddr { get; set; }
+        // = "192.168.0.101";
+        public int GoalNo { get; set; }
+        // = 1;
+        public string GearRate { get; set; }
+        // = "";
+        public string Wheelbase { get; set; }
+        // = "";
+        public string WidthDistance { get; set; }
+        // = "";
+        public string ForwardDistance { get; set; }
+        // = "";
+        public string AreaAdjust { get; set; }
+        // = "";
+        public int PORT1 { get; set; }
+        // = 10000;
+        public double CenterFrontLength { get; set; }
+        public double CenterEndLength { get; set; }
+    }
+
+    /// <summary>
+    /// ラベル設定
+    /// </summary>
+    public class ObjectLabel
+    {
+        public string Label { get; set; }
+        public string LabelName { get; set; }
+        public float Radius { get; set; }
+        public bool CarFlag { get; set; }
+
+        public List<LabelArea> LabelAreas { get; set; }
+    }
+    /// <summary>
+    /// ラベルのエリア設定
+    /// </summary>
+    public class LabelArea
+    {
+        public double RadiusCoefficient { get; set; }
+
+        public PointF[] Area { get; set; }
+    }
+}

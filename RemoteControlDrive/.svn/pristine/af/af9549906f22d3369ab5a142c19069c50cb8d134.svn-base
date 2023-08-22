@@ -1,0 +1,890 @@
+﻿using RcdCmn;
+using RcdDao.Attributes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using static RcdDao.DaoCommon;
+using static RcdDao.MFacilityDao;
+
+namespace RcdDao
+{
+    public class MPLCDao
+    {
+
+        #region ### クラス変数 ###
+
+        AppLog LOGGER = AppLog.GetInstance();
+        DaoCommon m_daoCommon = DaoCommon.GetInstance();
+
+        #endregion
+
+        #region ### 設備 ####
+
+        /// <summary>
+        /// 設備情報取得ベースクエリ取得
+        /// </summary>
+        private string GetFacilityBaseQuery()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                return @"
+                    SELECT
+		                  facility.SID
+		                , facility.Created
+		                , facility.ID
+		                , facility.Name
+		                , facility.FacilityTypeID
+		                , facilityType.TypeName
+		                , isValid.IsValidSetting
+	                FROM
+		                dbo.M_FACILITY facility
+	                LEFT OUTER JOIN
+		                dbo.M_FACILITY_TYPE facilityType
+	                ON
+		                facility.FacilityTypeID = facilityType.SID
+	                AND facilityType.DelFlg = 0
+	                LEFT OUTER JOIN
+		                (SELECT
+			                FacilitySID,
+			                CASE 
+				                WHEN 
+					                SUM(
+						                CASE WHEN (PLCDeviceSID IS NOT NULL) 
+								                AND (AddressNum IS NOT NULL) 
+												AND (bitNum IS NOT NULL) 
+								                AND (SettingValue IS NOT NULL) THEN 0
+								                ELSE 1 
+						                END
+					                ) > 0 THEN 0
+				                ELSE 1
+			                END AS IsValidSetting
+		                FROM
+			                dbo.M_FACILITY_SETTING
+		                WHERE
+			                DelFlg = 0
+		                GROUP BY
+			                FacilitySID
+		                ) isValid
+	                ON
+		                facility.sid = isValid.FacilitySID
+	                WHERE
+		                facility.DelFlg = 0
+                    ";
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 全設備情報取得
+        /// </summary>
+        public List<Facility> GetAllFacilityInfo()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = GetFacilityBaseQuery();
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+
+                    return m_daoCommon.ConvertToListOf<Facility>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器追加
+        /// </summary>
+        public int AddFacility(Facility facility)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string precedureName = "insertFacility";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(precedureName, facility);
+                    int effectedRowCount = helper.ExecuteNonQuery(precedureName, CommandType.StoredProcedure, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器更新
+        /// </summary>
+        public int UpdateFacility(Facility facility)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    UPDATE 
+		                    M_FACILITY
+	                    set 
+		                      ID = @ID
+                            , Name = @FacilityName
+		                    , Updated = GETDATE() 
+	                    WHERE 
+		                    sid = @SID;";
+
+                    List<SqlParameter> paramList = new List<SqlParameter>();
+                    paramList.Add(new SqlParameter("@SID", facility.SID));
+                    paramList.Add(new SqlParameter("@ID", facility.ID));
+                    paramList.Add(new SqlParameter("@FacilityName", facility.FacilityName));
+
+                    int effectedRowCount = helper.ExecuteNonQuery(query, CommandType.Text, paramList.ToArray());
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器削除
+        /// </summary>
+        public int DeleteFacility(Facility facility)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    UPDATE 
+		                    M_FACILITY
+	                    set 
+		                    DelFlg = 1
+		                    , Updated = GETDATE() 
+	                    WHERE 
+		                    sid = @SID;
+
+	                    UPDATE
+		                    M_PLC_FACILITY_SETTING
+	                    set
+		                    DelFlg = 1
+		                    , Updated = GETDATE()
+	                    WHERE
+		                    FacilitySID = @SID";
+
+                    List<SqlParameter> paramList = new List<SqlParameter>();
+                    paramList.Add(new SqlParameter("@SID", facility.SID));
+
+                    int effectedRowCount = helper.ExecuteNonQuery(query, CommandType.Text, paramList.ToArray());
+
+
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        #endregion
+
+        #region ### IO ####
+
+        /// <summary>
+        /// 設備IO設定情報取得
+        /// </summary>
+        public List<PLCFacilitySetting> GetPLCFacilitySettingInfo(int facilitySID)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+                        SELECT
+		                        setting.SID AS SettingSID
+		                        , setting.FacilityFuncID AS FacilityFuncID
+                                , facility.sid As FacilitySID
+		                        , facility.ID AS FacilityID
+		                        , setting.PLCDeviceSID AS PLCDeviceSID
+		                        , facility.Name
+		                        , facilityFunc.Name
+		                        , facilityFunc.IOType
+		                        , plcDevice.Name
+		                        , setting.AddressNum
+								, setting.bitNum
+		                        , setting.SettingValue
+	                        FROM
+		                        dbo.M_FACILITY_SETTING setting
+	                        LEFT OUTER JOIN
+		                        dbo.M_FACILITY facility
+	                        ON
+		                        setting.FacilitySID = facility.sid
+	                        AND facility.DelFlg = 0
+	                        LEFT OUTER JOIN
+		                        dbo.M_FACILITY_FUNC facilityFunc
+	                        ON
+		                        setting.FacilityFuncID = facilityFunc.SID
+	                        AND facilityFunc.DelFlg = 0
+	                        LEFT OUTER JOIN
+		                        dbo.M_PLC_DEVICE plcDevice
+	                        ON
+		                        setting.PLCDeviceSID = plcDevice.SID
+	                        AND plcDevice.DelFlg = 0
+	                        WHERE
+		                        setting.DelFlg = 0
+	                        AND setting.FacilitySID = @facilitySID;
+                            ";
+
+                    SqlParameter p = new SqlParameter("@facilitySID", facilitySID);
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text, p);
+
+                    return m_daoCommon.ConvertToListOf<PLCFacilitySetting>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器IO設定登録・更新
+        /// </summary>
+        public int UpdatePLCFacilitySetting(PLCFacilitySetting plcfacilitySetting)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    UPDATE 
+		                    M_FACILITY_SETTING
+	                    set 
+		                    PLCDeviceSID = @PLCDeviceSID
+		                    , AddressNum = @AddressNum
+                            , bitNum = @bitNum
+		                    , SettingValue = @SettingValue
+		                    , Updated = GETDATE() 
+	                    WHERE 
+		                    SID = @SettingSID";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, plcfacilitySetting);
+
+                    int effectedRowCount = helper.ExecuteNonQuery(query, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備IO設定情報結果セット
+        /// </summary>
+        public class PLCFacilitySetting : Result
+        {
+            public PLCFacilitySetting() { }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int SettingSID { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int FacilityFuncID { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int? FacilitySID { get; set; }
+
+            public string FacilityID { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public string facilityName { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public string SettingName { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int IOType { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public string strIOType
+            {
+                get
+                {
+                    if (IOType == (int)IOTYPE.Output)
+                    {
+                        return "出力";
+                    }
+                    else if (IOType == (int)IOTYPE.Input)
+                    {
+                        return "入力";
+                    }
+                    else
+                    {
+                        throw new UserException("Invalid IOType");
+                    }
+                }
+            }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public string PLCDeviceName { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int? PLCDeviceSID { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int AddressNum { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int bitNum { get; set; }
+
+            [SqlParam(queryNames: new string[] { "UpdatePLCFacilitySetting" })]
+            public int SettingValue { get; set; }
+        }
+
+        #endregion
+
+        #region ### PLCデバイス ###
+        public List<MPlcDevice> GetAllPLCDevice()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+                        SELECT 
+                              plc.sid 
+                            , plc.Name
+                            , plc.IPAddr
+                            , plc.PortNo
+                            , plc.ReadStartAddr
+                            , plc.ReadByteNum
+                            , plc.WriteStartAddr
+                            , plc.WriteByteNum
+                        FROM 
+                            M_PLC_DEVICE plc 
+                        WHERE 
+                            plc.DelFlg = 0;
+                        ";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+                    return m_daoCommon.ConvertToListOf<MPlcDevice>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Add(MPlcDevice PLCInfo)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        INSERT M_PLC_DEVICE (
+                            Created
+                            , Updated
+                            , DelFlg
+                            , Name
+                            , IPAddr
+                            , PortNo
+                            , ReadStartAddr
+                            , ReadByteNum
+                            , WriteStartAddr
+                            , WriteByteNum
+                        ) VALUES (
+                            GETDATE()
+                            , GETDATE()
+                            , 0
+                            , @PLCDeviceName
+                            , @PLCIP
+                            , @PLCPORT
+                            , @ReadStartAddr
+                            , @ReadByteNum
+                            , @WriteStartAddr
+                            , @WriteByteNum
+
+                        );
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, PLCInfo);
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Delete(MPlcDevice PLCInfo)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        UPDATE 
+                            M_PLC_DEVICE 
+                        SET
+                            Updated = GETDATE()
+                            , DelFlg = 1
+                        WHERE
+                            sid = @SID;
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, PLCInfo);
+
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Update(MPlcDevice PLCInfo)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        UPDATE 
+                            M_PLC_DEVICE
+                        SET
+                            Updated = GETDATE()
+                            , Name = @PLCDeviceName
+                            , IPAddr = @PLCIP
+                            , PortNo = @PLCPORT
+                            , ReadStartAddr = @ReadStartAddr
+                            , ReadByteNum = @ReadByteNum
+                            , WriteStartAddr = @WriteStartAddr
+                            , WriteByteNum = @WriteByteNum
+
+                        WHERE
+                            sid = @SID;
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, PLCInfo);
+
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+
+
+        public class MPlcDevice : Result
+        {
+            public MPlcDevice() { }
+
+            public int? SID { get; set; }
+
+            /// <summary>
+            /// 工場SID
+            /// <summary>
+            public int PlantSID { get; set; }
+            /// <summary>
+            /// 工程SID
+            /// <summary>
+            public int StationIDID { get; set; }
+            /// <summary>
+            /// PLC名称
+            /// <summary>
+            public string Name { get; set; }
+            /// <summary>
+            /// IPアドレス
+            /// <summary>
+            public string IPAddr { get; set; }
+            /// <summary>
+            /// ポート番号
+            /// <summary>
+            public int PortNo { get; set; }
+            /// <summary>
+            /// 読取開始アドレス
+            /// <summary>
+            public string ReadStartAddr { get; set; }
+            /// <summary>
+            /// 読取バイト数
+            /// <summary>
+            public int ReadByteNum { get; set; }
+            /// <summary>
+            /// 書込み開始アドレス
+            /// <summary>
+            public string WriteStartAddr { get; set; }
+            /// <summary>
+            /// 書込みバイト数
+            /// <summary>
+            public int WriteByteNum { get; set; }
+            /// <summary>
+            /// WD確認アドレス番号
+            /// <summary>
+            public int WDReadAddrNum { get; set; }
+            /// <summary>
+            /// WD確認アドレス文字列
+            /// <summary>
+            public string WDReadAddrStr { get; set; }
+            /// <summary>
+            /// WD確認ビット番号
+            /// <summary>
+            public int WDReadBitNum { get; set; }
+            /// <summary>
+            /// WD確認ビット文字列
+            /// <summary>
+            public string WDReadBitStr { get; set; }
+            /// <summary>
+            /// WD確認タイムアウト
+            /// <summary>
+            public int WDReadTimeout { get; set; }
+            /// <summary>
+            /// WD書込みアドレス番号
+            /// <summary>
+            public int WDWriteAddrNum { get; set; }
+            /// <summary>
+            /// WD書込みアドレス文字列
+            /// <summary>
+            public string WDWriteAddrStr { get; set; }
+            /// <summary>
+            /// WD書込みビット番号
+            /// <summary>
+            public int WDWriteBitNum { get; set; }
+            /// <summary>
+            /// WD書込みビット文字列
+            /// <summary>
+            public string WDWriteBitStr { get; set; }
+            /// <summary>
+            /// WD書込み間隔
+            /// <summary>
+            public int WDWriteInterval { get; set; }
+        }
+
+
+
+        #endregion
+
+        public List<Facility_Coordinate> GetALLFacilityCoordinate()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+                        SELECT
+                              facility.sid AS SID
+                            , facility.ID
+		                    , facility.Name
+		                    , facility.FacilityTypeID
+		                    , facility.Xcoordinate
+                            , facility.Ycoordinate
+                            , facility.visible
+	                    FROM
+		                    dbo.M_FACILITY facility
+	                    WHERE
+		                    facility.DelFlg = 0";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+
+                    return m_daoCommon.ConvertToListOf<Facility_Coordinate>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器ステータス取得
+        /// </summary>
+        public List<FacilityStatus> GetAllFacilityStatus()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    SELECT
+		                    stat.FacilityTypeID,
+                            msg.StatusCode,
+		                    stat.FacilitySID,
+                            fac.ID                         AS FacilityID,
+		                    stat.FacilityName,
+		                    stat.Status1,
+		                    ISNULL(msg.StatusMsg, 'エラー')   AS StatusMsg,
+		                    stat.Status2,
+		                    stat.StatusOpt
+	                    FROM
+		                    dbo.D_FACILITY_STATUS stat
+                        INNER JOIN
+                            dbo.M_FACILITY fac
+                        ON
+                            stat.FacilitySID = fac.sid
+                            AND fac.DelFlg = 0
+	                    LEFT OUTER JOIN
+		                    dbo.M_FACILITY_STATUS_MSG msg
+	                    ON
+		                    stat.FacilityTypeID = msg.FacilityTypeID
+	                    AND stat.Status1 = msg.StatusCode
+	                    WHERE
+		                    stat.DelFlg = 0";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+                    return m_daoCommon.ConvertToListOf<FacilityStatus>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備機器位置更新
+        /// </summary>
+        public int UpdateFacilityCoordinate(Facility_Coordinate facility_coordinate)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    UPDATE 
+		                    M_FACILITY
+	                    set 
+		                      Xcoordinate = @Xcoordinate
+		                    , Ycoordinate = @Ycoordinate
+                            , visible = @visible
+		                    , Updated = GETDATE() 
+	                    WHERE 
+		                    sid = @SID;";
+
+                    List<SqlParameter> paramList = new List<SqlParameter>();
+                    paramList.Add(new SqlParameter("@SID", facility_coordinate.SID));
+                    paramList.Add(new SqlParameter("@Xcoordinate", facility_coordinate.Xcoordinate));
+                    paramList.Add(new SqlParameter("@Ycoordinate", facility_coordinate.Ycoordinate));
+                    paramList.Add(new SqlParameter("@visible", facility_coordinate.visible));
+
+                    int effectedRowCount = helper.ExecuteNonQuery(query, CommandType.Text, paramList.ToArray());
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+
+        #region ## ReadOnly ##
+        /// <summary>
+        /// 読取専用設備情報取得
+        /// </summary>
+        public List<RFacility> GetAllrFacilityInfo()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+                       SELECT
+		                      facility.sid
+		                    , facility.Created
+                            , facility.sid AS SID
+		                    , facility.ID
+		                    , facility.Name
+		                    , facility.FacilityTypeID
+		                    , facilityType.TypeName
+		                    , isValid.IsValidSetting
+	                    FROM
+		                    dbo.M_FACILITY facility
+	                    LEFT OUTER JOIN
+		                    dbo.M_FACILITY_TYPE facilityType
+	                    ON
+		                    facility.FacilityTypeID = facilityType.SID
+	                    AND facilityType.DelFlg = 0
+	                    LEFT OUTER JOIN
+		                    (SELECT
+			                    FacilitySID,
+			                    CASE 
+				                    WHEN 
+					                    SUM(
+						                    CASE WHEN (PLCDeviceSID IS NOT NULL) 
+								                    AND (AddressNum IS NOT NULL) 
+													AND (bitNum IS NOT NULL) 
+								                    AND (SettingValue IS NOT NULL) THEN 0
+								                    ELSE 1 
+						                    END
+					                    ) > 0 THEN 0
+				                    ELSE 1
+			                    END AS IsValidSetting
+		                    FROM
+			                    dbo.M_FACILITY_SETTING
+		                    WHERE
+			                    DelFlg = 0 
+		                    GROUP BY
+			                    FacilitySID
+		                    ) isValid
+	                    ON
+		                    facility.sid = isValid.FacilitySID
+	                    WHERE
+		                    facility.DelFlg = 0
+						AND isValid.IsValidSetting = 1
+                        ";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+
+                    return m_daoCommon.ConvertToListOf<RFacility>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 読取専用設備機器bitポート設定情報取得
+        /// </summary>
+        public List<RPLCBitSetting> GetAllrPLCBitSettings()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = @"
+	                    SELECT 
+		                    setting.PLCDeviceSID,
+		                    device.Name,
+		                    func.IOType,
+		                    setting.AddressNum,
+							setting.bitNum,
+		                    setting.SettingValue,
+		                    setting.FacilitySID,
+                            fac.ID AS FacilityID,
+		                    fac.FacilityTypeID,
+		                    fac.Name,
+		                    func.Name,
+		                    setting.FacilityFuncID
+	                    FROM 
+		                    M_FACILITY_SETTING setting
+	                    INNER JOIN
+		                    M_FACILITY fac
+	                    ON
+		                    setting.FacilitySID = fac.sid
+	                    AND fac.DelFlg = 0
+	                    INNER JOIN
+		                    M_FACILITY_FUNC func
+	                    ON
+		                    setting.FacilityFuncID = func.SID
+	                    AND func.DelFlg = 0
+	                    INNER JOIN
+		                    M_PLC_DEVICE device
+	                    ON
+		                    setting.PLCDeviceSID = device.SID
+	                    AND device.DelFlg = 0
+	                    ORDER BY setting.PLCDeviceSID, func.IOType, setting.AddressNum, setting.bitNum ASC;
+                    ";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+
+                    List<RPLCBitSetting> result = m_daoCommon.ConvertToListOf<RPLCBitSetting>(dataTable);
+
+                    return result;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 設備bitポート設定情報読取専用(Immutable)結果セット
+        /// </summary>
+        public class RPLCBitSetting : Result
+        {
+            public int? PLCDeviceSID { get;  set; }
+            public string PLCDeviceName { get;  set; }
+            public int IOType { get; set; }
+            public int AddressNum { get; set; }
+            public int bitNum { get; set; }
+            public int SettingValue { get; set; }
+            public int FacilitySID { get; set; }
+            public string FacilityID { get; set; }
+            public int FacilityTypeID { get; set; }
+            public string FacilityName { get; set; }
+            public string SettingName { get; set; }
+            public int FacilityFuncID { get; set; }
+        }
+        #endregion
+
+    }
+}

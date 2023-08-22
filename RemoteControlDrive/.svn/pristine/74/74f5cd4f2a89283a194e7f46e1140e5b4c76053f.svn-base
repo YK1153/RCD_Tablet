@@ -1,0 +1,219 @@
+﻿using AtrptShare;
+using CommWrapper;
+using RcdCmn;
+using RcdOperationSystemConst;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static RcdOperation.Control.ControlMain;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+
+namespace RcdOperation.Control
+{
+    public partial class ControlMain 
+    {
+        private bool MainC = true;
+        private bool SubC = false;
+
+        private CamInfo GetCamRcvInfo(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.CamRcvInfo;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.CamRcvInfo;
+
+                default:
+                    return new CamInfo();
+            }
+        }
+
+        private List<CamInfo> GetCamRcvInfoHistory(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.CamRcvInfoHistory;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.CamRcvInfoHistory;
+
+                default:
+                    return new List<CamInfo>();
+            }
+        }
+
+        private bool GetCamCommStatus(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.CommStatus;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.CommStatus;
+
+                default:
+                    return false;
+            }
+        }
+
+        private int GetCamHeakthStatus(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.HeakthStatus;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.HeakthStatus;
+
+                default:
+                    return OperationConst.C_ABNORMAL;
+            }
+        }
+
+        private int GetPauseStatus(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.PauseStatus;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.PauseStatus;
+
+                default:
+                    return OperationConst.C_ABNORMAL;
+            }
+        }
+
+        private int GetCamStartRes(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.CamStartRes;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.CamStartRes;
+
+                default:
+                    return OperationConst.C_ABNORMAL;
+            }
+        }
+
+        private int GetCamStarted(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    return m_camClPana.CamsSarted;
+
+                case OperationConst.CamType.AVP:
+                    return m_camClWco.CamsSarted;
+
+                default:
+                    return OperationConst.C_ABNORMAL;
+            }
+        }
+
+
+
+
+
+        private void ExeCamResetVal(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    m_camClPana.CamResetVal();
+                    break;
+
+                case OperationConst.CamType.AVP:
+                    m_camClWco.CamResetVal();
+                    break;
+
+            }
+        }
+
+        private void ExeCamControlStart(bool Main, string bodyno, DateTime now)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    m_camClPana.CamControlStart(bodyno,now);
+                    break;
+
+                case OperationConst.CamType.AVP:
+                    m_camClWco.CamControlStart(bodyno, now);
+                    break;
+
+            }
+        }
+
+        private void ExeCamEnd(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    m_camClPana.CamEnd();
+                    break;
+
+                case OperationConst.CamType.AVP:
+                    m_camClWco.CamEnd();
+                    break;
+
+            }
+        }
+
+        public void ExeReGetVector(bool Main)
+        {
+            OperationConst.CamType camType = Main ? MainCamType : SubCamType;
+
+            switch (camType)
+            {
+                case OperationConst.CamType.Pana:
+                    m_camClPana.ReGetVector();
+                    break;
+
+                case OperationConst.CamType.AVP:
+                    m_camClWco.ReGetVector();
+                    break;
+
+            }
+        }
+
+    }
+}

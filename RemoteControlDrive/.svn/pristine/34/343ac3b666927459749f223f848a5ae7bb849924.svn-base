@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static RcdOperation.Control.ControlMain;
+
+namespace RcdOperation.Control
+{
+    public partial class ControlMain
+    {
+        private Mode mode = new Mode
+        {
+            Ready = false,
+            Selector = ModeSelector.Manual,
+            ContinueON = false
+        };
+
+        public enum ModeSelector
+        {
+            /// <summary>
+            /// 各個
+            /// </summary>
+            Manual,
+            /// <summary>
+            /// 連続
+            /// </summary>
+            Auto
+        }
+
+        /// <summary>
+        /// 運転準備状態変更
+        /// </summary>
+        /// <param name="state"></param>
+        internal void ChangeReady(bool state)
+        {
+            if (mode.Ready != state)
+            {
+                switch (state)
+                {
+                    case true:
+                        if (mode.Ready==false)
+                        {
+                            mode.Ready = true;
+
+                        }
+                        break;
+                    case false:
+                        if (mode.Ready == true)
+                        {
+                            mode.Ready = false;
+
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 各個連続切替
+        /// </summary>
+        /// <param name="state"></param>
+        internal void ChangeSelector(ModeSelector state)
+        {
+            if (mode.Selector != state)
+            {
+                switch (state)
+                {
+                    case ModeSelector.Manual:
+                        if (mode.Selector == ModeSelector.Auto)
+                        {
+                            mode.Selector = ModeSelector.Manual;
+                            //連続状態がONであればOFFにする=>OFFにすれば制御中であれば走行停止する
+                            if (mode.ContinueON)
+                            {
+                                ChangeContimueON(false);
+                            }
+
+                        }
+                        break;
+                    case ModeSelector.Auto:
+                        if (mode.Selector == ModeSelector.Manual)
+                        {
+                            mode.Selector = ModeSelector.Auto;
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 連続ON状態変更
+        /// </summary>
+        /// <param name="state"></param>
+        internal void ChangeContimueON(bool state)
+        {
+            if (mode.ContinueON != state)
+            {
+                switch (state)
+                {
+                    case true:
+                        if (mode.ContinueON == false)
+                        {
+                            mode.ContinueON = true;
+                            //生産指示情報取得開始
+
+                        }
+                        break;
+                    case false:
+                        if (mode.ContinueON == true)
+                        {
+                            mode.ContinueON = false;
+                            //走行中であれば走行停止
+
+                        }
+                        break;
+                }
+            }
+        }
+
+    }
+
+    public class Mode
+    {
+        /// <summary>
+        /// 運転準備 0:OFF 1:ON
+        /// </summary>
+        internal bool Ready { get; set; }
+        /// <summary>
+        /// 各個連続状態 0:各個 1:連続
+        /// </summary>
+        internal ModeSelector Selector { get; set; }
+        /// <summary>
+        /// 連続状態 0:OFF 1:ON
+        /// </summary>
+        internal bool ContinueON { get; set; }
+    }
+}

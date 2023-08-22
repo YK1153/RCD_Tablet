@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using CommWrapper;
+using RcdCmn;
+
+namespace RcdManagement
+{
+    /// <summary>
+    /// OperationPCとの通信処理を行う
+    /// </summary>
+    public class clsCommOperation
+    {
+
+        #region ### クラス変数 ###
+        // logger
+        private AppLog LOGGER = RcdCmn.AppLog.GetInstance();
+
+        // Comm
+        private CommSrv m_srv;
+        #endregion
+
+        #region ### プロパティ ###
+        /// <summary>
+        /// 接続状態
+        /// </summary>
+        public bool ConnectionStatus { get; private set; }
+
+        #endregion
+
+        #region ### コンストラクタ ###
+        public clsCommOperation()
+        {
+            m_srv = new CommSrv(ManagementConst.C_OPERATION_COMM_PORT);
+            m_srv.Connected += new CommSrv.ConnectedEventHandler(SrvConnected);
+            m_srv.Disconnected += new CommSrv.ConnectedEventHandler(SrvDisConnected);
+            m_srv.RecieveMessage += new CommSrv.RecieveMessageEventHandler(tSrvReceiveMessage);
+            m_srv.LogWriterRcv = new LogWriteComm("車両通信装置Srv", "Rcv");
+            m_srv.LogWriterSnd = new LogWriteComm("車両通信装置Srv", "Snd");
+
+        }
+        #endregion
+
+        #region ### 接続・切断 ###
+        private void SrvConnected(ConnectedEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+                
+
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        private void SrvDisConnected(ConnectedEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+                
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        #region ### 受信 ###
+        private void tSrvReceiveMessage(RecieveMessageEventArgs e)
+        {
+            try
+            {
+                AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start {e.Message}");
+
+
+
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        #region ### 送受信ログ出力 ###
+        public class LogWriteComm : ICommLogWriter
+        {
+            private string m_name = "";
+            private string m_string = "";
+
+            public LogWriteComm(string name, string s)
+            {
+                m_name = name;
+                m_string = s;
+            }
+
+            public void WriteCommLog(byte[] data)
+            {
+                AppLog.GetInstance().Info($"[{m_name},{m_string}]：{Encoding.ASCII.GetString(data)}");
+            }
+        }
+        #endregion
+
+        #region ### 電文定義 ###
+
+        #region ## 受信 ##
+        public class RcvRfidRequest : RcvRsultRcvMsg
+        {
+            public const string ID = "M1";
+            
+
+            public RcvRfidRequest(string rcv_msg) : base(rcv_msg) { }
+        }
+        #endregion
+
+        #region ## 送信 ##
+        public class SndRfidRequestRes : CommSndMsgBase
+        {
+            public const string ID = "M6";
+            /// <summary>
+            /// 処理結果
+            /// </summary>
+            public string ResulrStatus { get; set; }
+
+            public SndRfidRequestRes() : base(ID) { }
+            protected override string GetBodyString()
+            {
+                return $"{ResulrStatus}";
+            }
+        }
+
+        #endregion
+
+
+        #endregion
+
+
+
+    }
+}

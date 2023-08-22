@@ -1,0 +1,131 @@
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Linq;
+using RcdCmn;
+using static RcdDao.DaoCommon;
+using RcdDao.Attributes;
+using AtrptShare;
+
+
+namespace RcdDao
+{
+    public class MCourseAreaDao
+    {
+        #region ### クラス変数 ###
+
+        AppLog LOGGER = AppLog.GetInstance();
+        DaoCommon m_daoCommon = GetInstance();
+
+        #endregion
+
+        #region ### データ操作 ###
+        public List<CourseArea> GetAllInfo(int plantsid, int stationsid, int coursesid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT
+		                      SID
+		                    , PlantSID
+		                    , StationSID
+                            , Name
+
+
+	                    FROM
+		                    dbo.
+	                    WHERE
+		                    DelFlg = 0
+                        And PlantCd = '{plantsid}'
+                        And StationSID = '{stationsid}';
+                    ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<CourseArea> dataList = m_daoCommon.ConvertToListOf<CourseArea>(dataTable);
+
+                    return dataList;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        #endregion
+
+        #region ### 結果セット ###
+
+        public class CourseArea : Result
+        {
+            public CourseArea() { }
+
+
+            [SqlParam(queryNames: new string[] { "Delete", "Update" })]
+            public int? SID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int PlantSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int StationSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int CourseSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int AreaSeqence { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public string Name { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float LeftWidth { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float RightWidth { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float AreaSpeed { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float AccelerationPlus { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float AccelerationMinus { get; set; }
+
+            public SpeedArea ToSpeedArea()
+            {
+                SpeedArea sa = new SpeedArea();
+                sa.ID = (int)SID;
+                sa.Name = Name;
+                sa.LeftWidth = LeftWidth;
+                sa.RightWidth = RightWidth;
+                sa.Speed = AreaSpeed;
+                sa.Acceleration = AccelerationPlus;
+                sa.Deceleration = AccelerationMinus;
+
+                return sa;
+            }
+
+        }
+
+        #endregion
+    }
+}

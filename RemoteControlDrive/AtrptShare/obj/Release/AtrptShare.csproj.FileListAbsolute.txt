@@ -1,0 +1,12 @@
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\bin\Release\AtrptShare.dll
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\bin\Release\AtrptShare.pdb
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\obj\Release\AtrptShare.csproj.CoreCompileInputs.cache
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\obj\Release\AtrptShare.dll
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\obj\Release\AtrptShare.pdb
+C:\Users\E252936\Desktop\AutoTransport_OfficialVerMain\AtrptShare\obj\Release\AtrptShare.csprojAssemblyReference.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\bin\Release\AtrptShare.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\bin\Release\AtrptShare.pdb
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.pdb
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csprojAssemblyReference.cache

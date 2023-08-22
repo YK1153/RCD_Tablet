@@ -1,0 +1,560 @@
+﻿using RcdCmn;
+using RcdDao;
+using RcpOperation.Common;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using static RcdDao.MFacilityDao;
+using static RcdDao.MPLCDao;
+
+namespace RcdOperation.PlcControl
+{
+    public class PLCControl :IDisposable
+    {
+        #region ## クラス定数 ##
+        public const int C_NOT_FOUND_STATUS = 99;
+        public const int C_INVALID_STATUS = -1;
+
+        public static class PLC_CONTROL_RESULT
+        {
+            public const int C_FACILITY_CTRL_NORMAL_END = 0;
+            public const int C_FACILITY_CTRL_INTERRUPTED = 1;
+            public const int C_FACILITY_CTRL_ERROR = 2;
+            public const int C_FACILITY_BUSY = 3;
+        }
+        #endregion
+
+        #region ## クラス変数 ##
+
+        private AppLog LOGGER = RcdCmn.AppLog.GetInstance();
+        private readonly ImmutableList<RPLCBitSetting> m_dioPortSettings;
+        private readonly ImmutableList<RFacility> m_facilities;
+        private readonly ImmutableList<SettingMap> m_settingMaps;
+
+        private List<PLCUnitStatus> m_masterPLCDevice = new List<PLCUnitStatus>();
+        private List<PLCUnitStatus> m_PLCDeviceInfos = new List<PLCUnitStatus>();
+
+        private Dictionary<string, CancellationTokenSource> m_controlPools;
+
+        private int m_maxWait;
+        #endregion
+
+        #region ## 内部クラス ##
+
+        public enum FacCtrlType { OneShot = 0, Repeat = 1 }
+
+        public class FacCtrlStep
+        {
+            public FacCtrlType ctrlType { get; private set; }
+            public int[] ctrlValues { get; private set; }
+            public int interval { get; private set; }
+
+            public static FacCtrlStep OneShot(int ctrlValue)
+            {
+                return new FacCtrlStep(FacCtrlType.OneShot, ctrlValue);
+            }
+
+            public static FacCtrlStep Repeat(int[] ctrlValues, int interval)
+            {
+                return new FacCtrlStep(FacCtrlType.Repeat, ctrlValues, interval);
+            }
+
+            private FacCtrlStep(FacCtrlType ctrlType, int val)
+            {
+                this.ctrlType = ctrlType;
+                ctrlValues = new int[] { val };
+                interval = 0;
+            }
+
+            private FacCtrlStep(FacCtrlType ctrlType, int[] vals, int interval)
+            {
+                this.ctrlType = ctrlType;
+                ctrlValues = vals;
+                this.interval = interval;
+            }
+        }
+
+        public class FacCtrlResult
+        {
+            public string FacilityID { get; private set; }
+
+            public int Result { get; private set; }
+
+            public FacCtrlResult(string _id, int _result)
+            {
+                FacilityID = _id;
+                Result = _result;
+            }
+        }
+        #endregion
+
+        #region ## コンストラクタ ##
+        private static PLCControl _instance = null;
+
+        public static PLCControl GetInstance()
+        {
+            if (_instance != null)
+            {
+                return _instance;
+            }
+            else
+            {
+                throw new UserException("PLC Control not initialized");
+            }
+        }
+
+        public static void Initialize(List<RFacility> rFacilities, List<RPLCBitSetting> rDIOPortSettings, List<SettingMap> settingMaps, List<PLCUnitStatus> plcDevices, int maxWait)
+        {
+            _instance = new PLCControl(rFacilities, rDIOPortSettings, settingMaps, plcDevices, maxWait);
+        }
+
+        private PLCControl(List<RFacility> rFacilities, List<RPLCBitSetting> rPLCBitSettings, List<SettingMap> settingMaps, List<PLCUnitStatus> plcDevices, int maxWait)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                m_maxWait = maxWait;
+
+                m_facilities = ImmutableList.CreateRange(rFacilities);
+                m_dioPortSettings = ImmutableList.CreateRange(rPLCBitSettings);
+                m_settingMaps = ImmutableList.CreateRange(settingMaps);
+
+                m_masterPLCDevice = plcDevices.ToList();
+                m_PLCDeviceInfos = plcDevices.ToList();
+
+                m_controlPools = new Dictionary<string, CancellationTokenSource>();
+            }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 全設備ステータス取得
+        /// </summary>
+        /// <param name="ioReadTimeOut">IO取得待機時間(ミリ秒)</param>
+        /// <returns>設備ステータスリスト</returns>
+        public List<FacilityStatus> GetAllFacilityStatus(Dictionary<MPlcDevice, List<byte[]>> plcInputs, Dictionary<MPlcDevice, List<byte[]>> plcOutputs)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            List<FacilityStatus> defaultStatus = m_facilities
+                .Select(fac =>
+                        new FacilityStatus(fac.SID, fac.ID, fac.FacilityTypeID, fac.Name, C_NOT_FOUND_STATUS, "", "", ""))
+                .ToList();
+            try
+            {
+                List<FacilityStatus> foundStatusList = new List<FacilityStatus>();
+                
+                List<RPLCBitSetting> matchedInputSettings = m_dioPortSettings
+                    .Where(setting => setting.IOType == (int)IOTYPE.Input)
+                    .Where(setting => plcInputs.Keys.Select(dio => dio.SID).Contains(setting.PLCDeviceSID))
+                    .Where(setting => plcInputs.SingleOrDefault(e => e.Key.SID == setting.PLCDeviceSID).Value[setting.AddressNum][setting.bitNum] == setting.SettingValue)
+                    .ToList();
+
+                List<RPLCBitSetting> matchedOutputSettings = m_dioPortSettings
+                    .Where(setting => setting.IOType == (int)IOTYPE.Output)
+                    .Where(setting => plcOutputs.Keys.Select(dio => dio.SID).Contains(setting.PLCDeviceSID))
+                    .Where(setting => plcOutputs.SingleOrDefault(e => e.Key.SID == setting.PLCDeviceSID).Value[setting.AddressNum][setting.bitNum] == setting.SettingValue)
+                    .ToList();
+
+                foreach (SettingMap map in m_settingMaps.Where(map => !map.ReadByOutput).ToList())
+                {
+                    int typeId = map.typeId;
+                    int[] settingVal = map.GetFuncIds;
+
+                    List<FacilityStatus> matchedStatus = m_facilities
+                        .Where(fac => fac.FacilityTypeID == typeId)
+                        .Where(fac => FunctionMatches(settingVal, matchedInputSettings.Where(set => set.FacilitySID == fac.SID).Select(set => set.FacilityFuncID).ToArray()))
+                        .Select(fac => new FacilityStatus(fac.SID, fac.ID, typeId, map.typeName, map.ctrlValue, map.statusMsg, "", ""))
+                        .ToList();
+                    foundStatusList.AddRange(matchedStatus);
+                }
+
+                foreach (SettingMap map in m_settingMaps.Where(map => map.ReadByOutput).ToList())
+                {
+                    int typeId = map.typeId;
+                    int[] settingVal = map.SetFuncIds;
+
+                    List<FacilityStatus> matchedStatus = m_facilities
+                        .Where(setting => setting.FacilityTypeID == typeId)
+                        .Where(fac => fac.FacilityTypeID == typeId)
+                        .Where(fac => FunctionMatches(settingVal, matchedOutputSettings.Where(set => set.FacilitySID == fac.SID).Select(set => set.FacilityFuncID).ToArray()))
+                        .Select(fac => new FacilityStatus(fac.SID, fac.ID, typeId, map.typeName, map.ctrlValue, map.statusMsg, "", ""))
+                        .ToList();
+                    foundStatusList.AddRange(matchedStatus);
+                }
+
+                foreach (FacilityStatus foundStatus in foundStatusList)
+                {
+                    defaultStatus
+                        .Single(stat => stat.FacilityID == foundStatus.FacilityID)
+                        .Status1 = foundStatus.Status1;
+                }
+
+                List<int?> invalidDIO = m_masterPLCDevice
+                    .Where(dio => !plcInputs.Keys.Select(inpDIO => inpDIO.SID).Contains(dio.PLCInfo.SID))
+                    .Where(dio => !plcOutputs.Keys.Select(outDIO => outDIO.SID).Contains(dio.PLCInfo.SID))
+                    .Select(dio => dio.PLCInfo.SID)
+                    .ToList();
+
+                List<string> invalidFacilityIDs = m_dioPortSettings
+                    .Where(setting => invalidDIO.Contains(setting.PLCDeviceSID))
+                    .Select(setting => setting.FacilityID)
+                    .Distinct()
+                    .ToList();
+
+                foreach (string invalidFacilitID in invalidFacilityIDs)
+                {
+                    defaultStatus
+                    .Single(stat => stat.FacilityID == invalidFacilitID)
+                    .Status1 = C_INVALID_STATUS;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End");
+            }
+            return defaultStatus;
+        }
+
+        /// <summary>
+        /// IO設備設定FuncIDが一致するか確認
+        /// 例) source = [1, -2, 3] : 1,3を含むこと && 2を含まないこと
+        ///     target = [1, 3] => true
+        ///     target = [1, 3, 4] => true
+        ///     target = [1, 2, 3] => false
+        ///     target = [1, 4] => false
+        /// </summary>
+        /// <param name="source">比較の元</param>
+        /// <param name="target">比較の対象</param>
+        /// <returns>比較結果</returns>
+        private bool FunctionMatches(int[] source, int[] target)
+        {
+            foreach (int srcVal in source)
+            {
+                bool shouldContain = srcVal >= 0;
+                bool containing = target.Contains(Math.Abs(srcVal));
+                if (shouldContain != containing)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        public bool SetPLCBit(int deviceSID,int addressNo ,int bitNo, int val)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                bool ret = false;
+
+                PLCUnitStatus matchingDIO = m_PLCDeviceInfos
+                    .Where(dio => dio.Connected == PLCUnitStatus.ConnectStatus.Connected)
+                    .SingleOrDefault(dio => dio.PLCInfo.SID == deviceSID);
+
+                if (matchingDIO != null)
+                {
+                    matchingDIO.WriteContactStatus[addressNo][bitNo] = (byte)val;
+                    ret = matchingDIO.SendMessage(PLCUnitStatus.SendType.Write);
+                }
+
+                return ret;
+            }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        public PLCUnitStatus GetPLCStatus(int deviceName)
+        {
+            PLCUnitStatus unitStatus = null;
+            try
+            {
+                unitStatus = m_PLCDeviceInfos
+                    .Where(dio => dio.Connected == PLCUnitStatus.ConnectStatus.Connected)
+                    .SingleOrDefault(dio => dio.PLCInfo.SID == deviceName);
+
+                return unitStatus;
+            }
+            catch
+            {
+                return unitStatus;
+            }
+        }
+
+        #region ## PLC書込 処理 ##
+        /// <summary>
+        /// PLC設備出力制御処理
+        /// 制御強制設定がTrueの場合、同設備の以前の制御指示をキャンセル
+        /// </summary>
+        /// <param name="facilityID">対象設備ID</param>
+        /// <param name="facilityTypeID">対象設備種別</param>
+        /// <param name="steps">制御指示ステップ情報</param>
+        /// <param name="forceCtrl">制御強制設定</param>
+        /// <param name="stepInterval">ステップ間待ち時間(ms)</param>
+        /// <returns>制御結果コード</returns>
+        /// <see cref="PLC_CONTROL_RESULT"/>
+        public int FacCtrlStepSet(string facilityID, int facilityTypeID, List<FacCtrlStep> steps, bool forceCtrl = true, int stepInterval = 2000)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                int result = PLC_CONTROL_RESULT.C_FACILITY_CTRL_NORMAL_END;
+
+                bool controllingAlready = false;
+                lock (m_controlPools)
+                {
+                    controllingAlready = m_controlPools.Keys.Contains(facilityID);
+
+                    if (controllingAlready && !forceCtrl)
+                    {
+                        LOGGER.Debug($"非強制制御指示 → 制御指示をスキップします。");
+                        return PLC_CONTROL_RESULT.C_FACILITY_BUSY;
+                    }
+                }
+
+                if (controllingAlready && forceCtrl)
+                {
+                    LOGGER.Debug($"強制制御指示 → 以前の制御処理をキャンセル中...");
+
+                    lock (m_controlPools)
+                    {
+                        CancellationTokenSource src = null;
+
+                        if (m_controlPools.TryGetValue(facilityID, out src))
+                        {
+                            src?.Cancel();
+                        }
+                    }
+
+                    while (controllingAlready)
+                    {
+                        Thread.Sleep(100);
+
+                        lock (m_controlPools)
+                        {
+                            controllingAlready = m_controlPools.Keys.Contains(facilityID);
+                        }
+                    }
+
+                    LOGGER.Debug($"強制制御指示 → 以前の制御処理キャンセル完了");
+                }
+
+                using (CancellationTokenSource src = new CancellationTokenSource())
+                {
+                    lock (m_controlPools)
+                    {
+                        m_controlPools.Add(facilityID, src);
+                    }
+
+                    FacCtrlResult doneResult = FacDIOStepSet(facilityID, facilityTypeID, steps, stepInterval, src.Token);
+                    if (src.IsCancellationRequested)
+                    {
+                        result = PLC_CONTROL_RESULT.C_FACILITY_CTRL_INTERRUPTED;
+                    }
+                    else
+                    {
+                        result = doneResult.Result;
+                    }
+
+                    lock (m_controlPools)
+                    {
+                        m_controlPools.Remove(doneResult.FacilityID);
+                    }
+
+                    return result;
+                }
+            }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #region ### 内部処理 ###
+        private FacCtrlResult FacDIOStepSet(string facilityID, int facilityTypeID, List<FacCtrlStep> steps, int stepInterval, CancellationToken cancelToken)
+        {
+            int cntmax = steps.Count();
+            int cnt = 1;
+
+            foreach (FacCtrlStep step in steps)
+            {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    break;
+                }
+                FacCtrlType stepType = step.ctrlType;
+                if (stepType == FacCtrlType.OneShot)
+                {
+                    bool ret = FacDIOSet(facilityID, facilityTypeID, step.ctrlValues[0]);
+                    if (ret == false)
+                    {
+                        return new FacCtrlResult(facilityID, PLC_CONTROL_RESULT.C_FACILITY_CTRL_ERROR);
+                    }
+                    if (cnt < cntmax)
+                    {
+                        cancelToken.WaitHandle.WaitOne(stepInterval);
+                        cnt++;
+                    }
+                }
+                else if (stepType == FacCtrlType.Repeat)
+                {
+                    bool ret = FacDIORepeatSet(facilityID, facilityTypeID, step.ctrlValues, step.interval, stepInterval, cancelToken);
+                    if (ret == false)
+                    {
+                        return new FacCtrlResult(facilityID, PLC_CONTROL_RESULT.C_FACILITY_CTRL_ERROR);
+                    }
+                    cnt++;
+                }
+            }
+
+            return new FacCtrlResult(facilityID, PLC_CONTROL_RESULT.C_FACILITY_CTRL_NORMAL_END);
+        }
+
+        private bool FacDIORepeatSet(string facilityID, int facilityTypeID, int[] ctrlValues, int interval, int period, CancellationToken cancelToken)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            do
+            {
+                for (int i = 0; i < ctrlValues.Length; i++)
+                {
+                    bool ret = FacDIOSet(facilityID, facilityTypeID, ctrlValues[i]);
+                    if (ret == false)
+                    {
+                        return false;
+                    }
+
+                    cancelToken.WaitHandle.WaitOne(interval);
+                }
+            }
+            while (sw.ElapsedMilliseconds < period && !cancelToken.IsCancellationRequested);
+            return true;
+        }
+
+        private bool FacDIOSet(string facilityID, int facilityTypeID, int ctrlValue)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                int[] funcIds = m_settingMaps
+                                    .Where(setting => (setting.typeId == facilityTypeID))
+                                    .Where(setting => (setting.ctrlValue == ctrlValue))
+                                    .SelectMany(setting => setting.SetFuncIds)
+                                    .ToArray();
+
+                if (funcIds.Length <= 0)
+                {
+                    LOGGER.Error($"[設備制御指示不正] 指示された設備制御の指示値に該当する項目が存在しません。設備ID:{facilityID}, 指示値:{ctrlValue.ToString()}");
+                    return false;
+                }
+
+                RPLCBitSetting[] portSettings = new RPLCBitSetting[funcIds.Length];
+                for (int i = 0; i < funcIds.Length; i++)
+                {
+                    RPLCBitSetting portSetting = m_dioPortSettings
+                                        .SingleOrDefault(setting => (setting.FacilityID == facilityID) && (setting.FacilityFuncID == funcIds[i]));
+
+                    if (portSetting != null)
+                    {
+                        portSettings[i] = portSetting;
+                    }
+                    else
+                    {
+                        LOGGER.Error($"[設備制御不正] 指示された設備制御の指示値に該当する設定値を取得できません。設備ID:{facilityID}, 指示値:{ctrlValue.ToString()}");
+                        return false;
+                    }
+                }
+
+                for (int i = 0; i < portSettings.Length; i++)
+                {
+                    int? deviceSID = portSettings[i].PLCDeviceSID;
+                    string deviceName = portSettings[i].PLCDeviceName;
+                    short addrNo = (short)portSettings[i].AddressNum;
+                    short bitNo = (short)portSettings[i].bitNum;
+                    byte val = (byte)portSettings[i].SettingValue;
+
+                    bool ret = SetDIOValue(deviceSID, deviceName, addrNo, bitNo, val);
+                    if (ret == false)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        /// <summary>
+        /// DIOデバイスの出力ポート値を設定
+        /// </summary>
+        /// <exception cref="UserException">DIO情報を取得できない場合</exception>
+        /// <exception cref="DIOException">DIOエラーコードが返された場合</exception>
+        //private bool SetDIOValue(string deviceName, short bitNo, byte value)
+        private bool SetDIOValue(int? deviceSID, string deviceName, short addrNo, short bitNo, byte value)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                //デバイス情報取得
+                //DIODevice dio = GetDIODeviceByDeviceName(deviceName);                
+                PLCUnitStatus plc = m_masterPLCDevice.SingleOrDefault(Unit=>(Unit.PLCInfo.SID ==deviceSID));
+
+                if (plc == null)
+                {
+                    LOGGER.Error($"[PLCデバイス出力設定失敗] デバイス情報を取得できません。");
+                    LOGGER.Error($"    => デバイスID情報を取得できません。設備制御が途中終了されます。");
+                    LOGGER.Error($"    => デバイス名: {deviceName} ,設定アドレスNo:{addrNo} ,設定ビットNo:{bitNo} , 設定値:{value} ");
+                    return false;
+                }
+
+                //int ret = DioOutBit((short)dio.ConnID, bitNo, value, m_maxWait);
+                bool ret = plc.SetOutBit(addrNo, bitNo, value);
+
+                if (!ret)
+                {
+                    StringBuilder sbError = new StringBuilder(256);
+                    LOGGER.Error($"[PLCデバイス出力設定失敗] ");
+                    //LOGGER.Error($"    => {sbError.ToString()}");
+                    LOGGER.Error($"    => デバイス名: {deviceName}, 設定ビットNo: {bitNo}, 設定値: {value}");
+                    return false;
+                }
+
+                return true;
+            }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    m_masterPLCDevice.ForEach(PLCUnitStatus => PLCUnitStatus.Dispose());
+                    m_PLCDeviceInfos.ForEach(PLCUnitStatus => PLCUnitStatus.Dispose());
+                    m_controlPools.Values.ToList().ForEach(cancelToken => cancelToken.Dispose());
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+    }
+}

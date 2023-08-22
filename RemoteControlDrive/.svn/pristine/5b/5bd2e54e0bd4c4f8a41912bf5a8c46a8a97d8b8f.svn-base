@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <configSections>
+        <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+            <section name="MapViewer.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+        </sectionGroup>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+            <section name="MapViewer.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <applicationSettings>
+        <MapViewer.Properties.Settings>
+            <setting name="C_GETAREA_A" serializeAs="String">
+                <value>65</value>
+            </setting>
+            <setting name="C_GETAREA_R" serializeAs="String">
+                <value>2</value>
+            </setting>
+            <setting name="C_GETAREA_G" serializeAs="String">
+                <value>1</value>
+            </setting>
+            <setting name="C_GETAREA_B" serializeAs="String">
+                <value>12</value>
+            </setting>
+            <setting name="C_B_GETAREA_FILL" serializeAs="String">
+                <value>True</value>
+            </setting>
+            <setting name="C_MAP_PATH" serializeAs="String">
+                <value>.\map.png</value>
+            </setting>
+        </MapViewer.Properties.Settings>
+    </applicationSettings>
+    <userSettings>
+        <MapViewer.Properties.Settings>
+            <setting name="設定" serializeAs="String">
+                <value />
+            </setting>
+        </MapViewer.Properties.Settings>
+    </userSettings>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>

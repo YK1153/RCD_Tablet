@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using RcdCmn;
+
+namespace MapViewer
+{
+    public partial class UserStatusPanel : UserControl
+    {
+        #region ## クラス定数 ##
+
+        public const int C_PANEL_STATUS_IDLE = 0;
+        public const int C_PANEL_STATUS_RUNNING = 1;
+        public const int C_PANEL_STATUS_ERROR = 2;
+        public const int C_PANEL_STATUS_PAUSE = 3;
+        public const int C_PANEL_STATUS_SLOW = 4;
+
+        #endregion
+
+        #region ## クラス変数 ##
+
+        public List<StatusDisplay> m_status = new List<StatusDisplay>()
+        {
+            new StatusDisplay(C_PANEL_STATUS_IDLE, "待機中", Color.Gray, Color.White),
+            new StatusDisplay(C_PANEL_STATUS_RUNNING, "自走中", Color.LawnGreen, Color.White),
+            new StatusDisplay(C_PANEL_STATUS_ERROR, "走行停止", Color.Red, Color.White),
+            new StatusDisplay(C_PANEL_STATUS_PAUSE,"一時停止",Color.Gold,Color.White),
+            new StatusDisplay(C_PANEL_STATUS_SLOW,"減速走行",Color.DeepSkyBlue,Color.White)
+        };
+
+        private int m_currentStatus = C_PANEL_STATUS_IDLE;
+
+        #endregion
+
+        #region ## フォーム処理 ##
+
+        public UserStatusPanel()
+        {
+            InitializeComponent();
+        }
+
+        private void UserStatusPanel_Load(object sender, EventArgs e)
+        {
+            pnl_draw.Size = this.Size;
+        }
+
+        private void UserStatusPanel_Paint(object sender, PaintEventArgs e)
+        {
+            //パネル表示情報取得
+            StatusDisplay statusDisplay = GetCurrentStatusDisplay();
+
+            //GraphicsPathオブジェクトの作成
+            System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+
+            //GraphicsPathに文字列を追加する
+            FontFamily ff = new FontFamily("MS UI Gothic");
+
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+            gp.AddString(statusDisplay.statusMsg, ff, 1, 30, new Point(this.Size.Width / 2, this.Size.Height / 2), stringFormat);
+
+            SolidBrush bgFillBrush = new SolidBrush(statusDisplay.bgColor);
+            e.Graphics.FillRectangle(bgFillBrush, new Rectangle(new Point(0, 0), this.Size));
+
+            //文字列の中を塗りつぶす
+            SolidBrush stringFillBrush = new SolidBrush(statusDisplay.fgColor);
+            e.Graphics.FillPath(stringFillBrush, gp);
+
+            //文字列の縁を描画する
+            //e.Graphics.DrawPath(Pens.Black, gp);
+
+            //リソースを解放する
+            stringFillBrush.Dispose();
+            bgFillBrush.Dispose();
+            ff.Dispose();
+        }
+
+        #endregion
+
+        #region ## 内部処理 ##
+        /// <summary>
+        /// 現在設定されているステータスの表示設定情報取得
+        /// </summary>
+        public StatusDisplay GetCurrentStatusDisplay()
+        {
+            return m_status.SingleOrDefault(status => status.statusCode == m_currentStatus);
+        }
+
+        #endregion
+
+        #region ## 外部処理 ##
+
+        /// <summary>
+        /// パネル表示ステータスを変更
+        /// </summary>
+        public void ChangeStatus(int status)
+        {
+            StatusDisplay matchingDisplayStatus = m_status.SingleOrDefault(stat => stat.statusCode == status);
+            if (matchingDisplayStatus != null)
+            {
+                m_currentStatus = status;
+                Refresh();
+            }
+            else
+            {
+                throw new UserException($"状態表示パネルに設定されていないステータスが指定されました。[statusCode: {status}]");
+            }
+        }
+
+        #endregion
+
+        #region ## 内部クラス ##
+
+        public class StatusDisplay
+        {
+            public int statusCode { get; private set; }
+            public string statusMsg {get; private set; }
+            public Color bgColor { get; private set; }
+            public Color fgColor { get; private set; }
+
+            public StatusDisplay(int statusCode, string statusMsg, Color bgColor, Color fgColor)
+            {
+                this.statusCode = statusCode;
+                this.statusMsg = statusMsg;
+                this.bgColor = bgColor;
+                this.fgColor = fgColor;
+            }
+        }
+
+        #endregion
+    }
+}

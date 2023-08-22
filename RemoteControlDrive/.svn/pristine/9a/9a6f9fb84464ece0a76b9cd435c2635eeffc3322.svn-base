@@ -1,0 +1,274 @@
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Text;
+using RcdCmn;
+using static RcdDao.DaoCommon;
+using System.ComponentModel;
+using RcdDao.Attributes;
+
+namespace RcdDao
+{
+    public class MCarSpecDao
+    {
+        #region ### クラス変数 ###
+
+        AppLog LOGGER = AppLog.GetInstance();
+        DaoCommon m_daoCommon = GetInstance();
+
+        #endregion
+
+        /// <summary>
+        /// 車両仕様情報取得
+        /// </summary>
+        /// <returns>車両仕様リスト</returns>
+        public List<MCarSpec> GetAllCarSpecsInfo()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        SELECT
+		                    sid
+		                    , SpecCd
+		                    , GearRate
+                            , WheelBase
+                            , WidthDistance
+                            , ForwardDistance
+                            , AreaAdjust
+	                    FROM
+		                    dbo.M_CAR_SPEC
+	                    WHERE
+		                    DelFlg = 0;
+                    ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<MCarSpec> list = m_daoCommon.ConvertToListOf<MCarSpec>(dataTable);
+
+                    return m_daoCommon.ConvertToListOf<MCarSpec>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Add(MCarSpec carSpec)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        INSERT M_CAR_SPEC (
+                            Created
+                            , Updated
+                            , DelFlg
+                            , SpecCd
+                            , GearRate
+                            , WheelBase
+                            , WidthDistance
+                            , ForwardDistance
+                            , AreaAdjust
+                        ) VALUES (
+                            GETDATE()
+                            , GETDATE()
+                            , 0
+                            , @SpecCd
+                            , @GearRate
+                            , @WheelBase
+                            , @WidthDistance
+                            , @ForwardDistance
+                            , @AreaAdjust
+
+                        );
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, carSpec);
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Delete(MCarSpec carSpec)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        UPDATE 
+                            M_CAR_SPEC 
+                        SET
+                            Updated = GETDATE()
+                            , DelFlg = 1
+                        WHERE
+                            sid = @SID;
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, carSpec);
+
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public int Update(MCarSpec carSpec)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = @"
+                        UPDATE 
+                            M_CAR_SPEC
+                        SET
+                            Updated = GETDATE()
+                            , SpecCd = @SpecCd
+                            , GearRate = @GearRate
+                            , WheelBase = @WheelBase
+                            , WidthDistance = @WidthDistance
+                            , ForwardDistance = @ForwardDistance
+                            , AreaAdjust = @AreaAdjust
+
+                        WHERE
+                            sid = @SID;
+                    ";
+
+                    SqlParameter[] sqlParameters = m_daoCommon.ConvertToSqlParams(MethodBase.GetCurrentMethod().Name, carSpec);
+
+                    int effectedRowCount = helper.ExecuteNonQuery(cmd, CommandType.Text, sqlParameters);
+
+                    return effectedRowCount;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 車両仕様No重複確認、
+        /// SID(データPrimaryKey)が指定された場合、指定SID以外で重複確認する
+        /// </summary>
+        /// <returns>車両仕様Noが重複する場合False、唯一の場合True</returns>
+        public bool IsUnique(MCarSpec carSpec)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    List<SqlParameter> paramList = new List<SqlParameter>();
+                    paramList.Add(new SqlParameter("@SpecCd", carSpec.SpecCd));
+
+                    StringBuilder query = new StringBuilder();
+                    query.AppendLine(@"SELECT ");
+                    query.AppendLine(@"  Top (1) * ");
+                    query.AppendLine(@"FROM ");
+                    query.AppendLine(@"  dbo.M_CAR_SPEC");
+                    query.AppendLine(@"WHERE");
+                    query.AppendLine(@"  DelFlg = 0");
+                    query.AppendLine(@"  AND SpecCd = @SpecCd");
+                    if (carSpec.SID != null)
+                    {
+                        query.AppendLine(@"  AND sid != @SID");
+                        paramList.Add(new SqlParameter("@SID", carSpec.SID));
+                    }
+
+                    DataTable dataTable = helper.Execute(query.ToString(), CommandType.Text, paramList.ToArray());
+                    return dataTable.Rows.Count <= 0;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 車両仕様情報結果セット
+        /// </summary>
+        public class MCarSpec : Result
+        {
+            public MCarSpec() { }
+
+            [Browsable(false)]
+            [SqlParam(queryNames: new string[] { "Delete", "Update" })]
+            public int? SID { get; set; }
+
+
+            [DisplayName("車両仕様No")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            [Pattern("[a-zA-Z0-9]{1,5}", "1~5桁の英数字")]
+            public string SpecCd { get; set; }
+
+            [DisplayName("ギア比")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            [Pattern("([0-9]*\\.?[0-9]+)", "数値(小数点を含む)")]
+            [Pattern(".{1,5}", "1~5桁")]
+            public string GearRate { get; set; }
+
+            [DisplayName("ホイールベース[mm]")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            [Pattern("([1-9]{1}[0-9]{0,3})", "1~4桁の自然数")]
+            [Pattern(".{1,4}", "1~4桁")]
+            public string WheelBase { get; set; }
+
+            [DisplayName("車両全幅[mm]")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            //[Pattern("([0-9]*\\.?[0-9]+)", "数値")]
+            [Pattern("[1-9]{1}[0-9]{0,3}", "1~4桁の自然数")]
+            public string WidthDistance { get; set; }
+
+            [DisplayName("前方注視距離[m]")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            [Pattern("([0-9]*\\.?[0-9]+)", "数値(小数点を含む)")]
+            //[Pattern("[0-9]{1,4}", "1~4桁の数値")]
+            public string ForwardDistance { get; set; }
+
+            [DisplayName("エリア調整幅[m]")][UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            [Pattern("([-]*[0-9]*\\.?[0-9]+)", "数値(小数点を含む)")]
+            [Pattern(".{1,6}", "1~6桁")]
+            public string AreaAdjust { get; set; }
+
+            public override bool IsValid(ref string errorMsg)
+            {
+                if (!new MCarSpecDao().IsUnique(this))
+                {
+                    errorMsg = $"車両仕様Noが既に登録されています。";
+                    return false;
+                }
+                return true; 
+            }
+        }
+
+    }
+}

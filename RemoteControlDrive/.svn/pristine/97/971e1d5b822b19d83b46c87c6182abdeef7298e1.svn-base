@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<startup>
+		<supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1"/>
+	</startup>
+	<appSettings>
+		<!-- 工場識別ID -->
+		<add key="PlantIdentifyID" value="MotomatiPlant"/>
+		<!-- 工程番号 -->
+		<add key="ProcessNo" value="3"/>
+
+		<!--※ 以下廃止予定 ※-->
+		<!--設定ファイルパス-->
+		<add key="C_CONFIG_FILE_PATH" value="xml\AtrptConfigFile.xml" />
+		<!--マニュアル画像ファイルパス-->
+		<add key="C_HELP_IMAGE_PATH" value=".\help.png" />
+		<!--加速度舵角通知間隔-->
+		<add key="C_CC_CALC_WAITTIME" value="70" />
+		<add key="C_CC_SEND_INTERVAL" value="90"/>
+		<!--PLC通信-->
+		<add key="STATUS_READ_INTERVAL" value="100"/>
+		<add key="STATUS_WRITE_INTERVAL" value="100"/>
+		<!--受信タイムアウト-->
+		<add key="C_SURVEILLANCE_CAM" value="True" />
+		<add key="C_SURVEILLANCE_INTERVALP_CAM" value="3000" />
+		<add key="C_SURVEILLANCE_INTERVALS_CAM" value="10000" />
+		<add key="C_SURVEILLANCE_RESTART_LIMITNUM" value="5" />
+		<add key="C_SURVEILLANCE_RESTART_WATETIME" value="3000" />
+		<add key="C_SURVEILLANCE_CAR" value="True" />
+		<add key="C_SURVEILLANCE_INTERVALFS_CAR" value="20000" />
+		<add key="C_SURVEILLANCE_INTERVALP_CAR" value="700" />
+		<add key="C_SURVEILLANCE_INTERVALS_CAR" value="10000" />
+		<!--初期ベクトル-->
+		<add key="C_START_YAWRATE" value="90" />
+		<add key="C_B_START_YAWRATE_USE" value="False" />
+		<!--その他エリア判定位置 0:測位点 1:前方注視点-->
+		<add key="C_OTHERAREA_JUDG_POINT" value="1" />
+		<!--描画設定-->
+		<add key="C_DIRECTION_LINE_LENGTH" value="60" />
+		<add key="C_SPEEDLBL_LENGHT" value="55" />
+		<add key="C_CALCLBL_LENGHT" value="55" />
+		<add key="C_CALCLBL_DIGIT" value="F2" />
+		<add key="C_NODE_WIDTH_EDIT" value="10" />
+		<add key="C_NODE_WIDTH_VIEW" value="6" />
+		<add key="C_ARROW_SIZE_EDIT" value="6" />
+		<add key="C_ARROW_SIZE_VIEW" value="3" />
+		<!--ログファイル-->
+		<add key="C_RCDLOGGER_USE" value="True" />
+		<add key="C_RCDLOGGER_PATH" value=".\rcdLogs" />
+		<!--エリア内包判定前後個数-->
+		<add key="C_INCLUDE_JUDGE_AREA_COUNT" value="3" />
+		<!--画像解析装置使用バージョン 0:PoC 1:新版-->
+		<add key="C_CAM_VERSION" value="1" />
+		<!--舵角制限モード 0:指示舵角からの変化量 1:現在舵角からの変化量-->
+		<add key="C_ANGLE_LIMIT_MODE" value="0" />
+		<!--加速度モード 0:変化量+加速度0 1:変化量 2:エリア加減速度固定-->
+		<add key="C_ACCELERATION_MODE" value="0" />
+		<!--管制端末送信座標 0:最新受信測位座標 1:最新取得制御点-->
+		<add key="C_UDP_SENDPOINT" value="1" />
+		<add key="ClientSettingsProvider.ServiceUri" value="" />
+		<!--車両検索回数-->
+		<add key="C_CAM_SERCH_NUM" value="2"/>
+		<add key="C_DOWNSIZE_RATE"  value="0.5"/>
+		<!--スタート位置-->
+		<add key="C_START_CAM_ID" value="0001"/>
+		<add key="C_START_POS1"  value="0,0"/>
+		<add key="C_START_POS2"  value="1000,0"/>
+		<add key="C_START_POS3"  value="1000,1000"/>
+		<add key="C_START_POS4"  value="0,1000"/>
+		<!--在籍センサ-->
+		<add key="C_SENSOR_DELAY" value="100"/>
+		<add key="C_SENSORCHECK_DELAY" value="10000"/>
+		<add key="C_GOALCHECK_DELAY" value="1000"/>
+		<!--カメラヘルスチェック-->
+		<add key="C_CHT_INTERVAL" value ="1000"/>
+		<add key="C_CHT_ERRCONT" value="1"/>
+		<!--車両情報送信間隔-->
+		<add key="C_CI_INTERVAL" value="100"/>
+		<!--画角ずれチェック-->
+		<add key="C_CAM_SHIFT_CHECK" value="True"/>
+		<!--ヨーレート補正-->
+		<!--信頼度毎回確認 True:毎回確認 False:１回目のみ-->
+		<add key="C_SCORE_ALLUSE" value="False"/>
+		<!--車両前進前測位点取得条件-->
+		<add key="C_FIRST_POS_X" value="0.66"/>
+		<add key="C_FIRST_POS_Y" value="1.50"/>
+		<add key="C_DIFF_X" value="2002"/>
+		<add key="C_DIFF_Y" value="2002"/>
+		<add key ="C_ERRMAX_COUNT" value="10"/>
+		<!--車両走行停止リトライ-->
+		<add key="C_CARSTOP_SENDDEREY" value="500"/>
+		<add key="C_CARSTOP_SENDCOUNT" value="5"/>
+		<!--管制ヘルスチェック-->
+		<add key="C_MHT_INTERVAL" value="200"/>
+		<add key="C_MHT_WAITTIME" value="500"/>
+		<!--応答時間-->
+		<add key="C_CAM_WAITTIME" value="5000"/>
+		<add key="C_CAR_WAITTIME" value="5000"/>
+		<!--ゴール空き待機-->
+		<add key ="C_GOALCHECK_INTERVAL" value="1000"/>
+		<add key ="C_GOALCHECK_MAXTIME" value="180000"/>
+		<!-- ACT4復帰後前回指示値WAIT -->
+		<add key ="C_ACTUAL_ANGLE" value="1000"/>
+		<!--初期ベクトル-->
+		<add key="C_FIRST_VECTER_GET_NUM" value="11"/>
+		<!--無線遅延時ベクトル取得-->
+		<add key="C_RESTART_VECTER_GET_NUM" value="11"/>
+		<!--ベクトル再取得自車制御フラグ受信回数-->
+		<add key="C_VCONTROLFLG_THROUGH_NUM" value="2"/>
+		<!--認識部処理失敗時リトライ回数-->
+		<add key="C_CAM_RETRY_NUM" value="10"/>
+		<!--車両前進タイムアウト-->
+		<add key="C_CARMOVE_TIMEOUT" value="10000"/>
+		<!--画角ずれ処理終了待ちタイムアウト単位[秒]-->
+		<add key="C_CAMSHIFTWAIT_TIMEOUT" value="8"/>
+
+		<add key="C_CARCORNER_OUTAREA_ALLOW_NUM" value="5"/>
+
+		<add key="C_SNDRSESULT_CAR" value="true"/>
+		<add key ="C_PORT1" value="1"/>
+		<add key ="C_PORT2" value="2"/>
+		<add key="C_CARSEARCH_WAITTIME" value="5000"/>
+
+		<!-- IO取得設定 -->
+		<add key="IO_READ_MAX_WAIT" value="300" />
+		<!-- ステータス更新設定(40以上) -->
+		<add key="STATUS_UPDATE_INTERVAL" value="100" />
+
+		<!---->
+		<!--侵入検知アラーム有効フラグ-->
+		<add key="C_ALRET_MODE" value="true"/>
+		<!---->
+		<add key="C_COMPARISONPOSITION" value="1"/>
+		<!---->
+		<add key="C_CONTROLCARRADIUS" value="0.5"/>
+		<!--※ 以上廃止予定 ※-->
+
+	</appSettings>
+</configuration>

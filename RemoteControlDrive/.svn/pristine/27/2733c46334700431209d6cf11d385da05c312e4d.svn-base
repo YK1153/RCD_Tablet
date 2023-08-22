@@ -1,0 +1,215 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace RcdCmn
+{
+    public class AppLog : IDisposable
+    {
+        #region ### 定数 ###
+
+        private const int LOGLEVEL_DEBUG = 4;
+        private const int LOGLEVEL_INFO  = 3;
+        private const int LOGLEVEL_WARN  = 2;
+        private const int LOGLEVEL_ERROR = 1;
+        private const int LOGLEVEL_NONE  = 0;
+
+        private const string C_SETTING_FILE_NM = "log_setting.xml";
+
+        #endregion
+
+        #region ### クラス変数 ###
+
+        private LogSetting m_setting = null;
+        private FileStream m_fs = null;
+        private StreamWriter m_sw = null;
+        //private DateTime m_today = DateTime.MinValue;
+        private string m_today = DateTime.MinValue.ToString("yyyyMMdd");
+
+        #endregion
+
+        private static AppLog g_logger = null;
+        private static object LOCK_OBJ = new object();
+
+        public static AppLog GetInstance()
+        {
+            if(g_logger == null)
+            {
+                lock(LOCK_OBJ)
+                {
+                    if (g_logger == null) { g_logger = new AppLog(); }
+                }
+            }
+            return g_logger;
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AppLog()
+        {
+            try
+            {
+                string strPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), C_SETTING_FILE_NM);
+                System.Xml.Serialization.XmlSerializer xml = new System.Xml.Serialization.XmlSerializer(typeof(LogSetting));
+                using (FileStream fs = new FileStream(strPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    m_setting = (LogSetting)xml.Deserialize(fs);
+                }
+                // フォルダがなければ作成
+                if (!Directory.Exists(m_setting.OutDirectory))
+                {
+                    Directory.CreateDirectory(m_setting.OutDirectory);
+                }
+            }
+            catch (Exception)
+            {
+                m_setting = new LogSetting();
+                m_setting.LogLevel = LOGLEVEL_NONE;
+            }
+        }
+
+        ~AppLog()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            lock (LOCK_OBJ)
+            {
+                try
+                {
+                    if (m_sw != null) { m_sw.Dispose(); }
+                }
+                catch (Exception) { }
+                finally
+                {
+                    m_sw = null;
+                }
+                try
+                {
+                    if (m_fs != null) { m_fs.Dispose(); }
+                }
+                catch (Exception) { }
+                finally
+                {
+                    m_fs = null;
+                }
+            }
+        }
+
+        public void Debug(string log,
+            [System.Runtime.CompilerServices.CallerMemberName]string method_name = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]int line = 0)
+
+        {
+            if (m_setting.LogLevel < LOGLEVEL_DEBUG || m_setting.LogLevel == LOGLEVEL_NONE) return;
+            WriteLog(log, "DEBUG", method_name, line);
+        }
+
+        public void Error(string log,
+            [System.Runtime.CompilerServices.CallerMemberName]string method_name = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]int line = 0)
+
+        {
+            if (m_setting.LogLevel < LOGLEVEL_ERROR || m_setting.LogLevel == LOGLEVEL_NONE) return;
+            WriteLog(log, "ERROR", method_name, line);
+        }
+
+        public void Error(string log, Exception ex,
+            [System.Runtime.CompilerServices.CallerMemberName]string method_name = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]int line = 0)
+
+        {
+            if (m_setting.LogLevel < LOGLEVEL_ERROR || m_setting.LogLevel == LOGLEVEL_NONE) return;
+            WriteLog($"{log}{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", "ERROR", method_name, line);
+        }
+
+        public void Info(string log,
+            [System.Runtime.CompilerServices.CallerMemberName]string method_name = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]int line = 0)
+        {
+            if (m_setting.LogLevel < LOGLEVEL_INFO || m_setting.LogLevel == LOGLEVEL_NONE) return;
+            WriteLog(log, "INFO", method_name, line);
+        }
+        public void InfoPlus(string log, string s,
+        [System.Runtime.CompilerServices.CallerMemberName] string method_name = "",
+        [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
+        {
+            string logstring = $"[{s}],{log}";
+            Info(logstring, method_name, line);
+        }
+
+        public void Warn(string log,
+            [System.Runtime.CompilerServices.CallerMemberName]string method_name = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]int line = 0)
+
+        {
+            if (m_setting.LogLevel < LOGLEVEL_WARN || m_setting.LogLevel == LOGLEVEL_NONE) return;
+            WriteLog(log, "WARN", method_name, line);
+        }
+
+        private void WriteLog(string log, string debug_level, string method_name, int line)
+        {
+            try
+            {
+                lock (LOCK_OBJ)
+                {
+                    GetWriter().WriteLine(
+                        $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")},[{System.Threading.Thread.CurrentThread.ManagedThreadId}],[{debug_level}],{method_name},({line}),-,{log}");
+                    GetWriter().Flush();
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private StreamWriter GetWriter()
+        {
+            // 日付変更チェック
+            //if(m_today < DateTime.Today) { this.Dispose(); }
+            if (m_today != DateTime.Now.ToString(m_setting.DateFormat)) { this.Dispose(); }
+            if (m_sw != null) return m_sw;
+
+            // 新規作成
+            try
+            {
+                string strPath = Path.Combine(m_setting.OutDirectory,
+                                              $"{m_setting.OutFileName}_{DateTime.Now.ToString(m_setting.DateFormat)}.log");
+                m_fs = new FileStream(strPath, FileMode.Append, FileAccess.Write, FileShare.Read);
+                m_sw = new StreamWriter(m_fs, Encoding.GetEncoding("Shift-JIS"));
+                m_today = DateTime.Now.ToString(m_setting.DateFormat);
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    if (m_sw != null) { m_sw.Dispose(); }
+                    if (m_fs != null) { m_fs.Dispose(); }
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+                    m_sw = null;
+                    m_fs = null;
+                }
+            }
+            return m_sw;
+        }
+    }
+
+    public class LogSetting
+    {
+        public string OutDirectory;
+        public string OutFileName;
+        public string DateFormat;
+        public int LogLevel;
+        public int KeepDays;
+    }
+}

@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using RcdCmn;
+using RcdOperation.Control;
+
+using RcdDao;
+using static RcdDao.MPlantDao;
+using static RcdDao.MStationDao;
+using RcdOperationSystemConst;
+
+namespace RcdOperation
+{
+    public class clsRcdOperation : IDisposable
+    {
+
+        #region ## クラス変数 ##
+        // App Configs
+        internal readonly string m_plantIdentifyID = ConfigurationManager.AppSettings["PlantIdentifyID"];
+        internal readonly int m_processNo = int.Parse(ConfigurationManager.AppSettings["ProcessNo"]);
+        public readonly ConnectionConst m_connectionConst = new ConnectionConst(int.Parse(ConfigurationManager.AppSettings["ProcessNo"]));
+
+        // logger
+        private AppLog LOGGER = RcdCmn.AppLog.GetInstance();
+
+        // Singleton
+        public static clsRcdOperation m_manager = null;
+        private static object m_lockobj = new object();
+
+        // Master Config
+        internal Plant m_plant;
+        internal ControlMain m_stationlist;
+
+        #endregion
+
+        #region ## インスタンス生成・破棄 ##
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        internal static clsRcdOperation GetInstance()
+        {
+            if (m_manager == null)
+            {
+                lock (m_lockobj)
+                {
+                    if (m_manager == null)
+                    {
+                        m_manager = new clsRcdOperation();
+                    }
+                }
+
+            }
+            return m_manager;
+        }
+
+        private clsRcdOperation()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+
+            // show version
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            LOGGER.Info($"{Res.C_SYSTEM} {Res.C_MNG_SRV} Ver.{version.ToString()}");
+            LOGGER.Info($"Initializing App Start...");
+
+            // DB値取得
+            InitStatus();
+        }
+
+        private void InitStatus()
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                ////Plant
+                //m_plant = new MPlantDao().GetAllInfo(m_plantIdentifyID);
+
+                ////Process
+                ////1工程につき、制御台数が増える場合処理を見直す箇所
+                //m_stationlist = new MStationDao().GetAllInfo()
+                //    .Select(operarion => new ControlMain(m_processNo, m_connectionConst))
+                //    .ToList();
+
+                //Plant
+                m_plant = new Plant()
+                {
+                    SID = (int)1,
+                    Name = "元町工場",
+                    PlantCd = "M"
+                };
+
+                m_stationlist = new ControlMain((int)m_plant.SID, m_processNo, m_connectionConst);
+                m_stationlist.Show();
+                m_stationlist.Visible = false;
+
+                LOGGER.Info($"{Res.C_MNG_SRV} Initialization completion");
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionConsoleProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionConsoleProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+
+                    if (m_stationlist != null) m_stationlist.Dispose();
+
+
+                    //if (m_PLCCheckStatus != null) m_PLCCheckStatus.ForEach(plc => plc.Dispose());
+                    //if (m_PLCWatchStatus != null) m_PLCWatchStatus.ForEach(plc => plc.Dispose());
+                    //m_msgs = null;
+                    //if (m_DIOControl != null) m_DIOControl.Dispose();
+                    //m_cUdpSrv.EndListen();
+                    //m_ctrlTcpController.Dispose();
+                    //m_tvecsTcpController.Dispose();
+                    //m_viewerTcpController.Dispose();
+                    //m_statusLogTimer.Dispose();
+                    //m_statusLogTimer = null;
+                    //if (m_plcstatusLogTimer != null) m_plcstatusLogTimer.Dispose();
+                    //m_plcstatusLogTimer = null;
+                    //m_FacilityStatusLogTimer.Dispose();
+                    //m_FacilityStatusLogTimer = null;
+                    //m_ctrlUnitStates.ForEach(ctrlUnitstate => ctrlUnitstate.Dispose());
+                    //m_facilityControlThreads.ForEach(cThread => cThread.m_reset.Dispose());
+
+                    //m_plcunit.ForEach(PLCUnitStatus => PLCUnitStatus.Dispose());
+                    //if (m_PLCControl != null) m_PLCControl.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
+        #endregion
+
+    }
+}

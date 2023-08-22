@@ -1,0 +1,9 @@
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\bin\Release\RcdCmn.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\bin\Release\RcdCmn.pdb
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\bin\Release\AtrptShare.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\bin\Release\AtrptShare.pdb
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csprojAssemblyReference.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.CoreCompileInputs.cache
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.CopyComplete
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.dll
+C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.pdb

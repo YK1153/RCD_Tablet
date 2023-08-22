@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArrayOfCamDeviation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CamDeviation>
+    <camType>Pana</camType>
+    <deviationX>0.5</deviationX>
+    <deviationY>1</deviationY>
+  </CamDeviation>
+  <CamDeviation>
+    <camType>AVP</camType>
+    <deviationX>0.5</deviationX>
+    <deviationY>1</deviationY>
+  </CamDeviation>
+</ArrayOfCamDeviation>

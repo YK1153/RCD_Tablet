@@ -1,0 +1,117 @@
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Linq;
+using RcdCmn;
+using static RcdDao.DaoCommon;
+using RcdDao.Attributes;
+using AtrptShare;
+
+
+namespace RcdDao
+{
+    public class MCourseNodeDao
+    {
+        #region ### クラス変数 ###
+
+        AppLog LOGGER = AppLog.GetInstance();
+        DaoCommon m_daoCommon = GetInstance();
+
+        #endregion
+
+        #region ### データ操作 ###
+        public List<CourseNode> GetAllInfo(int plantsid, int stationsid, int coursesid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT
+		                      SID
+		                    , PlantSID
+		                    , StationSID
+                            , Name
+
+
+	                    FROM
+		                    dbo.
+	                    WHERE
+		                    DelFlg = 0
+                        And PlantCd = '{plantsid}'
+                        And StationSID = '{stationsid}';
+                    ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<CourseNode> dataList = m_daoCommon.ConvertToListOf<CourseNode>(dataTable);
+
+                    return dataList;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        #endregion
+
+
+        #region ### 結果セット ###
+
+        public class CourseNode : Result
+        {
+            public CourseNode() { }
+
+
+            [SqlParam(queryNames: new string[] { "Delete", "Update" })]
+            public int? SID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int PlantSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int StationSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int CourseSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int NodeSeqence { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public string Name { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float Xcoordinate { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public float Ycoordinate { get; set; }
+
+
+            public RouteNode ToRoutenode()
+            {
+                RouteNode rn = new RouteNode();
+                rn.ID = (int)SID;
+                rn.Name = Name;
+                rn.X = Xcoordinate;
+                rn.Y = Ycoordinate;
+
+                return rn;
+            }
+        }
+
+        #endregion
+    }
+}

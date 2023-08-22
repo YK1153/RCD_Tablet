@@ -1,0 +1,212 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RcdOperationSystemConst
+{
+    public static class OperationConst
+    {
+        //
+        public static readonly int C_SYSTEM_INTERVAL = 100;
+
+        // DB connection string
+        public static readonly string C_DB_IP = "localhost";
+        public static readonly string C_DB_NAME = "rcd";
+        public static readonly string C_DB_USER = "sa";
+        public static readonly string C_DB_PASSWORD = "atrpt12345";
+
+        // flag
+        public static readonly int C_NOT_RECEIVED = 0;
+        public static readonly int C_RECEIVED = 1;
+
+        public static readonly int C_NORMAL = 0;
+        public static readonly int C_ABNORMAL = 1;
+
+        public class ErrType
+        {
+            /// <summary>
+            /// 通常異常
+            /// </summary>
+            public static readonly string C_PT_NOMAL = "0";
+            /// <summary>
+            /// 設備動作異常
+            /// </summary>
+            public static readonly string C_PT_FACILITY = "1";
+            /// <summary>
+            /// カメラ異常
+            /// </summary>
+            public static readonly string C_PT_CAMHEALTH = "2";
+        }
+
+        public class ControlStatusType
+        {
+            /// <summary>
+            /// 制御待機中
+            /// </summary>
+            public static readonly int C_NOT_IN_CONTROL = 0;
+            /// <summary>
+            /// 制御中
+            /// </summary>
+            public static readonly int C_UNDER_CONTROL = 1;
+            /// <summary>
+            /// 自走終了通知待ち
+            /// </summary>
+            public static readonly int C_WAIT_CONTROL_END = 2;
+        }
+
+        /// <summary>
+        /// 設備指示進行度
+        /// </summary>
+        public class FacilityAreaStage
+        {
+            /// <summary> 動作開始 </summary>
+            public const int C_FACILITY_START = 0;
+            
+            /// <summary> 動作終了 </summary>
+            public const int C_FACILITY_END = 1;
+
+            /// <summary> 動作確認 </summary>
+            public const int C_FACILITY_CHECK = 2;
+
+            /// <summary> 処理終了 </summary>
+            public const int C_FACILITY_FIN = -1;
+        }
+
+        /// <summary>
+        /// 制御状態
+        /// </summary>
+        public class AccelerationStatus
+        {
+            public static readonly uint C_ACCELERATION_NOMAL = 0;
+            public static readonly uint C_ACCELERATION_PAUSE = 1;
+            public static readonly uint C_ACCELERATION_GOAL = 2;
+            public static readonly uint C_ACCELERATION_PAUSE_DISCONNECTION = 3;
+            public static readonly uint C_ACCELERATION_EMERGENCY = 4;
+        }
+
+        /// <summary>
+        /// 計算部ステータス
+        /// </summary>
+        public class CalcAppStatus
+        {
+            public static readonly int C_CONTROL_OFF = 0;
+            public static readonly int C_CONTROL_PREPARATION = 1;
+            public static readonly int C_CONTROL_READY = 2;
+            public static readonly int C_CONTROL_NOMAL = 5;
+            public static readonly int C_CONTROL_BLACKOUT = 9;
+            public static readonly int C_CONTROL_COMPLETE = 7;
+            public static readonly int C_CONTROL_EMERGENCY = 8;
+        }
+
+        public enum CamType
+        {
+            Pana,
+            AVP
+        }
+
+        public static readonly int C_DETECT_SEND_CAM_NUM = 3;
+        public static readonly string C_JSON_RPC = "2.0";
+        
+
+        #region 整理前定数
+        //private static readonly string C_FILE_TEXT_TYPE = "utf-8";
+        /// <summary>
+        /// 電文シリアル最大値
+        /// </summary>
+        //private static readonly int C_SERIAL_LIMIT = 9999;
+
+        ///// <summary>
+        ///// 加速度舵角送信間隔
+        ///// </summary>
+        public static readonly int C_CI_FIRST_INTERVAL = 100;
+        public static readonly int C_OA_INTERVAL = 100;
+
+
+        //private static readonly int C_DRAW_ANGLE = 1;
+        //private static readonly int C_DRAW_GETAREA = 2;
+
+        //private static readonly string C_CAMSTART_STATUS_OK = "0";
+        //private static readonly string C_CAMSTART_STATUS_NG = "1";
+
+
+        /// <summary>
+        /// 設備指示開始場所
+        /// </summary>
+        //private static readonly int C_FACILITY_START = 0;
+        //private static readonly int C_FACILITY_END = 1;
+        //private static readonly int C_FACILITY_CHECK = 2;
+        //private static readonly int C_FACILITY_FIN = -1;
+
+        /// <summary>
+        /// 送信リトライ回数
+        /// </summary>
+        //private static readonly int C_RETRYCOUNT = 5;
+
+
+
+
+        //private static readonly int C_SHIFT_CHECK_WAIT_NUM = 80;
+
+        #endregion
+    }
+
+    public class ConnectionConst
+    {
+        #region ## クラス変数 ##
+        private int m_stationNo;
+        private string m_panaImageAnalysis_IP;
+        private string m_avpImageAnalysis_IP;
+        private string m_objectDetect_IP;
+        private string m_tvecs_IP;
+
+        #endregion
+
+        #region ## コンストラクタ ##
+        public ConnectionConst(int StationNo)
+        {
+            m_stationNo = StationNo;
+
+            PanaImageAnalysis_IP = StationNo.ToString();
+            AvpImageAnalysis_IP = StationNo.ToString();
+            ObjectDetect_IP = StationNo.ToString();
+            Tvecs_IP = StationNo.ToString();
+        }
+        #endregion
+
+        // Management PC
+        public static readonly string ManagementPC_IP = "192.168.0.101";
+        public static readonly int ManagementPC_Port = 30000;
+
+        // Pana Image Analysys
+        //public string PanaImageAnalysis_IP { get { return this.m_panaImageAnalysis_IP; } private set { this.m_panaImageAnalysis_IP = $"192.168.{value}.12"; } }
+        public string PanaImageAnalysis_IP { get { return this.m_panaImageAnalysis_IP; } private set { this.m_panaImageAnalysis_IP = $"127.0.0.1"; } }
+        public static readonly int PanaImageAnalysis_Port = 12000;
+
+        // AVP Image Analysys
+        public string AvpImageAnalysis_IP { get { return this.m_avpImageAnalysis_IP; } private set { this.m_avpImageAnalysis_IP = $"192.168.{value}.13"; } }
+        public static readonly int AvpImageAnalysis_Port_Tcp = 14000;
+        public static readonly int AvpImageAnalysis_Port_Udp = 14000;
+
+        // Image Analysys Setting
+        public static readonly int ImageAnalysis_HealthCheck_Interval = 1000;
+        public static readonly int ImageAnalysis_HealthCheck_Error_Count = 1;
+
+        // Object Detection
+        public string ObjectDetect_IP { get { return this.m_objectDetect_IP; } private set { this.m_objectDetect_IP = $"192.168.{value}.14"; } }
+        public static readonly int ObjectDetect_Port_Snd = 30000;
+        public static readonly int ObjectDetect_SndRate = 100;
+        public static readonly int ObjectDetect_Port_Rcv = 31000;
+
+        // TVECS
+        //public string Tvecs_IP { get { return this.m_tvecs_IP; } private set { this.m_tvecs_IP = $"192.168.{value}.15"; } }
+        public string Tvecs_IP { get { return this.m_tvecs_IP; } private set { this.m_tvecs_IP = $"127.0.0.1"; } }
+        //public static readonly int Tvecs_Cl_Port = 10000;
+        public static readonly int Tvecs_Cl_Port = 22000;
+        //public static readonly int Tvecs_Srv_Port = 10000;
+        public static readonly int Tvecs_Srv_Port = 13000;
+
+    }
+
+}

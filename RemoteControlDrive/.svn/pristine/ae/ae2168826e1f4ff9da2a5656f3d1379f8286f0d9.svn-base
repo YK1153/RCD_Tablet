@@ -1,0 +1,120 @@
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Linq;
+using RcdCmn;
+using static RcdDao.DaoCommon;
+using RcdDao.Attributes;
+using static RcdDao.MCourseNodeDao;
+using static RcdDao.MCourseAreaDao;
+
+namespace RcdDao
+{
+    public class MCourseDao
+    {
+        #region ### クラス変数 ###
+
+        AppLog LOGGER = AppLog.GetInstance();
+        DaoCommon m_daoCommon = GetInstance();
+
+        #endregion
+
+        #region ### データ操作 ###
+        public List<Course> GetAllInfo(int plantsid,int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT
+		                      SID
+		                    , PlantSID
+		                    , StationSID
+                            , Name
+	                    FROM
+		                    dbo.M_COURSE
+	                    WHERE
+		                    DelFlg = 0
+                        And PlantCd = '{plantsid}'
+                        And StationSID = '{stationsid}';
+                    ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<Course> dataList = m_daoCommon.ConvertToListOf<Course>(dataTable);
+
+                    return dataList;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        #endregion
+
+        #region ### 結果セット ###
+
+        public class Course : Result
+        {
+            public Course() { }
+
+            [SqlParam(queryNames: new string[] { "Delete", "Update" })]
+            public int? SID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int PlantSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public int StationSID { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public string Name { get; set; }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// コース情報
+        /// </summary>
+        public class CourseInfo : Result
+        {
+            public CourseInfo(Course course)
+            {
+                //初期化
+                this.CourseNode = new List<CourseNode>();
+                this.CourseArea = new List<CourseArea>();
+
+                //コース情報をセット
+                Course = course;
+                //コースに紐づく情報をセット
+                MCourseNodeDao nodedao = new MCourseNodeDao();
+                CourseNode = nodedao.GetAllInfo(course.PlantSID, course.StationSID, (int)course.SID);
+                MCourseAreaDao areadao = new MCourseAreaDao();
+                CourseArea = areadao.GetAllInfo(course.PlantSID, course.StationSID, (int)course.SID);
+
+            }
+
+
+            //※いづれ削除
+            public CourseInfo()
+            {
+                this.CourseNode = new List<CourseNode>();
+                this.CourseArea = new List<CourseArea>();
+            }
+
+            public Course Course { get; set; }
+            public List<CourseNode> CourseNode { get; set; }
+            public List<CourseArea> CourseArea { get; set; }
+                
+        }
+    }
+}

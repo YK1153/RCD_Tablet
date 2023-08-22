@@ -1,0 +1,359 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net;
+using System.Reflection;
+
+namespace RcdCmn
+{
+    public static class Res
+    {
+        public const string C_SYSTEM = "自走搬送システム";
+        public const string C_CTRL_UNIT = "経路生成アプリ";
+        public const string C_MNG_SRV = "管制制御部";
+        public const string C_MNG_VWR = "管制表示部";
+        public const string C_TVECS = "TVECS";
+        public const string C_IMG_ANALYZER = "画像解析装置";
+        public const string C_FACILITY = "周辺設備";
+
+        public class ErrorStatus : ResBase
+        {
+            public static ResMsg NORMAL = new ResMsg("00000", "正常");
+
+            public static ResMsg CAM_CONN_ERR = new ResMsg("10001", "【設備異常】" + C_IMG_ANALYZER + " - 経路生成システム通信途絶:");
+            public static ResMsg A_ERR = new ResMsg("10002", "【設備異常】測位不可異常:");
+            public static ResMsg B_ERR = new ResMsg("10003", "【設備異常】カメラ異常:");
+            public static ResMsg C_ERR = new ResMsg("10004", "【設備異常】" + C_TVECS + " - 経路生成システム通信途絶:");
+            public static ResMsg D_ERR = new ResMsg("10005", "【設備異常】" + C_TVECS + "異常:");
+            public static ResMsg E_ERR = new ResMsg("10006", "【設備異常】ゴールエリア満車:");
+            public static ResMsg F_ERR = new ResMsg("10007", "既に制御中です:");
+            public static ResMsg G_ERR = new ResMsg("10008", "【設備異常】測位情報取得不可:");
+            public static ResMsg H_ERR = new ResMsg("10009", "【設備異常】車両情報取得不可:");
+            public static ResMsg I_ERR = new ResMsg("10010", "【設備異常】走行エリア逸脱:");
+            public static ResMsg J_ERR = new ResMsg("10011", C_TVECS + "から走行停止通知を受信しました:");
+            public static ResMsg K_ERR = new ResMsg("10012", C_TVECS + "から車両フェール通知を受信しました:");
+            public static ResMsg L_ERR = new ResMsg("10013", C_TVECS + "から制御不能通知を受信しました:");
+            public static ResMsg M_ERR = new ResMsg("10014", "【設備異常】" + C_CTRL_UNIT + " 走行停止ボタン押下:");
+            public static ResMsg N_ERR = new ResMsg("10015", "【設備異常】制御開始失敗(原因不明のエラー):");
+            public static ResMsg O_ERR = new ResMsg("10016", "【設備異常】" + C_CTRL_UNIT + "の制御終了処理失敗:");
+            public static ResMsg P_ERR = new ResMsg("10017", "【設備異常】ゴール位置不正（在籍センサONにならない）:");
+            public static ResMsg Q_ERR = new ResMsg("10018", "【設備異常】" + C_CTRL_UNIT + "ゴール位置取得失敗:");
+            public static ResMsg R_ERR = new ResMsg("10019", "メソッドclsCalcraterで異常が発生しました:");
+            public static ResMsg S_ERR = new ResMsg("10020", "【設備異常】車両前進タイムアウト:");
+
+            public static ResMsg CTRL_HEALTH_SEND_ERR = new ResMsg("10201", "【設備異常】" + C_MNG_SRV + " - " + C_CTRL_UNIT + "ヘルスチェック送信失敗:");
+            public static ResMsg FACILITY_RES_ERR = new ResMsg("10202", "【設備異常】設備の動作完了が確認できませんでした:");
+            public static ResMsg TVECS_CONN_RES_ERR = new ResMsg("10203", "【設備異常】自走TVECSとの通信異常:");
+            public static ResMsg TVECS_DART_RES_ERR = new ResMsg("10204", "【設備異常】DART起動通知が受信できませんでした:");
+            public static ResMsg TVECS_READY_RES_ERR = new ResMsg("10205", "【設備異常】準備完了通知が受信できませんでした:");
+
+            public static ResMsg VIEWER_ERR = new ResMsg("10021", $"【設備異常】管制PC 走行停止ボタン押下:");
+            public static ResMsg FACILITY_ERR = new ResMsg("10022", "【設備異常】 {0} {1} 異常:");
+            public static ResMsg GROUP_ERR = new ResMsg("10023", $"【設備異常】" + C_CTRL_UNIT + " より走行停止通知受信:");
+            public static ResMsg FACILITY_ERR_DETECT = new ResMsg("10024", "【設備異常】停止信号を検知しました:");
+            public static ResMsg RUNNING_CTRL_DISCONNECTED = new ResMsg("10025", $"【設備異常】管制PC - " + C_CTRL_UNIT + "通信途絶:");
+            public static ResMsg PLC_TIMEOUT = new ResMsg("10026", $"【設備異常】PLC確認 通信異常:");
+            public static ResMsg PLC_DEVICE_ERROR = new ResMsg("10027", $"【設備異常】PLC確認 DIOデバイス不正:");
+            public static ResMsg PLC_PORT_ERROR = new ResMsg("10028", $"【設備異常】PLC確認 ポート値不正:");
+            public static ResMsg CAMSTART_POSITION_ERR = new ResMsg("10029", $"【設備異常】初回測位点異常:");
+            public static ResMsg DIO_STATUS_ERR = new ResMsg("10030", $"【設備異常】一定時間設備ステータスの取得に失敗:");
+
+            public static ResMsg CAM_SHIFT_ERR = new ResMsg("10101", "【設備異常】カメラ画角ずれ検知:");
+            public static ResMsg CAM_JUDGE_FAILURE = new ResMsg("10102", "【設備異常】カメラ画角ズレ検知失敗(特徴点の検出に失敗):");
+            public static ResMsg CAM_START_FAILURE = new ResMsg("10103", "【設備異常】開始処理に失敗(原因不明のエラー):");
+            public static ResMsg CAM_PROC_FAILURE = new ResMsg("10104", "【設備異常】車両の検出に失敗 または原因不明のエラー:");
+            public static ResMsg CAM_DETECT_FAILURE = new ResMsg("10105", "【設備異常】カメラ映像の取得に失敗:");
+            public static ResMsg CAM_SEARCH_OVER = new ResMsg("10106", "【設備異常】車両検知の上限台数(5台)を超過:");
+            public static ResMsg CAM_CAR_NOTFOUND = new ResMsg("10107", "【設備異常】カメラが制御対象車両の検出に失敗:");
+            public static ResMsg CAM_SHIFT_ENDRESS = new ResMsg("10108", "【設備異常】画角ずれ検知処理の待機時間を超過しました:");
+            public static ResMsg CAM_SHIFT_NOTACTION = new ResMsg("10109", "【設備異常】画角ずれ検知処理が未実施状態で制御が開始されました:");
+            public static ResMsg CAM_PROC_FAIL = new ResMsg("10110", "【設備異常】画角ずれ検知処理に失敗しました:");
+            public static ResMsg CAM_RESTART_FAILURE = new ResMsg("10111", "【設備異常】再開処理に失敗(原因不明のエラー):");
+            public static ResMsg CAM_RESTART_STATUS_NG = new ResMsg("10112", "【設備異常】再開処理時に測位開始不可が発生しました:");
+            public static ResMsg CAM_STOPRES_NG = new ResMsg("10113", "【設備異常】測位終了応答が受信できませんでした:");
+
+            public static ResMsg REQUEST_ERR = new ResMsg("10301", "【設備異常】人検知システムより停止要求を受信しました:");
+            public static ResMsg REQUEST_STATUS_ERR = new ResMsg("10302", "【設備異常】人検知システムよりシステム異常を受信しました:");
+            public static ResMsg DETECT_AREA_ERR = new ResMsg("10303", "【設備異常】走行停止エリアに侵入されました:");
+
+            public static ResMsg COMPARISON_POSITION_ERROR = new ResMsg("10401", "【設備異常】測位点の比較にて異常を検知しました:");
+            public static ResMsg COMPARISON_VECTOR_ERROR = new ResMsg("10402", "【設備異常】測位ベクトルの比較にて異常を検知しました:");
+
+            public static ResMsg HAZARDCONFIRN_RUNTIMEOUT = new ResMsg("10501","【設備異常】ハザード確認起動待ちタイムアウト:");
+            public static ResMsg HAZARDCONFIRN_RESULTTIMEOUT = new ResMsg("10502", "【設備異常】ハザード確認処理完了待ちタイムアウト:");
+            public static ResMsg HAZARDCONFIRN_PROCTIMEOUT = new ResMsg("10503", "【設備異常】ハザード確認処理処理タイムアウト:");
+
+            //public static ResMsg LOOKINGFOR_ERR = new ResMsg("99998", "【設備異常】原因不明のエラー:");
+            public static ResMsg UNKNOWN_ERR = new ResMsg("99999", "【設備異常】原因不明のエラー:");
+
+            //public static ResMsg ERR5JA30 = new ResMsg("5JA30", "【設備異常】自走TVECS強制終了");
+            //public static ResMsg ERR5JA40 = new ResMsg("5JA40", "【設備異常】走行エリア残留物検知");
+            //public static ResMsg ERR5JA51 = new ResMsg("5JA51", "【車両異常】D席ドア開");
+            //public static ResMsg ERR5JA52 = new ResMsg("5JA52", "【車両異常】P席ドア開");
+            //public static ResMsg ERR5JA53 = new ResMsg("5JA53", "【車両異常】RR席ドア開");
+            //public static ResMsg ERR5JA54 = new ResMsg("5JA54", "【車両異常】RL席ドア開");
+            //public static ResMsg ERR5JA55 = new ResMsg("5JA55", "【車両異常】舵角信号無効");
+            //public static ResMsg ERR5JA56 = new ResMsg("5JA56", "【車両異常】EPS RCD要求棄却");
+            //public static ResMsg ERR5JA57 = new ResMsg("5JA57", "【車両異常】ドライバー操舵介入");
+            //public static ResMsg ERR5JA58 = new ResMsg("5JA58", "【車両異常】車速信号無効");
+            //public static ResMsg ERR5JA59 = new ResMsg("5JA59", "【車両異常】運動マネージャ調停異常");
+            //public static ResMsg ERR5JA60 = new ResMsg("5JA60", "【車両異常】ブレーキペダル信号異常");
+            //public static ResMsg ERR5JA61 = new ResMsg("5JA61", "【車両異常】ドライバーブレーキペダル操作介入");
+            //public static ResMsg ERR5JA62 = new ResMsg("5JA62", "【車両異常】先進安全システム作動");
+            //public static ResMsg ERR5JA63 = new ResMsg("5JA63", "【車両異常】RCD要求棄却");
+            //public static ResMsg ERR5JA64 = new ResMsg("5JA64", "【車両異常】走行中シフト状態異常");
+            //public static ResMsg ERR5JA65 = new ResMsg("5JA65", "【車両異常】横制御フェール検出");
+            //public static ResMsg ERR5JA66 = new ResMsg("5JA66", "【車両異常】駐車ブレーキフェール検出");
+            //public static ResMsg ERR5JA67 = new ResMsg("5JA67", "【車両異常】駆動系フェール検出");
+            //public static ResMsg ERR5JA68 = new ResMsg("5JA68", "【車両異常】シフトフェール検出");
+            //public static ResMsg ERR5JA69 = new ResMsg("5JA69", "【車両異常】ブレーキ(Main)フェール検出");
+            //public static ResMsg ERR5JA70 = new ResMsg("5JA70", "【車両異常】ブレーキ(Sub)フェール検出");
+            //public static ResMsg ERR5JA71 = new ResMsg("5JA71", "【車両異常】ヨーレートセンサ異常");
+            //public static ResMsg ERR5JA72 = new ResMsg("5JA72", "【車両異常】READY状態異常");
+            //public static ResMsg ERR5JA73 = new ResMsg("5JA73", "【車両異常】IG状態異常");
+            //public static ResMsg ERR5JA74 = new ResMsg("5JA74", "【車両異常】停車移行 車速NG");
+            //public static ResMsg ERR5JA75 = new ResMsg("5JA75", "【車両異常】停車移行 シフトNG");
+            //public static ResMsg ERR5JA76 = new ResMsg("5JA76", "【車両異常】停車移行 EPB NG");
+            //public static ResMsg ERR5JA99 = new ResMsg("5JA99", "未定義の異常(TVECS)");
+        }
+
+        public class CtrlStatus : ResBase
+        {
+            public static ResMsg CTRL_AVAILABLE = new ResMsg("00", "制御開始可能");
+            public static ResMsg ON_CTRL = new ResMsg("01", "制御中");
+            public static ResMsg ON_HAND_OVER = new ResMsg("02", "引継確認中");
+            public static ResMsg WAIT_FACILITY_DONE = new ResMsg("03", "設備制御完了待ち");
+            public static ResMsg ARRV_GOAL_AREA = new ResMsg("04", "ゴールエリア到達");
+            public static ResMsg PAUSED = new ResMsg("10", "一時停止");
+            public static ResMsg PAUSING = new ResMsg("11", "一時停止中");
+            public static ResMsg STOPPED = new ResMsg("20", "走行停止");
+            public static ResMsg CAM_CONNECTION_ERR = new ResMsg("21", "画像通信不良");
+            public static ResMsg CAM_ERR = new ResMsg("22", "カメラ異常");
+            public static ResMsg CAR_CONNECTION_ERR = new ResMsg("23", "車両通信異常");
+            public static ResMsg STOPPING = new ResMsg("24", "走行停止中");
+            public static ResMsg NOT_CONNECTED = new ResMsg("98", "切断");
+            public static ResMsg IDLE = new ResMsg("99", "待機中");
+        }
+
+        public class CarStatus : ResBase
+        {
+            public static ResMsg IDLE = new ResMsg("0", "待機中");
+            public static ResMsg RUNNING = new ResMsg("1", "自走中");
+            public static ResMsg PAUSED = new ResMsg("2", "一時停止");
+            public static ResMsg STOPPED = new ResMsg("3", "走行停止");
+            public static ResMsg STOPPING = new ResMsg("4", "走行停止中");
+            public static ResMsg RESOLVING = new ResMsg("5", "異常解除中");
+            public static ResMsg HANDOVER_CHECKING = new ResMsg("6", "引継確認中");
+            public static ResMsg END_IDLE = new ResMsg("7", "自走終了待機中");
+            public static ResMsg ERROR = new ResMsg("99", "不明異常");
+        }
+
+        public class PreVehicleStatus:ResBase
+        {
+            /// <summary>
+            /// 生産指示待ち
+            /// </summary>
+            public static ResMsg Preparation = new ResMsg("0", "生産指示待ち");
+            /// <summary>
+            /// 動作中
+            /// </summary>
+            public static ResMsg Moving = new ResMsg("1", "動作中");
+            /// <summary>
+            /// 準備起動待ち
+            /// </summary>
+            public static ResMsg WaitReadyBoot = new ResMsg("2", "準備起動待ち");
+            /// <summary>
+            /// 起動待ち
+            /// </summary>
+            public static ResMsg WaitStartup = new ResMsg("3", "起動待ち");
+            /// <summary>
+            /// 前車両退出待ち
+            /// </summary>
+            public static ResMsg WaitFrontVehicle = new ResMsg("4", "前車両退出待ち");
+            /// <summary>
+            /// 異常完了
+            /// </summary>
+            public static ResMsg ErrorEnd = new ResMsg("5", "異常完了");
+        }
+
+        public class CtrlVehicleStatus:ResBase
+        {
+            /// <summary>
+            /// 待機中
+            /// </summary>
+            public static ResMsg Preparation = new ResMsg("0", "待機中");
+            /// <summary>
+            /// 動作中
+            /// </summary>
+            public static ResMsg PreMoving = new ResMsg("1", "自走前処理");
+            /// <summary>
+            /// 準備起動待ち
+            /// </summary>
+            public static ResMsg Moving = new ResMsg("2", "制御中");
+            /// <summary>
+            /// 起動待ち
+            /// </summary>
+            public static ResMsg CompleteEnd = new ResMsg("3", "正常完了");
+            /// <summary>
+            /// 前車両退出待ち
+            /// </summary>
+            public static ResMsg ErrorEnd = new ResMsg("4", "異常完了");
+        }
+
+
+        public class CamStatus : ResBase
+        {
+            public static ResMsg RUNNING = new ResMsg("0", "正常");
+            public static ResMsg PAUSED = new ResMsg("1", "起動中");
+            public static ResMsg STOPPED = new ResMsg("2", "映像断");
+            public static ResMsg UNKNOWN = new ResMsg("9", "不明");
+        }
+
+        public class CamShiftStatus : ResBase
+        {
+            public static ResMsg NORMAL = new ResMsg("00000", "正常");
+            public static ResMsg IN_ACTION = new ResMsg("00001", "動作中");
+            public static ResMsg NOT_ACTIVATE = new ResMsg("10109", "未実施");
+            public static ResMsg SHIFT_ERR = new ResMsg("10101", "画角ずれあり");
+            public static ResMsg JUDGE_FAILURE = new ResMsg("10102", "画角ズレ検知失敗");
+            public static ResMsg START_FAILURE = new ResMsg("10103", "開始処理に失敗(原因不明のエラー)");
+            public static ResMsg PROC_FAILURE = new ResMsg("10104", "車両の検出に失敗 または原因不明のエラー");
+            public static ResMsg DETECT_FAILURE = new ResMsg("10105", "カメラ映像の取得に失敗");
+            public static ResMsg PROC_FAIL = new ResMsg("10110", "処理に失敗");
+        }
+
+        public class DIOTest : ResBase
+        {
+            public static ResMsg NORMAL = new ResMsg("0", "正常終了");
+            public static ResMsg ON_CTRL_ERR = new ResMsg("1", $"走行中の{C_CTRL_UNIT}があるため、DIO接点変更できません。");
+            public static ResMsg DIO_ERR = new ResMsg("2", "DIO端末よりエラーが発生しました。");
+        }
+
+        public class PLCStatus : ResBase
+        {
+            public static ResMsg UNDETECTED = new ResMsg("0", "未検出");
+            public static ResMsg NORMAL = new ResMsg("1", $"正常");
+            public static ResMsg TIMEOUT = new ResMsg("2", "タイムアウト");
+            public static ResMsg DEVICE_ERROR = new ResMsg("3", "DIOデバイス不正");
+            public static ResMsg PORT_ERROR = new ResMsg("4", "ポート値不正");
+
+            public static readonly ResMsg[] Abnormals = new ResMsg[3]
+            {
+                TIMEOUT, DEVICE_ERROR, PORT_ERROR
+            };
+
+            public static readonly ResMsg[] Assignable = new ResMsg[4]
+            {
+                NORMAL, TIMEOUT, DEVICE_ERROR, PORT_ERROR
+            };
+        }
+
+
+        public class MngModeChange : ResBase
+        {
+            public static ResMsg NORMAL = new ResMsg("00000", "正常終了");
+            public static ResMsg ERR_ON_CTRL = new ResMsg("00001", $"走行中の{C_CTRL_UNIT}があるため、モード変更できません。");
+            public static ResMsg ERR_INVALID = new ResMsg("00002", $"開始不可の{C_CTRL_UNIT}があるため、モード変更できません。");
+        }
+
+        public class ResMsg
+        {
+            [DisplayName("応答結果")]
+            public string Code { get; private set; }
+
+            [DisplayName("メッセージ")]
+            public string Msg { get; private set; }
+
+            public ResMsg(string _code, string _msg)
+            {
+                Code = _code;
+                Msg = _msg;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is ResMsg tar)
+                {
+                    return Code == tar.Code;
+                }
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                var hashCode = 731883478;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Code);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Msg);
+                return hashCode;
+            }
+        }
+        public abstract class ResBase
+        {
+            /// <summary>
+            /// 応答結果コードに一致するメッセージを取得
+            /// </summary>
+            /// <param name="code">応答コード</param>
+            /// <returns>メッセージ、一致する応答結果コードがない場合Null</returns>
+            public virtual string GetMsg(string code)
+            {
+                FieldInfo[] fields = GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+
+                foreach (FieldInfo field in fields)
+                {
+                    if (field.FieldType == typeof(ResMsg))
+                    {
+                        ResMsg resMsg = (ResMsg)field.GetValue(null);
+                        if (resMsg.Code == code)
+                        {
+                            return resMsg.Msg;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            /// <summary>
+            /// 応答結果コードに一致する応答結果を取得
+            /// </summary>
+            /// <param name="code">応答コード</param>
+            /// <returns>応答結果、一致する応答結果コードがない場合Null</returns>
+            public virtual ResMsg GetRes(string code)
+            {
+                FieldInfo[] fields = GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+
+                foreach (FieldInfo field in fields)
+                {
+                    if (field.FieldType == typeof(ResMsg))
+                    {
+                        ResMsg resMsg = (ResMsg)field.GetValue(null);
+                        if (resMsg.Code == code)
+                        {
+                            return resMsg;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            /// <summary>
+            /// クラス内の応答結果リストを取得
+            /// </summary>
+            /// <returns>応答結果リスト</returns>
+            public virtual List<ResMsg> GetList()
+            {
+                List<ResMsg> result = new List<ResMsg>();
+                FieldInfo[] fields = GetType().GetFields(BindingFlags.Static | BindingFlags.Public);
+
+
+                foreach (FieldInfo field in fields)
+                {
+                    if (field.FieldType == typeof(ResMsg))
+                    {
+                        ResMsg resMsg = (ResMsg)field.GetValue(null);
+                        result.Add(resMsg);
+                    }
+                }
+                return result;
+            }
+        }
+    }
+}
