@@ -34,7 +34,7 @@ namespace RcdDao
                             drire.StartTime
                             , drire.EndTime
                             , drire.StationSID
-                            , drire. BodyNo
+                            , drire.BodyNo
                             , drire.Result
                             , drire.StatusMsg
                         FROM 

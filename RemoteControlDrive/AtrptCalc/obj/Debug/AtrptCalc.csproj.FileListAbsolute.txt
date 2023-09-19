@@ -31,3 +31,14 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptCalc\obj\Debug
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.csproj.CopyComplete
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\AtrptCalc.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\AtrptCalc.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\bin\Debug\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptCalc\obj\Debug\AtrptCalc.pdb

@@ -60,6 +60,7 @@
     <Compile Include="clsDDrivingResult.cs" />
     <Compile Include="clsDEmergencyDao.cs" />
     <Compile Include="clsDRcdStatusDao.cs" />
+    <Compile Include="clsDWarningDao.cs" />
     <Compile Include="clsMCarSpecDao.cs" />
     <Compile Include="clsMControlPLCDao.cs" />
     <Compile Include="clsMImageComparisolDao.cs" />

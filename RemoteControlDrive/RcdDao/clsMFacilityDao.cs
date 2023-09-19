@@ -486,7 +486,7 @@ namespace RcdDao
 	                    LEFT OUTER JOIN
 		                    dbo.M_FACILITY_STATUS_MSG msg
 	                    ON
-		                    stat.FacilityTypeID = msg.FacilityTypeID
+		                    stat.FacilityTypeID = msg.FacilityTypeSID
 						AND stat.Status = msg.StatusCode
                         LEFT OUTER JOIN
 		                    M_FACILITY fac
@@ -1119,7 +1119,7 @@ namespace RcdDao
                 {
                     string query = @"
 	                    SELECT
-		                    FacilityTypeID
+		                    FacilityTypeSID
                             , StatusCode
                             , StatusMsg
 	                    FROM
@@ -1610,7 +1610,7 @@ namespace RcdDao
 
         public class FacilityStatusMsg : Result
         {
-            public int FacilityTypeID { get;  set; }
+            public int FacilityTypeSID { get;  set; }
 
             public int StatusCode { get;  set; }
 

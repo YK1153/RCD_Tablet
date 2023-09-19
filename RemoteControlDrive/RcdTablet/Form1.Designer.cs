@@ -31,57 +31,58 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(clsTablet));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.btn_continue = new System.Windows.Forms.Button();
-            this.dgvfacility = new System.Windows.Forms.DataGridView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(clsTablet));
+            this.dgvFacility_noControl = new System.Windows.Forms.DataGridView();
+            this.dgvfacility_allow = new System.Windows.Forms.DataGridView();
             this.btn_sysstatus = new System.Windows.Forms.Button();
             this.btn_EventHistory = new System.Windows.Forms.Button();
             this.btn_DrivingHistory = new System.Windows.Forms.Button();
-            this.btn_OriPosi = new System.Windows.Forms.Button();
-            this.btn_andonStop = new System.Windows.Forms.Button();
-            this.btn_CarResolveSndMsg = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.manageViewer2 = new MapViewer.ManageViewer();
-            this.lbl_black = new System.Windows.Forms.Label();
-            this.btn_warning = new System.Windows.Forms.Button();
-            this.btn_errorDetect = new System.Windows.Forms.Button();
-            this.btn_preparetion = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_OriPosi = new System.Windows.Forms.Button();
+            this.btn_CarResolveSndMsg = new System.Windows.Forms.Button();
+            this.btn_andonStop = new System.Windows.Forms.Button();
+            this.btn_continue = new System.Windows.Forms.Button();
+            this.dgvCarStatus = new System.Windows.Forms.DataGridView();
+            this.btn_close = new System.Windows.Forms.Button();
             this.cb_stationlist = new System.Windows.Forms.ComboBox();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.userControl11 = new RcdTablet.UserControl1();
             this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
             this.onesec_btnctrl1 = new RcdTablet.onesec_btnctrl();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.dgvCarStatus = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.splitter3 = new System.Windows.Forms.Splitter();
-            this.splitter2 = new System.Windows.Forms.Splitter();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvfacility)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tb_allowControl = new System.Windows.Forms.TabControl();
+            this.tp_allowControl = new System.Windows.Forms.TabPage();
+            this.tp_uncontrol = new System.Windows.Forms.TabPage();
+            this.btn_preparetion = new System.Windows.Forms.Button();
+            this.btn_warning = new System.Windows.Forms.Button();
+            this.btn_errorDetect = new System.Windows.Forms.Button();
+            this.lbl_black = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFacility_noControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.tb_allowControl.SuspendLayout();
+            this.tp_allowControl.SuspendLayout();
+            this.tp_uncontrol.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btn_continue
+            // dgvFacility_noControl
             // 
-            this.btn_continue.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_continue.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_continue.Location = new System.Drawing.Point(35, 563);
-            this.btn_continue.Name = "btn_continue";
-            this.btn_continue.Size = new System.Drawing.Size(299, 61);
-            this.btn_continue.TabIndex = 4;
-            this.btn_continue.Text = "連続";
-            this.btn_continue.UseVisualStyleBackColor = true;
-            this.btn_continue.Click += new System.EventHandler(this.btn_Continue_Click);
+            this.dgvFacility_noControl.AllowUserToAddRows = false;
+            this.dgvFacility_noControl.AllowUserToDeleteRows = false;
+            this.dgvFacility_noControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFacility_noControl.Location = new System.Drawing.Point(0, 0);
+            this.dgvFacility_noControl.Name = "dgvFacility_noControl";
+            this.dgvFacility_noControl.RowTemplate.Height = 21;
+            this.dgvFacility_noControl.Size = new System.Drawing.Size(663, 901);
+            this.dgvFacility_noControl.TabIndex = 28;
             // 
-            // dgvfacility
+            // dgvfacility_allow
             // 
-            this.dgvfacility.AllowUserToAddRows = false;
-            this.dgvfacility.AllowUserToDeleteRows = false;
+            this.dgvfacility_allow.AllowUserToAddRows = false;
+            this.dgvfacility_allow.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -89,9 +90,8 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvfacility.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvfacility.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel2.SetColumnSpan(this.dgvfacility, 4);
+            this.dgvfacility_allow.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvfacility_allow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 9F);
@@ -99,9 +99,9 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvfacility.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvfacility.Location = new System.Drawing.Point(3, 85);
-            this.dgvfacility.Name = "dgvfacility";
+            this.dgvfacility_allow.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvfacility_allow.Location = new System.Drawing.Point(0, 0);
+            this.dgvfacility_allow.Name = "dgvfacility_allow";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -109,16 +109,16 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvfacility.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvfacility.RowHeadersVisible = false;
-            this.dgvfacility.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvfacility.Size = new System.Drawing.Size(674, 953);
-            this.dgvfacility.TabIndex = 6;
+            this.dgvfacility_allow.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvfacility_allow.RowHeadersVisible = false;
+            this.dgvfacility_allow.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvfacility_allow.Size = new System.Drawing.Size(674, 903);
+            this.dgvfacility_allow.TabIndex = 6;
             // 
             // btn_sysstatus
             // 
             this.btn_sysstatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_sysstatus.Location = new System.Drawing.Point(345, 33);
+            this.btn_sysstatus.Location = new System.Drawing.Point(1572, 72);
             this.btn_sysstatus.Name = "btn_sysstatus";
             this.btn_sysstatus.Size = new System.Drawing.Size(156, 46);
             this.btn_sysstatus.TabIndex = 9;
@@ -128,7 +128,7 @@
             // btn_EventHistory
             // 
             this.btn_EventHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_EventHistory.Location = new System.Drawing.Point(179, 33);
+            this.btn_EventHistory.Location = new System.Drawing.Point(1410, 72);
             this.btn_EventHistory.Name = "btn_EventHistory";
             this.btn_EventHistory.Size = new System.Drawing.Size(156, 46);
             this.btn_EventHistory.TabIndex = 10;
@@ -139,7 +139,7 @@
             // btn_DrivingHistory
             // 
             this.btn_DrivingHistory.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_DrivingHistory.Location = new System.Drawing.Point(9, 33);
+            this.btn_DrivingHistory.Location = new System.Drawing.Point(1248, 72);
             this.btn_DrivingHistory.Name = "btn_DrivingHistory";
             this.btn_DrivingHistory.Size = new System.Drawing.Size(156, 46);
             this.btn_DrivingHistory.TabIndex = 11;
@@ -147,179 +147,60 @@
             this.btn_DrivingHistory.UseVisualStyleBackColor = true;
             this.btn_DrivingHistory.Click += new System.EventHandler(this.btnDrivingHistory_Click);
             // 
+            // manageViewer2
+            // 
+            this.manageViewer2.Location = new System.Drawing.Point(370, 124);
+            this.manageViewer2.Name = "manageViewer2";
+            this.manageViewer2.Size = new System.Drawing.Size(830, 753);
+            this.manageViewer2.TabIndex = 20;
+            // 
             // btn_OriPosi
             // 
             this.btn_OriPosi.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_OriPosi.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_OriPosi.Location = new System.Drawing.Point(35, 653);
+            this.btn_OriPosi.Location = new System.Drawing.Point(193, 566);
             this.btn_OriPosi.Name = "btn_OriPosi";
-            this.btn_OriPosi.Size = new System.Drawing.Size(300, 52);
+            this.btn_OriPosi.Size = new System.Drawing.Size(148, 92);
             this.btn_OriPosi.TabIndex = 13;
             this.btn_OriPosi.Text = "原位置復帰";
             this.btn_OriPosi.UseVisualStyleBackColor = true;
             this.btn_OriPosi.Click += new System.EventHandler(this.btn_OriPosi_Click);
             // 
-            // btn_andonStop
-            // 
-            this.btn_andonStop.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_andonStop.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_andonStop.Location = new System.Drawing.Point(35, 723);
-            this.btn_andonStop.Name = "btn_andonStop";
-            this.btn_andonStop.Size = new System.Drawing.Size(299, 53);
-            this.btn_andonStop.TabIndex = 16;
-            this.btn_andonStop.Text = "ブザー停止";
-            this.btn_andonStop.UseVisualStyleBackColor = true;
-            this.btn_andonStop.Click += new System.EventHandler(this.btn_andonStop_Click);
-            // 
             // btn_CarResolveSndMsg
             // 
             this.btn_CarResolveSndMsg.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_CarResolveSndMsg.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_CarResolveSndMsg.Location = new System.Drawing.Point(35, 793);
+            this.btn_CarResolveSndMsg.Location = new System.Drawing.Point(196, 705);
             this.btn_CarResolveSndMsg.Name = "btn_CarResolveSndMsg";
-            this.btn_CarResolveSndMsg.Size = new System.Drawing.Size(299, 54);
+            this.btn_CarResolveSndMsg.Size = new System.Drawing.Size(145, 92);
             this.btn_CarResolveSndMsg.TabIndex = 17;
             this.btn_CarResolveSndMsg.Text = "異常リセット";
             this.btn_CarResolveSndMsg.UseVisualStyleBackColor = true;
             this.btn_CarResolveSndMsg.Click += new System.EventHandler(this.btnCarResolveSndMsg_Click);
             // 
-            // manageViewer2
+            // btn_andonStop
             // 
-            this.manageViewer2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.manageViewer2.Location = new System.Drawing.Point(380, 0);
-            this.manageViewer2.Name = "manageViewer2";
-            this.manageViewer2.Size = new System.Drawing.Size(835, 826);
-            this.manageViewer2.TabIndex = 20;
+            this.btn_andonStop.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_andonStop.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_andonStop.Location = new System.Drawing.Point(42, 705);
+            this.btn_andonStop.Name = "btn_andonStop";
+            this.btn_andonStop.Size = new System.Drawing.Size(148, 92);
+            this.btn_andonStop.TabIndex = 16;
+            this.btn_andonStop.Text = "ブザー停止";
+            this.btn_andonStop.UseVisualStyleBackColor = true;
+            this.btn_andonStop.Click += new System.EventHandler(this.btn_andonStop_Click);
             // 
-            // lbl_black
+            // btn_continue
             // 
-            this.lbl_black.AutoSize = true;
-            this.lbl_black.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lbl_black.Image = ((System.Drawing.Image)(resources.GetObject("lbl_black.Image")));
-            this.lbl_black.Location = new System.Drawing.Point(347, 826);
-            this.lbl_black.Name = "lbl_black";
-            this.lbl_black.Size = new System.Drawing.Size(0, 12);
-            this.lbl_black.TabIndex = 22;
-            // 
-            // btn_warning
-            // 
-            this.btn_warning.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_warning.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_warning.BackgroundImage")));
-            this.btn_warning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_warning.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_warning.Location = new System.Drawing.Point(35, 143);
-            this.btn_warning.Name = "btn_warning";
-            this.btn_warning.Size = new System.Drawing.Size(299, 72);
-            this.btn_warning.TabIndex = 12;
-            this.btn_warning.Text = "警告";
-            this.btn_warning.UseVisualStyleBackColor = true;
-            // 
-            // btn_errorDetect
-            // 
-            this.btn_errorDetect.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_errorDetect.BackColor = System.Drawing.SystemColors.Control;
-            this.btn_errorDetect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_errorDetect.BackgroundImage")));
-            this.btn_errorDetect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_errorDetect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btn_errorDetect.FlatAppearance.BorderSize = 2;
-            this.btn_errorDetect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btn_errorDetect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btn_errorDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_errorDetect.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_errorDetect.Location = new System.Drawing.Point(35, 70);
-            this.btn_errorDetect.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_errorDetect.Name = "btn_errorDetect";
-            this.btn_errorDetect.Size = new System.Drawing.Size(299, 70);
-            this.btn_errorDetect.TabIndex = 5;
-            this.btn_errorDetect.Text = "!異常検知";
-            this.btn_errorDetect.UseVisualStyleBackColor = false;
-            this.btn_errorDetect.Click += new System.EventHandler(this.btn_errorDetect_Click);
-            // 
-            // btn_preparetion
-            // 
-            this.btn_preparetion.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_preparetion.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_preparetion.BackgroundImage")));
-            this.btn_preparetion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_preparetion.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_preparetion.Location = new System.Drawing.Point(35, 233);
-            this.btn_preparetion.Name = "btn_preparetion";
-            this.btn_preparetion.Size = new System.Drawing.Size(299, 72);
-            this.btn_preparetion.TabIndex = 2;
-            this.btn_preparetion.Text = "運転準備";
-            this.btn_preparetion.UseVisualStyleBackColor = true;
-            this.btn_preparetion.Click += new System.EventHandler(this.btn_preparetion_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.cb_stationlist, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btn_warning, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btn_preparetion, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btn_OriPosi, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.btn_errorDetect, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.elementHost1, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.btn_CarResolveSndMsg, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.btn_andonStop, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.btn_continue, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.elementHost2, 0, 5);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 11;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 210F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(370, 1041);
-            this.tableLayoutPanel1.TabIndex = 26;
-            // 
-            // cb_stationlist
-            // 
-            this.cb_stationlist.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cb_stationlist.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.cb_stationlist.FormattingEnabled = true;
-            this.cb_stationlist.Location = new System.Drawing.Point(35, 16);
-            this.cb_stationlist.Name = "cb_stationlist";
-            this.cb_stationlist.Size = new System.Drawing.Size(299, 37);
-            this.cb_stationlist.TabIndex = 15;
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost1.BackColor = System.Drawing.Color.Transparent;
-            this.elementHost1.Location = new System.Drawing.Point(35, 863);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(299, 228);
-            this.elementHost1.TabIndex = 18;
-            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.elementHost1.Child = this.userControl11;
-            // 
-            // elementHost2
-            // 
-            this.elementHost2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost2.Location = new System.Drawing.Point(35, 353);
-            this.elementHost2.Name = "elementHost2";
-            this.elementHost2.Size = new System.Drawing.Size(299, 194);
-            this.elementHost2.TabIndex = 23;
-            this.elementHost2.Text = "elementHost2";
-            this.elementHost2.Child = this.onesec_btnctrl1;
-            // 
-            // splitter1
-            // 
-            this.splitter1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.splitter1.Location = new System.Drawing.Point(370, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(10, 1041);
-            this.splitter1.TabIndex = 27;
-            this.splitter1.TabStop = false;
+            this.btn_continue.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_continue.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_continue.Location = new System.Drawing.Point(39, 566);
+            this.btn_continue.Name = "btn_continue";
+            this.btn_continue.Size = new System.Drawing.Size(148, 92);
+            this.btn_continue.TabIndex = 4;
+            this.btn_continue.Text = "連続";
+            this.btn_continue.UseVisualStyleBackColor = true;
+            this.btn_continue.Click += new System.EventHandler(this.btn_Continue_Click);
             // 
             // dgvCarStatus
             // 
@@ -342,8 +223,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvCarStatus.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvCarStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvCarStatus.Location = new System.Drawing.Point(380, 895);
+            this.dgvCarStatus.Location = new System.Drawing.Point(370, 901);
             this.dgvCarStatus.Name = "dgvCarStatus";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -354,49 +234,141 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvCarStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvCarStatus.RowHeadersVisible = false;
-            this.dgvCarStatus.Size = new System.Drawing.Size(835, 146);
+            this.dgvCarStatus.Size = new System.Drawing.Size(830, 146);
             this.dgvCarStatus.TabIndex = 7;
             // 
-            // tableLayoutPanel2
+            // btn_close
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 168F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
-            this.tableLayoutPanel2.Controls.Add(this.btn_DrivingHistory, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.btn_EventHistory, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.btn_sysstatus, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.dgvfacility, 0, 2);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1215, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 959F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(689, 1041);
-            this.tableLayoutPanel2.TabIndex = 30;
+            this.btn_close.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_close.Location = new System.Drawing.Point(1734, 72);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(156, 46);
+            this.btn_close.TabIndex = 24;
+            this.btn_close.Text = "閉じる";
+            this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
-            // splitter3
+            // cb_stationlist
             // 
-            this.splitter3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.splitter3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter3.Location = new System.Drawing.Point(1205, 826);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(10, 69);
-            this.splitter3.TabIndex = 31;
-            this.splitter3.TabStop = false;
+            this.cb_stationlist.FormattingEnabled = true;
+            this.cb_stationlist.Location = new System.Drawing.Point(39, 52);
+            this.cb_stationlist.Name = "cb_stationlist";
+            this.cb_stationlist.Size = new System.Drawing.Size(330, 20);
+            this.cb_stationlist.TabIndex = 25;
             // 
-            // splitter2
+            // elementHost1
             // 
-            this.splitter2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter2.Location = new System.Drawing.Point(380, 892);
-            this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(825, 3);
-            this.splitter2.TabIndex = 32;
-            this.splitter2.TabStop = false;
+            this.elementHost1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.elementHost1.BackColor = System.Drawing.Color.Transparent;
+            this.elementHost1.Location = new System.Drawing.Point(42, 821);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(299, 228);
+            this.elementHost1.TabIndex = 18;
+            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
+            this.elementHost1.Child = this.userControl11;
+            // 
+            // elementHost2
+            // 
+            this.elementHost2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.elementHost2.Location = new System.Drawing.Point(42, 366);
+            this.elementHost2.Name = "elementHost2";
+            this.elementHost2.Size = new System.Drawing.Size(299, 194);
+            this.elementHost2.TabIndex = 23;
+            this.elementHost2.Text = "elementHost2";
+            this.elementHost2.Child = this.onesec_btnctrl1;
+            // 
+            // tb_allowControl
+            // 
+            this.tb_allowControl.Controls.Add(this.tp_allowControl);
+            this.tb_allowControl.Controls.Add(this.tp_uncontrol);
+            this.tb_allowControl.Location = new System.Drawing.Point(1232, 124);
+            this.tb_allowControl.Name = "tb_allowControl";
+            this.tb_allowControl.SelectedIndex = 0;
+            this.tb_allowControl.Size = new System.Drawing.Size(674, 941);
+            this.tb_allowControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tb_allowControl.TabIndex = 27;
+            // 
+            // tp_allowControl
+            // 
+            this.tp_allowControl.AutoScroll = true;
+            this.tp_allowControl.Controls.Add(this.dgvfacility_allow);
+            this.tp_allowControl.Location = new System.Drawing.Point(4, 22);
+            this.tp_allowControl.Name = "tp_allowControl";
+            this.tp_allowControl.Padding = new System.Windows.Forms.Padding(3);
+            this.tp_allowControl.Size = new System.Drawing.Size(666, 915);
+            this.tp_allowControl.TabIndex = 0;
+            this.tp_allowControl.Text = "tabPage1";
+            this.tp_allowControl.UseVisualStyleBackColor = true;
+            // 
+            // tp_uncontrol
+            // 
+            this.tp_uncontrol.Controls.Add(this.dgvFacility_noControl);
+            this.tp_uncontrol.Location = new System.Drawing.Point(4, 22);
+            this.tp_uncontrol.Name = "tp_uncontrol";
+            this.tp_uncontrol.Padding = new System.Windows.Forms.Padding(3);
+            this.tp_uncontrol.Size = new System.Drawing.Size(666, 915);
+            this.tp_uncontrol.TabIndex = 1;
+            this.tp_uncontrol.Text = "tabPage2";
+            this.tp_uncontrol.UseVisualStyleBackColor = true;
+            // 
+            // btn_preparetion
+            // 
+            this.btn_preparetion.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_preparetion.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_preparetion.BackgroundImage")));
+            this.btn_preparetion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_preparetion.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_preparetion.Location = new System.Drawing.Point(39, 255);
+            this.btn_preparetion.Name = "btn_preparetion";
+            this.btn_preparetion.Size = new System.Drawing.Size(299, 96);
+            this.btn_preparetion.TabIndex = 2;
+            this.btn_preparetion.Text = "運転準備";
+            this.btn_preparetion.UseVisualStyleBackColor = true;
+            this.btn_preparetion.Click += new System.EventHandler(this.btn_preparetion_Click);
+            // 
+            // btn_warning
+            // 
+            this.btn_warning.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_warning.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_warning.BackgroundImage")));
+            this.btn_warning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_warning.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_warning.Location = new System.Drawing.Point(190, 98);
+            this.btn_warning.Name = "btn_warning";
+            this.btn_warning.Size = new System.Drawing.Size(145, 96);
+            this.btn_warning.TabIndex = 12;
+            this.btn_warning.Text = "警告";
+            this.btn_warning.UseVisualStyleBackColor = true;
+            this.btn_warning.Click += new System.EventHandler(this.btn_warning_Click);
+            // 
+            // btn_errorDetect
+            // 
+            this.btn_errorDetect.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_errorDetect.BackColor = System.Drawing.SystemColors.Control;
+            this.btn_errorDetect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_errorDetect.BackgroundImage")));
+            this.btn_errorDetect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_errorDetect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btn_errorDetect.FlatAppearance.BorderSize = 2;
+            this.btn_errorDetect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_errorDetect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_errorDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_errorDetect.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_errorDetect.Location = new System.Drawing.Point(39, 98);
+            this.btn_errorDetect.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_errorDetect.Name = "btn_errorDetect";
+            this.btn_errorDetect.Size = new System.Drawing.Size(148, 96);
+            this.btn_errorDetect.TabIndex = 5;
+            this.btn_errorDetect.Text = "!異常検知";
+            this.btn_errorDetect.UseVisualStyleBackColor = false;
+            this.btn_errorDetect.Click += new System.EventHandler(this.btn_errorDetect_Click);
+            // 
+            // lbl_black
+            // 
+            this.lbl_black.AutoSize = true;
+            this.lbl_black.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lbl_black.Image = ((System.Drawing.Image)(resources.GetObject("lbl_black.Image")));
+            this.lbl_black.Location = new System.Drawing.Point(347, 826);
+            this.lbl_black.Name = "lbl_black";
+            this.lbl_black.Size = new System.Drawing.Size(0, 12);
+            this.lbl_black.TabIndex = 22;
             // 
             // clsTablet
             // 
@@ -404,14 +376,25 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
-            this.Controls.Add(this.splitter2);
-            this.Controls.Add(this.splitter3);
+            this.ControlBox = false;
+            this.Controls.Add(this.tb_allowControl);
+            this.Controls.Add(this.cb_stationlist);
+            this.Controls.Add(this.btn_close);
+            this.Controls.Add(this.btn_OriPosi);
+            this.Controls.Add(this.btn_preparetion);
+            this.Controls.Add(this.elementHost1);
+            this.Controls.Add(this.btn_CarResolveSndMsg);
+            this.Controls.Add(this.btn_warning);
+            this.Controls.Add(this.btn_andonStop);
+            this.Controls.Add(this.btn_sysstatus);
+            this.Controls.Add(this.btn_continue);
+            this.Controls.Add(this.btn_EventHistory);
+            this.Controls.Add(this.btn_DrivingHistory);
+            this.Controls.Add(this.elementHost2);
+            this.Controls.Add(this.btn_errorDetect);
             this.Controls.Add(this.dgvCarStatus);
             this.Controls.Add(this.manageViewer2);
-            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.lbl_black);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.tableLayoutPanel2);
             this.ForeColor = System.Drawing.Color.Black;
             this.MaximumSize = new System.Drawing.Size(1920, 1280);
             this.MinimumSize = new System.Drawing.Size(960, 540);
@@ -420,10 +403,12 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.clsTablet_FormClosed);
             this.Load += new System.EventHandler(this.clsTablet_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvfacility)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFacility_noControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tb_allowControl.ResumeLayout(false);
+            this.tp_allowControl.ResumeLayout(false);
+            this.tp_uncontrol.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,31 +416,31 @@
 
         #endregion
         private System.Windows.Forms.Button btn_preparetion;
-        private System.Windows.Forms.Button btn_continue;
         private System.Windows.Forms.Button btn_errorDetect;
-        private System.Windows.Forms.DataGridView dgvfacility;
         private System.Windows.Forms.Button btn_sysstatus;
         private System.Windows.Forms.Button btn_EventHistory;
         private System.Windows.Forms.Button btn_DrivingHistory;
         private System.Windows.Forms.Button btn_warning;
-        private System.Windows.Forms.Button btn_OriPosi;
-        private System.Windows.Forms.Button btn_andonStop;
-        private System.Windows.Forms.Button btn_CarResolveSndMsg;
         private MapViewer.ManageViewer manageViewer1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private MapViewer.ManageViewer manageViewer2;
         private System.Windows.Forms.Label lbl_black;
-        private System.Windows.Forms.Integration.ElementHost elementHost2;
-        private onesec_btnctrl onesec_btnctrl1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ComboBox cb_stationlist;
-        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.DataGridView dgvCarStatus;
+        private System.Windows.Forms.Button btn_OriPosi;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private UserControl1 userControl11;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.DataGridView dgvCarStatus;
-        private System.Windows.Forms.Splitter splitter3;
-        private System.Windows.Forms.Splitter splitter2;
+        private System.Windows.Forms.Button btn_CarResolveSndMsg;
+        private System.Windows.Forms.Button btn_andonStop;
+        private System.Windows.Forms.Button btn_continue;
+        private System.Windows.Forms.Integration.ElementHost elementHost2;
+        private onesec_btnctrl onesec_btnctrl1;
+        private System.Windows.Forms.Button btn_close;
+        private System.Windows.Forms.ComboBox cb_stationlist;
+        private System.Windows.Forms.TabControl tb_allowControl;
+        private System.Windows.Forms.TabPage tp_allowControl;
+        private System.Windows.Forms.TabPage tp_uncontrol;
+        private System.Windows.Forms.DataGridView dgvfacility_allow;
+        private System.Windows.Forms.DataGridView dgvFacility_noControl;
     }
 }
 

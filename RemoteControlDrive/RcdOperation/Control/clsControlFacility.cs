@@ -325,7 +325,7 @@ namespace RcdOperation.Control
                     facilityName = erroredFacility.FacilityName;
 
                     FacilityStatusMsg statMsg = m_facilityStatusMsgs
-                            .Where(fStatus => fStatus.FacilityTypeID == erroredFacility.FacilityTypeID)
+                            .Where(fStatus => fStatus.FacilityTypeSID == erroredFacility.FacilityTypeID)
                             .Where(fStatus => fStatus.StatusCode == FailedCtrlVal)
                             .SingleOrDefault();
                     ctrlValName = statMsg == null ? $"制御値:{FailedCtrlVal}" : statMsg.StatusMsg;

@@ -4,3 +4,8 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemC
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.csproj.CoreCompileInputs.cache
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdOperationSystemConst\bin\Release\RcdOperationSystemConst.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdOperationSystemConst\bin\Release\RcdOperationSystemConst.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdOperationSystemConst\obj\Release\RcdOperationSystemConst.pdb

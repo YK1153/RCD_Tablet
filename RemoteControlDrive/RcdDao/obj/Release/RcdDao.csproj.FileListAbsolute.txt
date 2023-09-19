@@ -9,3 +9,14 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdDao\obj\Release\
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdDao\obj\Release\RcdDao.csproj.CopyComplete
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdDao\obj\Release\RcdDao.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdDao\obj\Release\RcdDao.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\RcdDao.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\RcdDao.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\bin\Release\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Release\RcdDao.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Release\RcdDao.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Release\RcdDao.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Release\RcdDao.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Release\RcdDao.pdb

@@ -39,6 +39,9 @@
             // 
             // dgv_drivingHistory
             // 
+            this.dgv_drivingHistory.AllowUserToAddRows = false;
+            this.dgv_drivingHistory.AllowUserToDeleteRows = false;
+            this.dgv_drivingHistory.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));

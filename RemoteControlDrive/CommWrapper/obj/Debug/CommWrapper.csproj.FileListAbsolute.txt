@@ -24,3 +24,11 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Deb
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CopyComplete
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\bin\Debug\CommWrapper.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\bin\Debug\CommWrapper.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\bin\Debug\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.pdb

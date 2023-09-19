@@ -10,3 +10,9 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Rele
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.pdb
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csprojAssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\bin\Release\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\bin\Release\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.pdb

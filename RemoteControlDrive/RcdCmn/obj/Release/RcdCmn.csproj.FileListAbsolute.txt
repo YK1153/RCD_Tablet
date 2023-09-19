@@ -7,3 +7,12 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.CopyComplete
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.dll
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\bin\Release\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\bin\Release\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\bin\Release\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\bin\Release\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Release\RcdCmn.pdb

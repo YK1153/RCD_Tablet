@@ -26,8 +26,6 @@ namespace RcdTablet
 {
     public partial class clsTablet : Form
     {
-
-
         #region ### クラス定数 ###
         /// <summary>
         /// 接続状況
@@ -162,6 +160,8 @@ namespace RcdTablet
         private List<TouchPoint> touchPoints = new List<TouchPoint>();
 
         private SortableBindingList<FacilityStatus_Tablet> m_facilityBindingList = new SortableBindingList<FacilityStatus_Tablet>();
+        private SortableBindingList<FacilityStatus_Tablet> m_facilityALBindingList = new SortableBindingList<FacilityStatus_Tablet>();
+        private SortableBindingList<FacilityStatus_Tablet> m_facilityNCBindingList = new SortableBindingList<FacilityStatus_Tablet>();
         private SortableBindingList<CarStatus_Tablet> m_carBindingList = new SortableBindingList<CarStatus_Tablet>();
         //private DRcdStatus m_managerMode = new DRcdStatus();
         //private DRcdStatusDao d_RcdStatusDao = new DRcdStatusDao();
@@ -171,7 +171,7 @@ namespace RcdTablet
         private DRcdStatusDao d_RcdStatusDao;
         private MStationDao m_StationDao;
         private MFacilityDao m_FacilityDao;
-        private CommCl m_rcdCl;
+        public CommCl m_rcdCl;
         private MPlantDao.Plant m_plant;
         private MStationDao.Station m_station;
 
@@ -182,7 +182,7 @@ namespace RcdTablet
 
         private string prepath_image = ConfigurationManager.AppSettings["IMAGE_PATH"];
 
-        private int m_STATUS_UPDATE_INTERVAL = int.Parse(ConfigurationManager.AppSettings["STATUS_UPDATE_INTERVAL"]);
+        public int m_STATUS_UPDATE_INTERVAL = int.Parse(ConfigurationManager.AppSettings["STATUS_UPDATE_INTERVAL"]);
         public int m_PLANT_ID = int.Parse(ConfigurationManager.AppSettings["C_PLANT_ID"]);
         public int m_STATION_ID = int.Parse(ConfigurationManager.AppSettings["C_STATION_ID"]);
 
@@ -222,12 +222,17 @@ namespace RcdTablet
 
             List<MStationDao.Station> m_stationDaoList = m_StationDao.GetSelectInfo(m_PLANT_ID);
             cb_stationlist.DataSource = m_stationDaoList;
-            m_station = m_stationDaoList.SingleOrDefault(s => s.StationNo == m_STATION_ID);
+            m_station = m_stationDaoList.FirstOrDefault(s => s.SID == m_STATION_ID);
             manageViewer2.setStation(m_station);
             SetMapViewer(m_stationDaoList[0].Image);
 
             userControl11.WpfButtonClick += btn_userControl_Click;
             onesec_btnctrl1.WpfButtonClick += btn_onesec_Click;
+            
+            tp_allowControl.Controls.Add(dgvfacility_allow);
+            tb_allowControl.ItemSize = new Size(80, 120);
+            tp_uncontrol.Controls.Add(dgvFacility_noControl);
+            
 
         }
         #endregion
@@ -252,8 +257,6 @@ namespace RcdTablet
             formSizeY = this.Size.Height;
 
             //elementHost2.Child 
-
-
             SubscribeControlEvents();
 
             int sizex = this.Size.Width;
@@ -261,7 +264,7 @@ namespace RcdTablet
             btn_preparetion.Enabled = false;
             btn_continue.Enabled = false;
 
-            // ConnectionPCへ接続
+            // OperationPCへ接続
             m_rcdCl = new CommCl(m_IP_ADDRESS, m_CL_PORT);
             m_rcdCl.Connected += OnConnected;
             m_rcdCl.Disconnected += OnDisconnected;
@@ -269,6 +272,8 @@ namespace RcdTablet
             m_rcdCl.Connect();
 
             m_facilityStatusMsgs = new MFacilityDao().GetFacilityStatusMsgs();
+
+            PrepareDataGridView();
 
             // 状態更新タイマー設定
             m_statInfoTimer = new System.Timers.Timer
@@ -278,15 +283,13 @@ namespace RcdTablet
             };
             m_statInfoTimer.Elapsed += OnStatInfoTimerElapsed;
 
-            
+            m_statInfoTimer.Start(); 
 
-            dgvfacility.Font = new Font(dgvfacility.Font.Name, 16);
+            dgvfacility_allow.Font = new Font(dgvfacility_allow.Font.Name, 16);
+            dgvFacility_noControl.Font = new Font(dgvfacility_allow.Font.Name, 16);
             dgvCarStatus.Font = new Font(dgvCarStatus.Font.Name, 16);
-
-            m_statInfoTimer.Start();
-
-            PrepareDataGridView();
-            SetDoubleBuffer(dgvfacility);
+            SetDoubleBuffer(dgvfacility_allow);
+            SetDoubleBuffer(dgvFacility_noControl);
             SetDoubleBuffer(dgvCarStatus);
         }
 
@@ -689,6 +692,16 @@ namespace RcdTablet
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
+        //警告ボタン
+        private void btn_warning_Click(object sender, EventArgs e)
+        {
+            using (FormWarninig FormWarninig = new FormWarninig(this))
+            {
+                FormWarninig.Tag = this;
+                FormWarninig.ShowDialog(this);
+            }
+        }
+
         /// <summary>
         /// コントロールのイベントメソッドを設定
         /// </summary>
@@ -696,9 +709,13 @@ namespace RcdTablet
         {
             //pMapViewerWrap.Paint += DrawBorder;
 
-            dgvfacility.CellPainting += dgvfacility_CellPainting;
-            dgvfacility.SelectionChanged += ClearDgvSelection;
-            dgvfacility.CellClick += dgvfacility_CellClick;
+            dgvfacility_allow.CellPainting += dgvfacility_CellPainting;
+            dgvfacility_allow.SelectionChanged += ClearDgvSelection;
+            dgvfacility_allow.CellClick += dgvfacility_CellClick;
+
+            dgvFacility_noControl.CellPainting += dgvfacility_NoControl_CellPainting;
+            dgvFacility_noControl.SelectionChanged += ClearDgvSelection;
+            dgvFacility_noControl.CellClick += dgvfacility_CellClick;
 
             //dgvShutter.CellPainting += dgvShutter_CellPainting;
             //dgvSignal.CellPainting += dgvSignal_CellPainting;
@@ -742,7 +759,7 @@ namespace RcdTablet
                 }
                 CarStatus_Tablet car = (CarStatus_Tablet)m_carBindingList[e.RowIndex];
                 int carType = car.CarType;
-                if (e.ColumnIndex == dgvfacility.Columns["StatusMsg"].Index)
+                if (e.ColumnIndex == dgvfacility_allow.Columns["StatusMsg"].Index)
                 {
                     if (carType == 0)
                     {
@@ -833,11 +850,11 @@ namespace RcdTablet
                 }
                 FacilityStatus_Tablet fac = (FacilityStatus_Tablet)m_facilityBindingList[e.RowIndex];
                 int facType = fac.FacilityTypeID;
-                if (e.ColumnIndex == dgvfacility.Columns[C_FACILITY_COL.BtnCtrl0].Index)
+                if (e.ColumnIndex == dgvfacility_allow.Columns[C_FACILITY_COL.BtnCtrl0].Index)
                 {
-                    DataGridViewDisableButtonCell dgvscell = (DataGridViewDisableButtonCell)dgvfacility.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    int facilityType_ID = m_facilityBindingList.Where(f => f.FacilityID == (string)dgvfacility.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().FacilityTypeID;
-                    int facilityCtrlVal = m_facilityBindingList.Where(f => f.FacilityID == (string)dgvfacility.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().Status;
+                    DataGridViewDisableButtonCell dgvscell = (DataGridViewDisableButtonCell)dgvfacility_allow.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    int facilityType_ID = m_facilityBindingList.Where(f => f.FacilityID == (string)dgvfacility_allow.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().FacilityTypeID;
+                    int facilityCtrlVal = m_facilityBindingList.Where(f => f.FacilityID == (string)dgvfacility_allow.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().Status;
 
                     if (facType == (int)FacilityType.Shutter)
                     {
@@ -986,6 +1003,170 @@ namespace RcdTablet
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
+        private void dgvfacility_NoControl_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                {
+                    return;
+                }
+                FacilityStatus_Tablet fac = (FacilityStatus_Tablet)m_facilityNCBindingList[e.RowIndex];
+                int facType = fac.FacilityTypeID;
+                if (e.ColumnIndex == dgvFacility_noControl.Columns[C_FACILITY_COL.BtnCtrl0].Index)
+                {
+                    DataGridViewDisableButtonCell dgvscell = (DataGridViewDisableButtonCell)dgvFacility_noControl.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    int facilityType_ID = m_facilityNCBindingList.Where(f => f.FacilityID == (string)dgvFacility_noControl.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().FacilityTypeID;
+                    int facilityCtrlVal = m_facilityNCBindingList.Where(f => f.FacilityID == (string)dgvFacility_noControl.Rows[e.RowIndex].Cells[0].Value).SingleOrDefault().Status;
+
+                    if (facType == (int)FacilityType.Shutter)
+                    {
+                        if (fac.Status == (int)shutterstatus.Close)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_close_noframe);
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)shutterstatus.Open)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_open_noframe);
+
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)shutterstatus.Working)
+                        {
+                            //最初から動作中
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_working_noB);
+                            dgvscell.FlatStyle = FlatStyle.Popup;
+                            dgvscell.Style.BackColor = Color.White;
+                            dgvscell.Enabled = false;
+                        }
+                        else if (fac.Status == (int)shutterstatus.Unknown)
+                        {
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_unknown);
+                            dgvscell.Style.BackColor = Color.White;
+                            dgvscell.Enabled = false;
+                        }
+                        else if (fac.Status == (int)shutterstatus.Error)
+                        {
+                            dgvscell.Enabled = false;
+                            dgvscell.Style.BackColor = Color.Red;
+                        }
+                    }
+                    else if (facType == (int)FacilityType.TriadSignal)
+                    {
+                        if (fac.Status == (int)TriadSignalstatus.Blue)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_carsig_blue_up);
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)TriadSignalstatus.Yellow)
+                        {
+                            dgvscell.Enabled = false;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_carsig_yellow_up);
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)TriadSignalstatus.Red)
+                        {
+                            dgvscell.Enabled = true;
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_carsig_red_up);
+                        }
+                        else if (fac.Status == (int)TriadSignalstatus.Unknown)
+                        {
+                            dgvscell.Enabled = false;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_carsig_no_light);
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)TriadSignalstatus.Error)
+                        {
+                            dgvscell.Enabled = false;
+                            dgvscell.Style.BackColor = Color.Red;
+                        }
+                    }
+                    else if (facType == (int)FacilityType.DuoSignal)
+                    {
+                        if (fac.Status == (int)DuoSignalstatus.Blue)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_wakersig_blue_up);
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)DuoSignalstatus.Lights_out)
+                        {
+                            dgvscell.Enabled = false;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_wakersig_nolight);
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)DuoSignalstatus.Red)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_wakersig_red_up);
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)DuoSignalstatus.Unknown)
+                        {
+                            dgvscell.Enabled = false;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_wakersig_nolight);
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        else if (fac.Status == (int)DuoSignalstatus.Error)
+                        {
+                            dgvscell.Enabled = false;
+                            dgvscell.Style.BackColor = Color.Red;
+                        }
+                    }
+                    else
+                    {
+                        //OFF or 消灯 or 各個
+                        if (fac.Status == (int)elsefacilitystatus.Negative)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_lamp_off);
+
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        //ON or 点灯 or 連続
+                        else if (fac.Status == (int)elsefacilitystatus.Positive)
+                        {
+                            dgvscell.Enabled = true;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_lamp_onright);
+                            dgvscell.FlatStyle = FlatStyle.Standard;
+                            dgvscell.Style.BackColor = Color.White;
+                            //btnCell.Value = "ON";
+                        }
+                        //不明
+                        else if (fac.Status == (int)elsefacilitystatus.Unknown)
+                        {
+                            dgvscell.Enabled = false;
+                            DrawImageDgvCell(e, 10, Properties.Resources.bt_unknown);
+                            dgvscell.Style.BackColor = Color.White;
+                        }
+                        //エラー
+                        else if (fac.Status == (int)elsefacilitystatus.Error)
+                        {
+                            dgvscell.Enabled = false;
+                            dgvscell.Style.BackColor = Color.Red;
+                        }
+
+                    }
+                }
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
         /// <summary>
         /// DGV設備Cellクリック時
         /// </summary>
@@ -1012,7 +1193,7 @@ namespace RcdTablet
                     return;
                 }
 
-                DataGridViewDisableButtonCell btnCell = (DataGridViewDisableButtonCell)dgvfacility.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                DataGridViewDisableButtonCell btnCell = (DataGridViewDisableButtonCell)dgvfacility_allow.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 if (btnCell.Enabled == false)
                 {
                     LOGGER.Debug($"非活性設備制御ボタン押下: 処理終了");
@@ -1055,7 +1236,7 @@ namespace RcdTablet
                 string ctrlValName = "";
 
                 FacilityStatusMsg statMsg = m_facilityStatusMsgs
-                        .Where(fStatus => fStatus.FacilityTypeID == facilityType_ID)
+                        .Where(fStatus => fStatus.FacilityTypeSID == facilityType_ID)
                         .Where(fStatus => fStatus.StatusCode == facilityCtrlVal)
                         .SingleOrDefault();
                 
@@ -1175,15 +1356,22 @@ namespace RcdTablet
             try
             {
                 string rawMsg = e.Message;
-                //LOGGER.Info(GetMsgRcvLog(Res.C_MNG_SRV, rawMsg));
 
-                //string msgId = CtrlManageMsgBase.GetMsgID(rawMsg);
-                //MsgCase msgCase = m_msgs.GetMsgCase(msgId);
+                string rcvid = CommMsgBase.GetMsgID(e.Message);
 
-                //switch (msgCase)
+                //switch (rcvid)
                 //{
+                //    case:
                 //}
-            }
+                    //LOGGER.Info(GetMsgRcvLog(Res.C_MNG_SRV, rawMsg));
+
+                    //string msgId = CtrlManageMsgBase.GetMsgID(rawMsg);
+                    //MsgCase msgCase = m_msgs.GetMsgCase(msgId);
+
+                    //switch (msgCase)
+                    //{
+                    //}
+                }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
             catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
@@ -1194,7 +1382,8 @@ namespace RcdTablet
         /// </summary>
         private void OnStatInfoTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            BeginInvoke(new Action(() =>
+            //UpdateStatusInfo();
+            Invoke(new Action(() =>
             {
                 UpdateStatusInfo();
             }));
@@ -1333,6 +1522,7 @@ namespace RcdTablet
 
         private void clsTablet_ResizeEnd(object sender, EventArgs e)
         {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
             //コントロールをすべて抽出する
             // コントロール全てを列挙
             //int WH = HC + WC;
@@ -1361,6 +1551,7 @@ namespace RcdTablet
         /// <returns>指定のコントロール上の全てのジェネリック型 Tコントロールのインスタンス</returns>
         public static List<T> GetAllControls<T>(Control top) where T : Control
         {
+
             List<T> buf = new List<T>();
             foreach (Control ctrl in top.Controls)
             {
@@ -1392,21 +1583,51 @@ namespace RcdTablet
 //                List<FacilityStatus_Tablet> facilityStatusList = new MFacilityDao().GetAllFacilityStatus_Tablet(m_PLANT_ID,m_STATION_ID);
 
 //#endif
-                foreach(FacilityStatus_Tablet newStatus in facilityStatusList)
+
+                if(tb_allowControl.SelectedIndex == 0)
                 {
-                    FacilityStatus_Tablet matchedStatus = m_facilityBindingList.SingleOrDefault(s => s.FacilityID == newStatus.FacilityID);
-                    if(matchedStatus != null)
+                    foreach (FacilityStatus_Tablet newStatus in facilityStatusList)
                     {
-                        matchedStatus.UpdatedStatus(newStatus);
-                    }
-                    else
-                    {
-                        m_facilityBindingList.Add(newStatus);
+                        FacilityStatus_Tablet matchedStatus = m_facilityALBindingList.SingleOrDefault(s => s.FacilityID == newStatus.FacilityID);
+                        if (matchedStatus != null)
+                        {
+                            matchedStatus.UpdatedStatus(newStatus);
+                        }
+                        else
+                        {
+                            if (newStatus.FacilityTypeID == (int)FacilityType.DuoSignal || newStatus.FacilityTypeID == (int)FacilityType.Shutter || newStatus.FacilityTypeID == (int)FacilityType.TriadSignal)
+                            {
+                                m_facilityNCBindingList.Add(newStatus);                                
+                            }
+                            //m_facilityBindingList.Add(newStatus);
+                        }
                     }
                 }
+                else if(tb_allowControl.SelectedIndex == 1)
+                {
+                    foreach (FacilityStatus_Tablet newStatus in facilityStatusList)
+                    {
+                        FacilityStatus_Tablet matchedStatus = m_facilityNCBindingList.SingleOrDefault(s => s.FacilityID == newStatus.FacilityID);
+                        if (matchedStatus != null)
+                        {
+                            matchedStatus.UpdatedStatus(newStatus);
+                        }
+                        else
+                        {
+                            if (newStatus.FacilityTypeID != (int)FacilityType.DuoSignal || newStatus.FacilityTypeID != (int)FacilityType.Shutter || newStatus.FacilityTypeID != (int)FacilityType.TriadSignal)
+                            {
+                                m_facilityNCBindingList.Add(newStatus);
+                            }
+                            //m_facilityBindingList.Add(newStatus);
+                        }
+                    }
 
+                }
 
-                dgvfacility.Refresh();
+                
+
+                dgvfacility_allow.Refresh();
+                dgvFacility_noControl.Refresh();
 
                 //設備配置情報取得
                 //List<Facility_Coordinate> m_Facility_Coordinate = new MFacilityDao().GetALLFacilityCoordinate((int)m_plant.SID,(int)m_station.SID);
@@ -1553,7 +1774,8 @@ namespace RcdTablet
                 }
             }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
-            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex);
+}
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
@@ -1819,8 +2041,9 @@ namespace RcdTablet
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
             try
             {
-                dgvfacility.DataSource = m_facilityBindingList;
+                dgvfacility_allow.DataSource = m_facilityBindingList;
                 dgvCarStatus.DataSource = m_carBindingList;
+                dgvFacility_noControl.DataSource = m_facilityNCBindingList;
 
                 List<DataGridViewColumn> carStatusCols = new List<DataGridViewColumn>()
                         {
@@ -1932,10 +2155,69 @@ namespace RcdTablet
                                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                             }
                         };
+                List<DataGridViewColumn> facilityNCCols = new List<DataGridViewColumn>()
+                        {
+                            new DataGridViewTextBoxColumn()
+                            {
+                                DataPropertyName = C_FACILITY_COL.ID,
+                                HeaderText = "設備ID",
+                                Name = C_FACILITY_COL.ID,
+                                MinimumWidth = 60,
+                                ReadOnly = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                            },
+                            new DataGridViewTextBoxColumn()
+                            {
+                                DataPropertyName = C_FACILITY_COL.Name,
+                                HeaderText = "設備名称",
+                                Name = C_FACILITY_COL.Name,
+                                MinimumWidth = 100,
+                                ReadOnly = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                            },
+                            new DataGridViewTextBoxColumn()
+                            {
+                                DataPropertyName = C_FACILITY_COL.StatusMsg,
+                                HeaderText = "ステータス",
+                                Name = C_FACILITY_COL.StatusMsg,
+                                MinimumWidth = 100,
+                                ReadOnly = false, Visible = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                            },
+                            new DataGridViewTextBoxColumn()
+                            {
+                                DataPropertyName = C_FACILITY_COL.Status,
+                                HeaderText = "Status",
+                                Name = C_FACILITY_COL.Status,
+                                MinimumWidth = 100,
+                                ReadOnly = false, Visible = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                            },
+                            new DataGridViewDisableButtonColumn()
+                            {
+                                HeaderText = "",
+                                Name = C_FACILITY_COL.BtnCtrl0,
+                                MinimumWidth = 100,
+                                ReadOnly = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                            },
+                            new DataGridViewDisableButtonColumn()
+                            {
+                                HeaderText = "",
+                                Name = C_FACILITY_COL.BtnCtrl1,
+                                MinimumWidth = 100,
+                                ReadOnly = false, Visible = false,
+                                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                            }
+                        };
+
                 dgvCarStatus.Columns.Clear();
                 dgvCarStatus.Columns.AddRange(carStatusCols.ToArray());
-                dgvfacility.Columns.Clear();
-                dgvfacility.Columns.AddRange(facilityCols.ToArray());
+                dgvfacility_allow.Columns.Clear();
+                dgvfacility_allow.Columns.AddRange(facilityCols.ToArray());
+                dgvFacility_noControl.Columns.Clear();
+                dgvFacility_noControl.Columns.AddRange(facilityNCCols.ToArray());
+
             }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
             catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
@@ -2122,6 +2404,19 @@ namespace RcdTablet
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                this.Close();
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+
         public void andonStop()
         {
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
@@ -2140,7 +2435,6 @@ namespace RcdTablet
             catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
-
         private void statusbtn_enable()
         {
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
@@ -2256,7 +2550,6 @@ namespace RcdTablet
         /// コントロール位置
         /// </summary>
         public Point ControlLoc { get; set; }
-
     }
 
     public class TouchPoint
@@ -2280,7 +2573,23 @@ namespace RcdTablet
         public int cxContact;
         public int cyContact;
     }
+    //class ControlList
+    //{
+    //    /// <summary>
+    //    /// コントロール名称
+    //    /// </summary>
+    //    public string ControlName { get; set; }
 
+    //    /// <summary>
+    //    /// コントロールサイズ
+    //    /// </summary>
+    //    public Size ControlSize { get; set; }
+
+    //    /// <summary>
+    //    /// コントロール位置
+    //    /// </summary>
+    //    public Point ControlLoc { get; set; }
+    //}
     //class settingLocation
     //{
     //    /// <summary>
