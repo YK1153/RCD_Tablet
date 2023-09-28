@@ -42,6 +42,11 @@
             this.dgv_drivingHistory.AllowUserToAddRows = false;
             this.dgv_drivingHistory.AllowUserToDeleteRows = false;
             this.dgv_drivingHistory.AllowUserToResizeRows = false;
+            this.dgv_drivingHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_drivingHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv_drivingHistory.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -69,8 +74,9 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv_drivingHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_drivingHistory.RowHeadersVisible = false;
             this.dgv_drivingHistory.RowTemplate.Height = 21;
-            this.dgv_drivingHistory.Size = new System.Drawing.Size(745, 359);
+            this.dgv_drivingHistory.Size = new System.Drawing.Size(1247, 583);
             this.dgv_drivingHistory.TabIndex = 0;
             this.dgv_drivingHistory.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.formResultList_ColumnHeaderMouseClick);
             // 
@@ -89,18 +95,19 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(699, 12);
+            this.btn_close.Location = new System.Drawing.Point(1074, 12);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(75, 23);
+            this.btn_close.Size = new System.Drawing.Size(202, 50);
             this.btn_close.TabIndex = 2;
             this.btn_close.Text = "閉じる";
             this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
             // DrivingHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1302, 674);
             this.Controls.Add(this.btn_close);
             this.Controls.Add(this.cmbAllOrError);
             this.Controls.Add(this.dgv_drivingHistory);

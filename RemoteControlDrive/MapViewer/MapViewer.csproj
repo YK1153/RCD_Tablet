@@ -125,10 +125,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AtrptCalc\AtrptCalc.csproj">
-      <Project>{027d4a52-90df-47ce-adad-12559d1bc44c}</Project>
-      <Name>AtrptCalc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AtrptShare\AtrptShare.csproj">
       <Project>{b3417f9b-3d1c-4525-b706-d1f4ae30f558}</Project>
       <Name>AtrptShare</Name>

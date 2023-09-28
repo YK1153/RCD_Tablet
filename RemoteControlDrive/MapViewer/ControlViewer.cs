@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Drawing.Drawing2D;
 using System.Threading;
 using AtrptShare;
-using AtrptCalc;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Data.SqlClient;

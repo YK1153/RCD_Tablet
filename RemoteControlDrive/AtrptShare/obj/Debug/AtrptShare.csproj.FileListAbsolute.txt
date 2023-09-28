@@ -22,3 +22,9 @@ C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptSh
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.csproj.CoreCompileInputs.cache
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\bin\Debug\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\bin\Debug\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Debug\AtrptShare.pdb

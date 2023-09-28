@@ -49,14 +49,26 @@ namespace MapViewer
 
         public Facility_Coordinate onfacilityCoordinate = new Facility_Coordinate();
 
+        //public List<StatusDraw> m_statusdraws = new List<StatusDraw>()
+        //{
+        //    new StatusDraw(0,Brushes.Gray),
+        //    new StatusDraw(1,Brushes.LawnGreen),
+        //    new StatusDraw(2,Brushes.Yellow),
+        //    new StatusDraw(3,Brushes.Red),
+        //    new StatusDraw(4,Brushes.Red),
+        //    new StatusDraw(5,Brushes.Red),
+        //    new StatusDraw(6,Brushes.LawnGreen),
+        //    new StatusDraw(7,Brushes.Gray),
+        //    new StatusDraw(99,Brushes.Red)
+        //};
         public List<StatusDraw> m_statusdraws = new List<StatusDraw>()
         {
             new StatusDraw(0,Brushes.Gray),
-            new StatusDraw(1,Brushes.LawnGreen),
-            new StatusDraw(2,Brushes.Yellow),
-            new StatusDraw(3,Brushes.Red),
+            new StatusDraw(1,Brushes.Gray),
+            new StatusDraw(2,Brushes.LawnGreen),
+            new StatusDraw(3,Brushes.Green),
             new StatusDraw(4,Brushes.Red),
-            new StatusDraw(5,Brushes.Red),
+            new StatusDraw(5,Brushes.Green),
             new StatusDraw(6,Brushes.LawnGreen),
             new StatusDraw(7,Brushes.Gray),
             new StatusDraw(99,Brushes.Red)

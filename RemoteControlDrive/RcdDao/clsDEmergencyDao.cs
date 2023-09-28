@@ -66,6 +66,56 @@ namespace RcdDao
         }
 
         /// <summary>
+        /// イベント履歴用
+        /// </summary>
+        /// <returns>異常検知リスト</returns>
+        public List<ErrorStatus> GetAllErrorStatus_Tablet(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT
+                            emerg.SID
+                            ,emerg.PlantSID
+                            ,emerg.StationSID
+							,stion.Name
+                            ,emerg.SolvedFlg
+                            ,emerg.StartTime
+                            ,emerg.EndTime
+                            ,emerg.BodyNo
+                            ,emerg.CamID
+                            ,emerg.StatusMsg
+                            ,emerg.ErrCode
+                        FROM
+                            D_EMERGENCY emerg
+                        Left join M_STATION stion
+						ON stion.SID = emerg.StationSID
+                        WHERE
+                            emerg.PlantSID = '{plantsid}'
+                        AND                        
+                            emerg.StationSID = '{stationsid}'
+                        AND
+                            emerg.ErrCode <> 0000
+                        ;
+                        ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<ErrorStatus> list = m_daoCommon.ConvertToListOf<ErrorStatus>(dataTable);
+
+                    return list;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
         /// 処置前異常情報を取得
         /// </summary>
         /// <returns>異常検知リスト</returns>
@@ -214,6 +264,8 @@ namespace RcdDao
             public int? PlantSID { get; set; }
 
             public int StationSID { get; set; }
+
+            public string Name { get; set; }
 
             public bool SolvedFlg { get; set; }
 

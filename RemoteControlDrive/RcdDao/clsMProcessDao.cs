@@ -70,6 +70,7 @@ namespace RcdDao
                         SELECT
 		                    SID
 		                    , StationNo
+                            , Name
                             , Image
                             , XaxisMIN
                             , XaxisMAX
@@ -79,7 +80,7 @@ namespace RcdDao
 		                    dbo.M_STATION
 	                    WHERE
                             DelFlg = 0
-		                    And PlantSID = '{plantsid}'
+		                And PlantSID = '{plantsid}'
                     ";
 
                     DataTable dataTable = helper.Execute(cmd, CommandType.Text);
@@ -223,6 +224,10 @@ namespace RcdDao
             [SqlParam(queryNames: new string[] { "Add", "Update" })]
             [Pattern("[0-9]{1,4}", "1~4桁の数字")]
             public int StationNo { get; set; }
+
+            [UserInput]
+            [SqlParam(queryNames: new string[] { "Add", "Update" })]
+            public string Name { get; set; }
 
             [UserInput]
             [SqlParam(queryNames: new string[] { "Add", "Update" })]

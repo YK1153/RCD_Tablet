@@ -12,9 +12,14 @@ namespace RcdTablet
 {
     public partial class FormImageDisplay : Form
     {
-        public FormImageDisplay()
+        private clsTablet m_parent;
+        public FormImageDisplay(clsTablet _parent)
         {
             InitializeComponent();
+            m_parent = _parent;
+            pb_image.Image = Image.FromFile("picture/" + m_parent.ImageNo + ".png");
+            pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.Size = new Size(pb_image.Size.Width + 30, pb_image.Size.Height + 30);
         }
     }
 }

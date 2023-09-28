@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1831
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcdOperation", "RcdOperation\RcdOperation.csproj", "{DCBB671D-5E3D-4247-80C6-4849A6B1F443}"
 EndProject
@@ -24,10 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcdTablet", "RcdTablet\RcdTablet.csproj", "{70443D24-F09F-4FF3-A07B-9EA1559B5B41}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		11|Any CPU = 11|Any CPU
 		11|x64 = 11|x64
@@ -47,13 +43,11 @@ Global
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.11|x86.ActiveCfg = Release|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.11|x86.Build.0 = Release|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|x64.Build.0 = Debug|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Debug|x86.Build.0 = Debug|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Release|x64.ActiveCfg = Release|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Release|x64.Build.0 = Release|Any CPU
 		{DCBB671D-5E3D-4247-80C6-4849A6B1F443}.Release|x86.ActiveCfg = Release|Any CPU
@@ -119,13 +113,11 @@ Global
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.11|x86.ActiveCfg = Release|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.11|x86.Build.0 = Release|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|x64.Build.0 = Debug|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Debug|x86.Build.0 = Debug|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Release|x64.ActiveCfg = Release|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Release|x64.Build.0 = Release|Any CPU
 		{E4D76916-AB77-4E50-AF9A-DA26953CB516}.Release|x86.ActiveCfg = Release|Any CPU
@@ -155,13 +147,11 @@ Global
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.11|x86.ActiveCfg = Release|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.11|x86.Build.0 = Release|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|x64.Build.0 = Debug|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Debug|x86.Build.0 = Debug|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Release|x64.ActiveCfg = Release|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Release|x64.Build.0 = Release|Any CPU
 		{027D4A52-90DF-47CE-ADAD-12559D1BC44C}.Release|x86.ActiveCfg = Release|Any CPU
@@ -226,5 +216,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {284EB19A-C841-4435-AFEB-B081FFCE7573}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

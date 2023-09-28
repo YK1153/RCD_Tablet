@@ -78,14 +78,17 @@ namespace RcdTablet
             //}
             cmbAllOrError.SelectedIndex = 2;
             dgv_drivingHistory.CellFormatting += formResultList_CellFormatting;
+            dgv_drivingHistory.Font = new Font("MS UI Gothic", m_parent.C_FONT_SIZE);
         }
 
         private class C_RESULT_LIST
         {
-            internal const string transporTime = "StartTIme";
+            internal const string StartTime = "StartTime";
+            internal const string EndTime = "EndTime";
             //internal const string Name = "Updated";
             internal const string boddyNumber = "BodyNo";
-            internal const string ctrlUnitSID = "StationSID";
+            internal const string StationSID = "StationSID";
+            internal const string StationName = "Name";
             internal const string result = "result";
             internal const string StatusMsg = "StatusMsg";
         }
@@ -98,28 +101,28 @@ namespace RcdTablet
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
             try
             {
-                PrepareDataGridView();
+                PrepareDataGridView(m_errorResultBindingList);
             }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
             catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
             finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
-        private void PrepareDataGridView()
+        private void PrepareDataGridView(SortableBindingList<ResultList> Rlist)
         {
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
             try
             {
-                dgv_drivingHistory.DataSource = m_errorResultBindingList;
+                dgv_drivingHistory.DataSource = Rlist;
                 //invisibleDgvList.DataSource = m_errorinvisibleBindingList;
 
                 List<DataGridViewColumn> resutListCols = new List<DataGridViewColumn>()
                 {
                             new DataGridViewTextBoxColumn()
                             {
-                                DataPropertyName = C_RESULT_LIST.ctrlUnitSID,
-                                HeaderText = "工程番号",
-                                Name = C_RESULT_LIST.ctrlUnitSID,
+                                DataPropertyName = C_RESULT_LIST.StationName,
+                                HeaderText = "工程名称",
+                                Name = C_RESULT_LIST.StationName,
                                 MinimumWidth = 80,
                                 Width = 80,
                                 ReadOnly = true,
@@ -128,9 +131,20 @@ namespace RcdTablet
                             },
                             new DataGridViewTextBoxColumn()
                             {
-                                DataPropertyName = C_RESULT_LIST.transporTime,
+                                DataPropertyName = C_RESULT_LIST.StartTime,
                                 HeaderText = "エラー発生時刻",
-                                Name = C_RESULT_LIST.transporTime,
+                                Name = C_RESULT_LIST.StartTime,
+                                MinimumWidth = 110,
+                                Width = 110,
+                                ReadOnly = true,
+                                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                                SortMode = DataGridViewColumnSortMode.Programmatic
+                            },
+                            new DataGridViewTextBoxColumn()
+                            {
+                                DataPropertyName = C_RESULT_LIST.EndTime,
+                                HeaderText = "エラー終了時刻",
+                                Name = C_RESULT_LIST.EndTime,
                                 MinimumWidth = 110,
                                 Width = 110,
                                 ReadOnly = true,
@@ -252,7 +266,7 @@ namespace RcdTablet
                     throw new UserException($"種別フィルター値取得失敗");
                 }
 
-                dgv_drivingHistory.DataSource = GetBindingListResult(val);
+                PrepareDataGridView(GetBindingListResult(val));
                 dgv_drivingHistory.Refresh();
 
                 //invisibleDgvList.DataSource = GetBindingListResult_invisible(val);
@@ -316,7 +330,7 @@ namespace RcdTablet
                         }
                     }
                 }
-                else if (this.dgv_drivingHistory.Columns[e.ColumnIndex].Name == C_RESULT_LIST.transporTime)
+                else if (this.dgv_drivingHistory.Columns[e.ColumnIndex].Name == C_RESULT_LIST.StartTime)
                 {
                     if (e.Value != null)
                     {
@@ -338,18 +352,21 @@ namespace RcdTablet
                 switch (e.ColumnIndex)
                 {
                     case 0:
-                        Column = "StartTime";
+                        Column = "Name";
                         break;
                     case 1:
-                        Column = "BodyNo";
+                        Column = "StartTime";
                         break;
                     case 2:
-                        Column = "StationSID";
+                        Column = "EndTime";
                         break;
                     case 3:
-                        Column = "result";
+                        Column = "BodyNo";
                         break;
                     case 4:
+                        Column = "result";
+                        break;
+                    case 5:
                         Column = "StatusMsg";
                         break;
                 }
@@ -369,41 +386,40 @@ namespace RcdTablet
                 {
                     case (C_ERROR_RESULT):
                         // m_errorResultBindingList;
-                        where = "ercr.result = 1";
-                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order);
+                        where = "drire.result = 1";
+                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order, m_parent.m_PLANT_ID, m_parent.m_STATION_ID);
                         foreach (ResultList row in fac)
                         {
                             list.Add(row);
                         }
                         m_errorResultBindingList = list;
-                        dgv_drivingHistory.DataSource = m_errorResultBindingList;
+                        PrepareDataGridView(m_errorResultBindingList);
                         break;
                     case (C_ALL_RESULT):
                         // m_allResultBindingList;
-                        where = "ercr.result <> -1";
-                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order);
+                        where = "drire.result <> -1";
+                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order, m_parent.m_PLANT_ID, m_parent.m_STATION_ID);
                         foreach (ResultList row in fac)
                         {
                             list.Add(row);
                         }
                         m_allResultBindingList = list;
-                        dgv_drivingHistory.DataSource = m_allResultBindingList;
+                        PrepareDataGridView(m_allResultBindingList);
                         break;
                     case (C_SUCCESS_RESULT):
                         // m_successResultBindingList;
-                        where = "ercr.result = 0";
-                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order);
+                        where = "drire.result = 0";
+                        fac = d_DrivingResultDao.GetSortResultList(where, Column, order, m_parent.m_PLANT_ID, m_parent.m_STATION_ID);
                         foreach (ResultList row in fac)
                         {
                             list.Add(row);
                         }
                         m_successResultBindingList = list;
-                        dgv_drivingHistory.DataSource = m_successResultBindingList;
+                        PrepareDataGridView(m_successResultBindingList);
                         break;
                 }
 
                 dgv_drivingHistory.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortAscending ? SortOrder.Ascending : SortOrder.Descending;
-
                 dgv_drivingHistory.Refresh();
 
             }
@@ -412,6 +428,17 @@ namespace RcdTablet
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                this.Close();
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
     }
 }
 

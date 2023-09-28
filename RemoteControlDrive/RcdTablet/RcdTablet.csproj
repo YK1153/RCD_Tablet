@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -196,10 +196,6 @@
     <ProjectReference Include="..\RcdDao\RcdDao.csproj">
       <Project>{d74e586a-2bc7-4131-8adb-2789011f58ea}</Project>
       <Name>RcdDao</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RcdOperation\RcdOperation.csproj">
-      <Project>{dcbb671d-5e3d-4247-80c6-4849a6b1f443}</Project>
-      <Name>RcdOperation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

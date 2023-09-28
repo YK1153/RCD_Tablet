@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<LogSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <OutDirectory>Log</OutDirectory>
-  <OutFileName>AppLog</OutFileName>
-  <DateFormat>yyyyMMddHH</DateFormat>
-  <LogLevel>4</LogLevel>
-  <KeepDays>0</KeepDays>
-</LogSetting>

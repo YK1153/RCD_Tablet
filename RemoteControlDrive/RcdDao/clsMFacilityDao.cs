@@ -509,6 +509,106 @@ namespace RcdDao
             }
         }
 
+        public List<FacilityStatus_Tablet> GetAllFacilityStatus_Tablet_TYPE(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = $@"
+	                    SELECT
+                            stat.SID,
+		                    stat.FacilityTypeID,
+                            msg.StatusCode,
+		                    fac.ID As FacilityID,
+                            stat.PlantSID,
+                            stat.StationSID,
+		                    stat.FacilityName,
+		                    stat.Status,
+                            stat.StatusOpt,
+		                    ISNULL(msg.StatusMsg, 'エラー')   AS StatusMsg
+	                    FROM
+		                    dbo.D_FACILITY_STATUS stat
+	                    LEFT OUTER JOIN
+		                    dbo.M_FACILITY_STATUS_MSG msg
+	                    ON
+		                    stat.FacilityTypeID = msg.FacilityTypeSID
+						AND stat.Status = msg.StatusCode
+                        LEFT OUTER JOIN
+		                    M_FACILITY fac
+	                    ON
+		                    stat.FacilityName = fac.Name
+	                    WHERE
+		                    stat.DelFlg = 0
+                        AND
+                            stat.StationSID = {stationsid}
+                        AND
+                            stat.PlantSID = {plantsid}
+                        AND
+                            stat.FacilityTypeID IN (0,1,2)";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+                    return m_daoCommon.ConvertToListOf<FacilityStatus_Tablet>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        public List<FacilityStatus_Tablet> GetAllFacilityStatus_Tablet_NC(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string query = $@"
+	                    SELECT
+                            stat.SID,
+		                    stat.FacilityTypeID,
+                            msg.StatusCode,
+		                    fac.ID As FacilityID,
+                            stat.PlantSID,
+                            stat.StationSID,
+		                    stat.FacilityName,
+		                    stat.Status,
+                            stat.StatusOpt,
+		                    ISNULL(msg.StatusMsg, 'エラー')   AS StatusMsg
+	                    FROM
+		                    dbo.D_FACILITY_STATUS stat
+	                    LEFT OUTER JOIN
+		                    dbo.M_FACILITY_STATUS_MSG msg
+	                    ON
+		                    stat.FacilityTypeID = msg.FacilityTypeSID
+						AND stat.Status = msg.StatusCode
+                        LEFT OUTER JOIN
+		                    M_FACILITY fac
+	                    ON
+		                    stat.FacilitySID = fac.SID
+	                    WHERE
+		                    stat.DelFlg = 0
+                        AND
+                            stat.StationSID = {stationsid}
+                        AND
+                            stat.PlantSID = {plantsid}
+                        AND
+                            stat.FacilityTypeID NOT IN (0,1,2)";
+
+                    DataTable dataTable = helper.Execute(query, CommandType.Text);
+                    return m_daoCommon.ConvertToListOf<FacilityStatus_Tablet>(dataTable);
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
         public List<FacilityBtnRGB> GetbtnRGB()
         {
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");

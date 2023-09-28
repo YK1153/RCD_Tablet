@@ -35,7 +35,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(clsTablet));
-            this.dgvFacility_noControl = new System.Windows.Forms.DataGridView();
             this.dgvfacility_allow = new System.Windows.Forms.DataGridView();
             this.btn_sysstatus = new System.Windows.Forms.Button();
             this.btn_EventHistory = new System.Windows.Forms.Button();
@@ -49,35 +48,18 @@
             this.dgvCarStatus = new System.Windows.Forms.DataGridView();
             this.btn_close = new System.Windows.Forms.Button();
             this.cb_stationlist = new System.Windows.Forms.ComboBox();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.userControl11 = new RcdTablet.UserControl1();
-            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
-            this.onesec_btnctrl1 = new RcdTablet.onesec_btnctrl();
             this.tb_allowControl = new System.Windows.Forms.TabControl();
-            this.tp_allowControl = new System.Windows.Forms.TabPage();
-            this.tp_uncontrol = new System.Windows.Forms.TabPage();
             this.btn_preparetion = new System.Windows.Forms.Button();
             this.btn_warning = new System.Windows.Forms.Button();
             this.btn_errorDetect = new System.Windows.Forms.Button();
             this.lbl_black = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFacility_noControl)).BeginInit();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.userControl11 = new RcdTablet.UserControl1();
+            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
+            this.onesec_btnctrl1 = new RcdTablet.onesec_btnctrl();
             ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).BeginInit();
-            this.tb_allowControl.SuspendLayout();
-            this.tp_allowControl.SuspendLayout();
-            this.tp_uncontrol.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dgvFacility_noControl
-            // 
-            this.dgvFacility_noControl.AllowUserToAddRows = false;
-            this.dgvFacility_noControl.AllowUserToDeleteRows = false;
-            this.dgvFacility_noControl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFacility_noControl.Location = new System.Drawing.Point(0, 0);
-            this.dgvFacility_noControl.Name = "dgvFacility_noControl";
-            this.dgvFacility_noControl.RowTemplate.Height = 21;
-            this.dgvFacility_noControl.Size = new System.Drawing.Size(663, 901);
-            this.dgvFacility_noControl.TabIndex = 28;
             // 
             // dgvfacility_allow
             // 
@@ -100,7 +82,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvfacility_allow.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvfacility_allow.Location = new System.Drawing.Point(0, 0);
+            this.dgvfacility_allow.Location = new System.Drawing.Point(1237, 152);
             this.dgvfacility_allow.Name = "dgvfacility_allow";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -112,7 +94,7 @@
             this.dgvfacility_allow.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvfacility_allow.RowHeadersVisible = false;
             this.dgvfacility_allow.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvfacility_allow.Size = new System.Drawing.Size(674, 903);
+            this.dgvfacility_allow.Size = new System.Drawing.Size(653, 877);
             this.dgvfacility_allow.TabIndex = 6;
             // 
             // btn_sysstatus
@@ -139,7 +121,7 @@
             // btn_DrivingHistory
             // 
             this.btn_DrivingHistory.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_DrivingHistory.Location = new System.Drawing.Point(1248, 72);
+            this.btn_DrivingHistory.Location = new System.Drawing.Point(1248, 25);
             this.btn_DrivingHistory.Name = "btn_DrivingHistory";
             this.btn_DrivingHistory.Size = new System.Drawing.Size(156, 46);
             this.btn_DrivingHistory.TabIndex = 11;
@@ -250,66 +232,23 @@
             // 
             // cb_stationlist
             // 
+            this.cb_stationlist.Font = new System.Drawing.Font("MS UI Gothic", 22F);
             this.cb_stationlist.FormattingEnabled = true;
             this.cb_stationlist.Location = new System.Drawing.Point(39, 52);
             this.cb_stationlist.Name = "cb_stationlist";
-            this.cb_stationlist.Size = new System.Drawing.Size(330, 20);
+            this.cb_stationlist.Size = new System.Drawing.Size(330, 37);
             this.cb_stationlist.TabIndex = 25;
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost1.BackColor = System.Drawing.Color.Transparent;
-            this.elementHost1.Location = new System.Drawing.Point(42, 821);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(299, 228);
-            this.elementHost1.TabIndex = 18;
-            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.elementHost1.Child = this.userControl11;
-            // 
-            // elementHost2
-            // 
-            this.elementHost2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost2.Location = new System.Drawing.Point(42, 366);
-            this.elementHost2.Name = "elementHost2";
-            this.elementHost2.Size = new System.Drawing.Size(299, 194);
-            this.elementHost2.TabIndex = 23;
-            this.elementHost2.Text = "elementHost2";
-            this.elementHost2.Child = this.onesec_btnctrl1;
+            this.cb_stationlist.SelectionChangeCommitted += new System.EventHandler(this.cb_stationlist_SelectionChangeCommitted);
             // 
             // tb_allowControl
             // 
-            this.tb_allowControl.Controls.Add(this.tp_allowControl);
-            this.tb_allowControl.Controls.Add(this.tp_uncontrol);
-            this.tb_allowControl.Location = new System.Drawing.Point(1232, 124);
+            this.tb_allowControl.Location = new System.Drawing.Point(1237, 124);
             this.tb_allowControl.Name = "tb_allowControl";
             this.tb_allowControl.SelectedIndex = 0;
-            this.tb_allowControl.Size = new System.Drawing.Size(674, 941);
+            this.tb_allowControl.Size = new System.Drawing.Size(199, 29);
             this.tb_allowControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tb_allowControl.TabIndex = 27;
-            // 
-            // tp_allowControl
-            // 
-            this.tp_allowControl.AutoScroll = true;
-            this.tp_allowControl.Controls.Add(this.dgvfacility_allow);
-            this.tp_allowControl.Location = new System.Drawing.Point(4, 22);
-            this.tp_allowControl.Name = "tp_allowControl";
-            this.tp_allowControl.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_allowControl.Size = new System.Drawing.Size(666, 915);
-            this.tp_allowControl.TabIndex = 0;
-            this.tp_allowControl.Text = "tabPage1";
-            this.tp_allowControl.UseVisualStyleBackColor = true;
-            // 
-            // tp_uncontrol
-            // 
-            this.tp_uncontrol.Controls.Add(this.dgvFacility_noControl);
-            this.tp_uncontrol.Location = new System.Drawing.Point(4, 22);
-            this.tp_uncontrol.Name = "tp_uncontrol";
-            this.tp_uncontrol.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_uncontrol.Size = new System.Drawing.Size(666, 915);
-            this.tp_uncontrol.TabIndex = 1;
-            this.tp_uncontrol.Text = "tabPage2";
-            this.tp_uncontrol.UseVisualStyleBackColor = true;
+            this.tb_allowControl.SelectedIndexChanged += new System.EventHandler(this.tballowControl_Selected);
             // 
             // btn_preparetion
             // 
@@ -370,6 +309,27 @@
             this.lbl_black.Size = new System.Drawing.Size(0, 12);
             this.lbl_black.TabIndex = 22;
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.elementHost1.BackColor = System.Drawing.Color.Transparent;
+            this.elementHost1.Location = new System.Drawing.Point(42, 821);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(299, 228);
+            this.elementHost1.TabIndex = 18;
+            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
+            this.elementHost1.Child = this.userControl11;
+            // 
+            // elementHost2
+            // 
+            this.elementHost2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.elementHost2.Location = new System.Drawing.Point(42, 366);
+            this.elementHost2.Name = "elementHost2";
+            this.elementHost2.Size = new System.Drawing.Size(299, 194);
+            this.elementHost2.TabIndex = 23;
+            this.elementHost2.Text = "elementHost2";
+            this.elementHost2.Child = this.onesec_btnctrl1;
+            // 
             // clsTablet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -377,6 +337,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.ControlBox = false;
+            this.Controls.Add(this.dgvfacility_allow);
             this.Controls.Add(this.tb_allowControl);
             this.Controls.Add(this.cb_stationlist);
             this.Controls.Add(this.btn_close);
@@ -403,12 +364,8 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.clsTablet_FormClosed);
             this.Load += new System.EventHandler(this.clsTablet_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFacility_noControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).EndInit();
-            this.tb_allowControl.ResumeLayout(false);
-            this.tp_allowControl.ResumeLayout(false);
-            this.tp_uncontrol.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,10 +394,7 @@
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.ComboBox cb_stationlist;
         private System.Windows.Forms.TabControl tb_allowControl;
-        private System.Windows.Forms.TabPage tp_allowControl;
-        private System.Windows.Forms.TabPage tp_uncontrol;
         private System.Windows.Forms.DataGridView dgvfacility_allow;
-        private System.Windows.Forms.DataGridView dgvFacility_noControl;
     }
 }
 

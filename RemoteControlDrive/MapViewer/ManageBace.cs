@@ -319,16 +319,27 @@ namespace MapViewer
         /// <param name="terminals">制御端末情報</param>
         public void FirstSet(AppLog log, string filepath)
         {
-            LOGGER = log;
-            m_bitmap = new Bitmap(filepath);
-            BACKIMAGE = new Bitmap(m_bitmap, new Size(m_bitmap.Size.Width, m_bitmap.Size.Height));
+            AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                LOGGER = log;
+                if(m_bitmap != null)
+                {
+                    m_bitmap = null;
+                    BACKIMAGE = null;
+                }
+                m_bitmap = new Bitmap(filepath);
+                BACKIMAGE = new Bitmap(m_bitmap, new Size(m_bitmap.Size.Width, m_bitmap.Size.Height));
 
-            PanelResize();
+                PanelResize();
 
-            m_CommonCordinate = new PointF(m_bitmap.Size.Width / 10 ,m_bitmap.Size.Height / 10);
-            RaitoCheck(m_CommonCordinate);
-            ChangeRatio();
-
+                m_CommonCordinate = new PointF(m_bitmap.Size.Width / 10, m_bitmap.Size.Height / 10);
+                RaitoCheck(m_CommonCordinate);
+                ChangeRatio();
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { AppLog.GetInstance().Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
 

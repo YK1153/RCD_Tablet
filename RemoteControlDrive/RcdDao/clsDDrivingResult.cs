@@ -34,11 +34,15 @@ namespace RcdDao
                             drire.StartTime
                             , drire.EndTime
                             , drire.StationSID
+                            , stion.Name
                             , drire.BodyNo
                             , drire.Result
                             , drire.StatusMsg
                         FROM 
                             D_DRIVING_RESULT drire
+                        Left JOIN
+                            M_STATION as stion
+						ON stion.SID = drire.StationSID
                         Where 
                             drire.PlantSID = '{plantsid}'
                         And 
@@ -72,11 +76,15 @@ namespace RcdDao
                             drire.StartTime
                             , drire.EndTime
                             , drire.StationSID
+                            , stion.Name
                             , drire. BodyNo
                             , drire.Result
                             , drire.StatusMsg
                         FROM 
-                            D_DRIVING_RESULT drire                        
+                            D_DRIVING_RESULT drire
+                        Left JOIN
+                            M_STATION as stion
+						ON stion.SID = drire.StationSID
                         WHERE 
                             drire.PlantSID = '{plantsid}'
                         AND 
@@ -134,7 +142,7 @@ namespace RcdDao
         //    }
         //}
 
-        public List<ResultList> GetSortResultList(string WhereStrig, string OrderColumnName, string OrderMode)
+        public List<ResultList> GetSortResultList(string WhereStrig, string OrderColumnName, string OrderMode,int plantsid, int stationsid)
         {
             LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
             try
@@ -143,18 +151,26 @@ namespace RcdDao
                 {
                     string cmd = $@"
                         SELECT 
-                            drire.Created
-                            , drire.CarNo
-                            , drire.CtrlUnitSID 
-                            , drire.result
-                            , sysme.StatusMsg
+                            drire.StartTime
+                            , drire.EndTime
+                            , drire.StationSID
+                            , stion.Name
+                            , drire.BodyNo
+                            , drire.Result
+                            , drire.StatusMsg
                         FROM 
                             D_DRIVING_RESULT drire
-                        LEFT JOIN
-                            M_SYSTEM_MESSAGE sysme
+                        Left JOIN
+                            M_STATION as stion
+                        ON 
+                            stion.SID = drire.StationSID
                         WHERE
+                            drire.PlantSID = '{plantsid}'
+                        AND 
+                            drire.StationSID = '{stationsid}'
+                        AND
                             {WhereStrig}
-                        ORDER BY ercr.{OrderColumnName} {OrderMode};
+                        ORDER BY drire.{OrderColumnName} {OrderMode};
                         ";
 
                     DataTable dataTable = helper.Execute(cmd, CommandType.Text);
@@ -249,6 +265,8 @@ namespace RcdDao
             public String BodyNo { get; set; }
 
             public int? StationSID { get; set; }
+
+            public string Name { get; set; }
 
             public int result { get; set; }
 

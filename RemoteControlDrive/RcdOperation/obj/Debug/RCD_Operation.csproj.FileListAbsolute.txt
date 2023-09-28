@@ -1,9 +1,0 @@
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.csprojAssemblyReference.cache
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.Properties.Resources.resources
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.csproj.GenerateResource.cache
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.csproj.CoreCompileInputs.cache
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\bin\Debug\RCD_Operation.exe.config
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\bin\Debug\RCD_Operation.exe
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\bin\Debug\RCD_Operation.pdb
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.exe
-C:\Users\E252936\source\repos\RCD_Operation\RCD_Operation\obj\Debug\RCD_Operation.pdb

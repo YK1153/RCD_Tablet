@@ -31,3 +31,12 @@ C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.csproj.CopyComplete
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\bin\Debug\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\bin\Debug\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\bin\Debug\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\bin\Debug\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdCmn\obj\Debug\RcdCmn.pdb

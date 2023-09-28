@@ -40,3 +40,14 @@ C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.csproj.CopyComplete
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\RcdDao.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\RcdDao.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\AtrptShare.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\RcdCmn.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\bin\Debug\RcdCmn.pdb
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.csproj.AssemblyReference.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.csproj.CoreCompileInputs.cache
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.csproj.CopyComplete
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.dll
+C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdDao\obj\Debug\RcdDao.pdb
