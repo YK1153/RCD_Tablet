@@ -74,6 +74,12 @@
     <Compile Include="clsDataGridViewDisableButtonCell.cs" />
     <Compile Include="clsDataGridViewDisableButtonColum.cs" />
     <Compile Include="clsTabletMsg.cs" />
+    <Compile Include="ColorGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorGroupBox.Designer.cs">
+      <DependentUpon>ColorGroupBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="DrivingHistory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,12 @@
     <Compile Include="FormipDelete.Designer.cs">
       <DependentUpon>FormipDelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWarninig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +124,9 @@
     </Compile>
     <Compile Include="onesec_btnctrl.xaml.cs">
       <DependentUpon>onesec_btnctrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoundButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="Form1.cs">
@@ -122,6 +137,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UC12.xaml.cs">
+      <DependentUpon>UC12.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
@@ -141,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormImageDisplay.resx">
       <DependentUpon>FormImageDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWarninig.resx">
       <DependentUpon>FormWarninig.cs</DependentUpon>
@@ -175,12 +196,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UC12.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CircleButton\CircleButton.csproj">
+      <Project>{e475d6d6-ab8d-4513-aece-8f101eb68a0e}</Project>
+      <Name>CircleButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommWrapper\CommWrapper.csproj">
       <Project>{3d7d34b6-f7dc-4b20-b785-add9e386e659}</Project>
       <Name>CommWrapper</Name>
@@ -289,6 +318,183 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\squeareblack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back_1920x1080.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_alert_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_alert_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_alert_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_alert_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_buzzer_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_buzzer_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_buzzer_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_buzzer_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_close_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_close_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_close_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_continuity_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_continuity_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_continuity_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_continuity_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_drive_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_drive_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_drive_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_drive_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_event_list_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_event_list_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_event_list_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_exit_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_exit_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_exit_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_exit_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_reset_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_reset_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_reset_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_reset_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_return_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_return_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_return_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_return_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_run_list_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_run_list_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_run_list_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_status_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_status_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_status_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_swirtch_set_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_swirtch_set_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_continuity_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_continuity_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_single_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_switch_single_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_warning_disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_warning_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_warning_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_warning_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tab_non_ope_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tab_non_ope_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tab_ope_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tab_ope_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

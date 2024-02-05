@@ -43,20 +43,12 @@ C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTabl
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\MapViewer.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdCmn.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdDao.dll
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdOperation.exe
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\AtrptShare.dll
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdOperationSystemConst.dll
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\System.Collections.Immutable.dll
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\AtrptCalc.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\CommWrapper.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\MapViewer.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdCmn.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdDao.pdb
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdOperation.pdb
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdOperation.exe.config
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\AtrptShare.pdb
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\RcdOperationSystemConst.pdb
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\bin\Release\AtrptCalc.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.csproj.AssemblyReference.cache
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\onesec_btnctrl.g.cs
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\UserControl1.g.cs
@@ -110,3 +102,6 @@ C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソース�
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.csproj.CopyComplete
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.exe
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\UC12.g.cs
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\UC12.baml
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.FormLogin.resources

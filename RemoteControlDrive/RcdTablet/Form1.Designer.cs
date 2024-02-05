@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -49,16 +50,23 @@
             this.btn_close = new System.Windows.Forms.Button();
             this.cb_stationlist = new System.Windows.Forms.ComboBox();
             this.tb_allowControl = new System.Windows.Forms.TabControl();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.btn_Conveyor = new System.Windows.Forms.Button();
+            this.rB_onesec = new RcdTablet.RoundButton();
             this.btn_preparetion = new System.Windows.Forms.Button();
             this.btn_warning = new System.Windows.Forms.Button();
             this.btn_errorDetect = new System.Windows.Forms.Button();
             this.lbl_black = new System.Windows.Forms.Label();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.userControl11 = new RcdTablet.UserControl1();
-            this.elementHost2 = new System.Windows.Forms.Integration.ElementHost();
-            this.onesec_btnctrl1 = new RcdTablet.onesec_btnctrl();
+            this.rB_Stop = new RcdTablet.RoundButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btn_tb_ope = new System.Windows.Forms.Button();
+            this.btn_tabnoope = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvfacility_allow
@@ -82,7 +90,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvfacility_allow.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvfacility_allow.Location = new System.Drawing.Point(1237, 152);
+            this.dgvfacility_allow.Location = new System.Drawing.Point(1398, 212);
             this.dgvfacility_allow.Name = "dgvfacility_allow";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -94,69 +102,74 @@
             this.dgvfacility_allow.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvfacility_allow.RowHeadersVisible = false;
             this.dgvfacility_allow.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvfacility_allow.Size = new System.Drawing.Size(653, 877);
+            this.dgvfacility_allow.Size = new System.Drawing.Size(464, 817);
             this.dgvfacility_allow.TabIndex = 6;
             // 
             // btn_sysstatus
             // 
             this.btn_sysstatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_sysstatus.Location = new System.Drawing.Point(1572, 72);
+            this.btn_sysstatus.BackgroundImage = global::RcdTablet.Properties.Resources.bt_status_up;
+            this.btn_sysstatus.Location = new System.Drawing.Point(1516, 12);
             this.btn_sysstatus.Name = "btn_sysstatus";
-            this.btn_sysstatus.Size = new System.Drawing.Size(156, 46);
+            this.btn_sysstatus.Size = new System.Drawing.Size(200, 50);
             this.btn_sysstatus.TabIndex = 9;
-            this.btn_sysstatus.Text = "システムステータス";
             this.btn_sysstatus.UseVisualStyleBackColor = true;
+            this.btn_sysstatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_EventHistory
             // 
             this.btn_EventHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_EventHistory.Location = new System.Drawing.Point(1410, 72);
+            this.btn_EventHistory.Image = global::RcdTablet.Properties.Resources.bt_event_list_up;
+            this.btn_EventHistory.Location = new System.Drawing.Point(1301, 12);
             this.btn_EventHistory.Name = "btn_EventHistory";
-            this.btn_EventHistory.Size = new System.Drawing.Size(156, 46);
+            this.btn_EventHistory.Size = new System.Drawing.Size(200, 50);
             this.btn_EventHistory.TabIndex = 10;
-            this.btn_EventHistory.Text = "イベント履歴";
             this.btn_EventHistory.UseVisualStyleBackColor = true;
             this.btn_EventHistory.Click += new System.EventHandler(this.btnEventHistory_Click);
+            this.btn_EventHistory.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_DrivingHistory
             // 
             this.btn_DrivingHistory.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_DrivingHistory.Location = new System.Drawing.Point(1248, 25);
+            this.btn_DrivingHistory.BackgroundImage = global::RcdTablet.Properties.Resources.bt_run_list_up;
+            this.btn_DrivingHistory.Location = new System.Drawing.Point(1071, 12);
             this.btn_DrivingHistory.Name = "btn_DrivingHistory";
-            this.btn_DrivingHistory.Size = new System.Drawing.Size(156, 46);
+            this.btn_DrivingHistory.Size = new System.Drawing.Size(200, 50);
             this.btn_DrivingHistory.TabIndex = 11;
-            this.btn_DrivingHistory.Text = "走行履歴";
             this.btn_DrivingHistory.UseVisualStyleBackColor = true;
             this.btn_DrivingHistory.Click += new System.EventHandler(this.btnDrivingHistory_Click);
+            this.btn_DrivingHistory.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // manageViewer2
             // 
-            this.manageViewer2.Location = new System.Drawing.Point(370, 124);
+            this.manageViewer2.Location = new System.Drawing.Point(360, 107);
             this.manageViewer2.Name = "manageViewer2";
-            this.manageViewer2.Size = new System.Drawing.Size(830, 753);
+            this.manageViewer2.Size = new System.Drawing.Size(976, 741);
             this.manageViewer2.TabIndex = 20;
             // 
             // btn_OriPosi
             // 
             this.btn_OriPosi.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_OriPosi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_OriPosi.BackgroundImage = global::RcdTablet.Properties.Resources.bt_return_disable;
             this.btn_OriPosi.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_OriPosi.Location = new System.Drawing.Point(193, 566);
+            this.btn_OriPosi.Location = new System.Drawing.Point(39, 642);
             this.btn_OriPosi.Name = "btn_OriPosi";
-            this.btn_OriPosi.Size = new System.Drawing.Size(148, 92);
+            this.btn_OriPosi.Size = new System.Drawing.Size(120, 90);
             this.btn_OriPosi.TabIndex = 13;
-            this.btn_OriPosi.Text = "原位置復帰";
-            this.btn_OriPosi.UseVisualStyleBackColor = true;
+            this.btn_OriPosi.UseVisualStyleBackColor = false;
             this.btn_OriPosi.Click += new System.EventHandler(this.btn_OriPosi_Click);
+            this.btn_OriPosi.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_CarResolveSndMsg
             // 
             this.btn_CarResolveSndMsg.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_CarResolveSndMsg.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_CarResolveSndMsg.Location = new System.Drawing.Point(196, 705);
+            this.btn_CarResolveSndMsg.Image = global::RcdTablet.Properties.Resources.bt_reset_disable;
+            this.btn_CarResolveSndMsg.Location = new System.Drawing.Point(184, 810);
             this.btn_CarResolveSndMsg.Name = "btn_CarResolveSndMsg";
-            this.btn_CarResolveSndMsg.Size = new System.Drawing.Size(145, 92);
+            this.btn_CarResolveSndMsg.Size = new System.Drawing.Size(120, 90);
             this.btn_CarResolveSndMsg.TabIndex = 17;
-            this.btn_CarResolveSndMsg.Text = "異常リセット";
             this.btn_CarResolveSndMsg.UseVisualStyleBackColor = true;
             this.btn_CarResolveSndMsg.Click += new System.EventHandler(this.btnCarResolveSndMsg_Click);
             // 
@@ -164,25 +177,27 @@
             // 
             this.btn_andonStop.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_andonStop.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_andonStop.Location = new System.Drawing.Point(42, 705);
+            this.btn_andonStop.Image = global::RcdTablet.Properties.Resources.bt_buzzer_disable;
+            this.btn_andonStop.Location = new System.Drawing.Point(38, 812);
             this.btn_andonStop.Name = "btn_andonStop";
-            this.btn_andonStop.Size = new System.Drawing.Size(148, 92);
+            this.btn_andonStop.Size = new System.Drawing.Size(120, 90);
             this.btn_andonStop.TabIndex = 16;
-            this.btn_andonStop.Text = "ブザー停止";
             this.btn_andonStop.UseVisualStyleBackColor = true;
             this.btn_andonStop.Click += new System.EventHandler(this.btn_andonStop_Click);
+            this.btn_andonStop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_continue
             // 
             this.btn_continue.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_continue.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_continue.Location = new System.Drawing.Point(39, 566);
+            this.btn_continue.Image = global::RcdTablet.Properties.Resources.bt_continuity_disable;
+            this.btn_continue.Location = new System.Drawing.Point(183, 642);
             this.btn_continue.Name = "btn_continue";
-            this.btn_continue.Size = new System.Drawing.Size(148, 92);
+            this.btn_continue.Size = new System.Drawing.Size(120, 90);
             this.btn_continue.TabIndex = 4;
-            this.btn_continue.Text = "連続";
             this.btn_continue.UseVisualStyleBackColor = true;
             this.btn_continue.Click += new System.EventHandler(this.btn_Continue_Click);
+            this.btn_continue.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // dgvCarStatus
             // 
@@ -205,7 +220,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvCarStatus.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgvCarStatus.Location = new System.Drawing.Point(370, 901);
+            this.dgvCarStatus.Location = new System.Drawing.Point(360, 917);
             this.dgvCarStatus.Name = "dgvCarStatus";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -216,73 +231,125 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvCarStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvCarStatus.RowHeadersVisible = false;
-            this.dgvCarStatus.Size = new System.Drawing.Size(830, 146);
+            this.dgvCarStatus.RowHeadersWidth = 51;
+            this.dgvCarStatus.Size = new System.Drawing.Size(957, 130);
             this.dgvCarStatus.TabIndex = 7;
             // 
             // btn_close
             // 
             this.btn_close.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_close.Location = new System.Drawing.Point(1734, 72);
+            this.btn_close.Image = global::RcdTablet.Properties.Resources.bt_close_up;
+            this.btn_close.Location = new System.Drawing.Point(1740, 14);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(156, 46);
             this.btn_close.TabIndex = 24;
-            this.btn_close.Text = "閉じる";
             this.btn_close.UseVisualStyleBackColor = true;
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            this.btn_close.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // cb_stationlist
             // 
             this.cb_stationlist.Font = new System.Drawing.Font("MS UI Gothic", 22F);
             this.cb_stationlist.FormattingEnabled = true;
-            this.cb_stationlist.Location = new System.Drawing.Point(39, 52);
+            this.cb_stationlist.Location = new System.Drawing.Point(26, 24);
             this.cb_stationlist.Name = "cb_stationlist";
-            this.cb_stationlist.Size = new System.Drawing.Size(330, 37);
+            this.cb_stationlist.Size = new System.Drawing.Size(591, 37);
             this.cb_stationlist.TabIndex = 25;
             this.cb_stationlist.SelectionChangeCommitted += new System.EventHandler(this.cb_stationlist_SelectionChangeCommitted);
             // 
             // tb_allowControl
             // 
-            this.tb_allowControl.Location = new System.Drawing.Point(1237, 124);
+            this.tb_allowControl.ImageList = this.imageList1;
+            this.tb_allowControl.ItemSize = new System.Drawing.Size(140, 46);
+            this.tb_allowControl.Location = new System.Drawing.Point(964, 55);
+            this.tb_allowControl.Margin = new System.Windows.Forms.Padding(0);
             this.tb_allowControl.Name = "tb_allowControl";
+            this.tb_allowControl.Padding = new System.Drawing.Point(0, 0);
             this.tb_allowControl.SelectedIndex = 0;
-            this.tb_allowControl.Size = new System.Drawing.Size(199, 29);
+            this.tb_allowControl.Size = new System.Drawing.Size(334, 46);
             this.tb_allowControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tb_allowControl.TabIndex = 27;
             this.tb_allowControl.SelectedIndexChanged += new System.EventHandler(this.tballowControl_Selected);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "tab_non_ope_off.png");
+            this.imageList1.Images.SetKeyName(1, "tab_non_ope_on.png");
+            this.imageList1.Images.SetKeyName(2, "tab_ope_off.png");
+            this.imageList1.Images.SetKeyName(3, "tab_ope_on.png");
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Location = new System.Drawing.Point(743, 1);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(200, 100);
+            this.elementHost1.TabIndex = 29;
+            this.elementHost1.Child = null;
+            // 
+            // btn_Conveyor
+            // 
+            this.btn_Conveyor.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_Conveyor.Font = new System.Drawing.Font("MS UI Gothic", 22F);
+            this.btn_Conveyor.Location = new System.Drawing.Point(28, 578);
+            this.btn_Conveyor.Name = "btn_Conveyor";
+            this.btn_Conveyor.Size = new System.Drawing.Size(280, 58);
+            this.btn_Conveyor.TabIndex = 28;
+            this.btn_Conveyor.Text = "コンベア停止解除";
+            this.btn_Conveyor.UseVisualStyleBackColor = true;
+            this.btn_Conveyor.Click += new System.EventHandler(this.btn_Conveyor_Click);
+            // 
+            // rB_onesec
+            // 
+            this.rB_onesec.FlatAppearance.BorderSize = 0;
+            this.rB_onesec.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.rB_onesec.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.rB_onesec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rB_onesec.Image = global::RcdTablet.Properties.Resources.bt_switch_right;
+            this.rB_onesec.Location = new System.Drawing.Point(107, 442);
+            this.rB_onesec.Name = "rB_onesec";
+            this.rB_onesec.Round = 130;
+            this.rB_onesec.Size = new System.Drawing.Size(130, 130);
+            this.rB_onesec.TabIndex = 30;
+            this.rB_onesec.UseVisualStyleBackColor = true;
+            // 
             // btn_preparetion
             // 
             this.btn_preparetion.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_preparetion.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_preparetion.BackgroundImage")));
+            this.btn_preparetion.BackgroundImage = global::RcdTablet.Properties.Resources.bt_drive_disable;
             this.btn_preparetion.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_preparetion.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_preparetion.Location = new System.Drawing.Point(39, 255);
+            this.btn_preparetion.Location = new System.Drawing.Point(30, 321);
             this.btn_preparetion.Name = "btn_preparetion";
-            this.btn_preparetion.Size = new System.Drawing.Size(299, 96);
+            this.btn_preparetion.Size = new System.Drawing.Size(280, 80);
             this.btn_preparetion.TabIndex = 2;
-            this.btn_preparetion.Text = "運転準備";
             this.btn_preparetion.UseVisualStyleBackColor = true;
             this.btn_preparetion.Click += new System.EventHandler(this.btn_preparetion_Click);
+            this.btn_preparetion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
+            this.btn_preparetion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_warning
             // 
             this.btn_warning.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_warning.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_warning.BackgroundImage")));
+            this.btn_warning.BackgroundImage = global::RcdTablet.Properties.Resources.bt_warning_disable;
             this.btn_warning.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_warning.FlatAppearance.BorderSize = 0;
             this.btn_warning.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_warning.Location = new System.Drawing.Point(190, 98);
+            this.btn_warning.Location = new System.Drawing.Point(181, 152);
             this.btn_warning.Name = "btn_warning";
-            this.btn_warning.Size = new System.Drawing.Size(145, 96);
+            this.btn_warning.Size = new System.Drawing.Size(120, 90);
             this.btn_warning.TabIndex = 12;
-            this.btn_warning.Text = "警告";
             this.btn_warning.UseVisualStyleBackColor = true;
             this.btn_warning.Click += new System.EventHandler(this.btn_warning_Click);
+            this.btn_warning.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
+            this.btn_warning.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // btn_errorDetect
             // 
             this.btn_errorDetect.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btn_errorDetect.BackColor = System.Drawing.SystemColors.Control;
-            this.btn_errorDetect.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_errorDetect.BackgroundImage")));
+            this.btn_errorDetect.BackgroundImage = global::RcdTablet.Properties.Resources.bt_alert_disable;
             this.btn_errorDetect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_errorDetect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btn_errorDetect.FlatAppearance.BorderSize = 2;
@@ -290,14 +357,14 @@
             this.btn_errorDetect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_errorDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_errorDetect.Font = new System.Drawing.Font("MS UI Gothic", 22F);
-            this.btn_errorDetect.Location = new System.Drawing.Point(39, 98);
+            this.btn_errorDetect.Location = new System.Drawing.Point(43, 152);
             this.btn_errorDetect.Margin = new System.Windows.Forms.Padding(0);
             this.btn_errorDetect.Name = "btn_errorDetect";
-            this.btn_errorDetect.Size = new System.Drawing.Size(148, 96);
+            this.btn_errorDetect.Size = new System.Drawing.Size(120, 90);
             this.btn_errorDetect.TabIndex = 5;
-            this.btn_errorDetect.Text = "!異常検知";
             this.btn_errorDetect.UseVisualStyleBackColor = false;
             this.btn_errorDetect.Click += new System.EventHandler(this.btn_errorDetect_Click);
+            this.btn_errorDetect.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_General_MouseDown);
             // 
             // lbl_black
             // 
@@ -309,34 +376,87 @@
             this.lbl_black.Size = new System.Drawing.Size(0, 12);
             this.lbl_black.TabIndex = 22;
             // 
-            // elementHost1
+            // rB_Stop
             // 
-            this.elementHost1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost1.BackColor = System.Drawing.Color.Transparent;
-            this.elementHost1.Location = new System.Drawing.Point(42, 821);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(299, 228);
-            this.elementHost1.TabIndex = 18;
-            this.elementHost1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.elementHost1_ChildChanged);
-            this.elementHost1.Child = this.userControl11;
+            this.rB_Stop.BackgroundImage = global::RcdTablet.Properties.Resources.bt_exit_on;
+            this.rB_Stop.FlatAppearance.BorderSize = 0;
+            this.rB_Stop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.rB_Stop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.rB_Stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rB_Stop.Location = new System.Drawing.Point(107, 917);
+            this.rB_Stop.Name = "rB_Stop";
+            this.rB_Stop.Round = 130;
+            this.rB_Stop.Size = new System.Drawing.Size(130, 130);
+            this.rB_Stop.TabIndex = 32;
+            this.rB_Stop.UseVisualStyleBackColor = true;
             // 
-            // elementHost2
+            // pictureBox1
             // 
-            this.elementHost2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.elementHost2.Location = new System.Drawing.Point(42, 366);
-            this.elementHost2.Name = "elementHost2";
-            this.elementHost2.Size = new System.Drawing.Size(299, 194);
-            this.elementHost2.TabIndex = 23;
-            this.elementHost2.Text = "elementHost2";
-            this.elementHost2.Child = this.onesec_btnctrl1;
+            this.pictureBox1.BackgroundImage = global::RcdTablet.Properties.Resources.bt_switch_single_on;
+            this.pictureBox1.Location = new System.Drawing.Point(214, 407);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(96, 37);
+            this.pictureBox1.TabIndex = 34;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = global::RcdTablet.Properties.Resources.bt_switch_continuity_on;
+            this.pictureBox2.Location = new System.Drawing.Point(30, 407);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(96, 37);
+            this.pictureBox2.TabIndex = 35;
+            this.pictureBox2.TabStop = false;
+            // 
+            // btn_tb_ope
+            // 
+            this.btn_tb_ope.BackColor = System.Drawing.Color.Transparent;
+            this.btn_tb_ope.BackgroundImage = global::RcdTablet.Properties.Resources.tab_ope_on;
+            this.btn_tb_ope.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btn_tb_ope.FlatAppearance.BorderSize = 0;
+            this.btn_tb_ope.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tb_ope.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tb_ope.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_tb_ope.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tb_ope.Location = new System.Drawing.Point(1422, 152);
+            this.btn_tb_ope.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_tb_ope.Name = "btn_tb_ope";
+            this.btn_tb_ope.Size = new System.Drawing.Size(140, 46);
+            this.btn_tb_ope.TabIndex = 36;
+            this.btn_tb_ope.UseVisualStyleBackColor = false;
+            // 
+            // btn_tabnoope
+            // 
+            this.btn_tabnoope.BackColor = System.Drawing.Color.Transparent;
+            this.btn_tabnoope.BackgroundImage = global::RcdTablet.Properties.Resources.tab_non_ope_off;
+            this.btn_tabnoope.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btn_tabnoope.FlatAppearance.BorderSize = 0;
+            this.btn_tabnoope.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tabnoope.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tabnoope.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_tabnoope.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
+            this.btn_tabnoope.Location = new System.Drawing.Point(1590, 152);
+            this.btn_tabnoope.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_tabnoope.Name = "btn_tabnoope";
+            this.btn_tabnoope.Size = new System.Drawing.Size(140, 46);
+            this.btn_tabnoope.TabIndex = 37;
+            this.btn_tabnoope.UseVisualStyleBackColor = false;
             // 
             // clsTablet
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1904, 1041);
+            this.BackgroundImage = global::RcdTablet.Properties.Resources.back_1920x1080;
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_tabnoope);
+            this.Controls.Add(this.btn_tb_ope);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.rB_Stop);
+            this.Controls.Add(this.rB_onesec);
+            this.Controls.Add(this.btn_Conveyor);
             this.Controls.Add(this.dgvfacility_allow);
             this.Controls.Add(this.tb_allowControl);
             this.Controls.Add(this.cb_stationlist);
@@ -351,13 +471,13 @@
             this.Controls.Add(this.btn_continue);
             this.Controls.Add(this.btn_EventHistory);
             this.Controls.Add(this.btn_DrivingHistory);
-            this.Controls.Add(this.elementHost2);
             this.Controls.Add(this.btn_errorDetect);
             this.Controls.Add(this.dgvCarStatus);
             this.Controls.Add(this.manageViewer2);
             this.Controls.Add(this.lbl_black);
             this.ForeColor = System.Drawing.Color.Black;
-            this.MaximumSize = new System.Drawing.Size(1920, 1280);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.MinimumSize = new System.Drawing.Size(960, 540);
             this.Name = "clsTablet";
             this.Text = "clsTablet";
@@ -366,6 +486,8 @@
             this.Load += new System.EventHandler(this.clsTablet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvfacility_allow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -385,16 +507,22 @@
         private System.Windows.Forms.DataGridView dgvCarStatus;
         private System.Windows.Forms.Button btn_OriPosi;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private UserControl1 userControl11;
+        //private UserControl1 userControl11;
         private System.Windows.Forms.Button btn_CarResolveSndMsg;
         private System.Windows.Forms.Button btn_andonStop;
         private System.Windows.Forms.Button btn_continue;
-        private System.Windows.Forms.Integration.ElementHost elementHost2;
-        private onesec_btnctrl onesec_btnctrl1;
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.ComboBox cb_stationlist;
         private System.Windows.Forms.TabControl tb_allowControl;
         private System.Windows.Forms.DataGridView dgvfacility_allow;
+        private System.Windows.Forms.Button btn_Conveyor;
+        private RoundButton rB_onesec;
+        private RoundButton rB_Stop;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button btn_tb_ope;
+        private System.Windows.Forms.Button btn_tabnoope;
     }
 }
 

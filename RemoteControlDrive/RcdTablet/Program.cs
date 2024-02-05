@@ -47,6 +47,8 @@ namespace RcdTablet
             {
                 if (hasHandle)
                 {
+                    Application.Exit();
+                    Environment.Exit(0);
                     //ミューテックスを解放する
                     mutex.ReleaseMutex();
                 }

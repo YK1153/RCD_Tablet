@@ -22,11 +22,9 @@ C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\MapViewer\obj\Relea
 C:\Users\admin\Desktop\RemoteControlDrive\RemoteControlDrive\MapViewer\obj\Release\MapViewer.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\MapViewer.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\MapViewer.pdb
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\AtrptCalc.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\AtrptShare.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\RcdCmn.dll
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\RcdDao.dll
-C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\AtrptCalc.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\AtrptShare.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\RcdCmn.pdb
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\MapViewer\bin\Release\RcdDao.pdb

@@ -40,3 +40,11 @@ C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソース�
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CopyComplete
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.dll
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.pdb
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\bin\Debug\CommWrapper.dll
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\bin\Debug\CommWrapper.pdb
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\bin\Debug\RcdCmn.dll
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csprojAssemblyReference.cache
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.csproj.CopyComplete
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.dll
+C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\CommWrapper\obj\Debug\CommWrapper.pdb

@@ -131,7 +131,8 @@ namespace RcdDao
                             emerg.SID
                             ,emerg.PlantSID
                             ,emerg.StationSID
-                            ,emerg.SolvedFlg
+                            ,stion.Name
+                            ,emerg.SolvedFlg                            
                             ,emerg.StartTime
                             ,emerg.EndTime
                             ,emerg.BodyNo
@@ -140,6 +141,8 @@ namespace RcdDao
                             ,emerg.ErrCode
                         FROM
                             D_EMERGENCY emerg
+                        Left join M_STATION stion
+						ON stion.SID = emerg.StationSID
                         WHERE
                             emerg.PlantSID = '{plantsid}'
                         AND                        
@@ -163,6 +166,59 @@ namespace RcdDao
                 LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
             }
         }
+
+        /// <summary>
+        /// 通信関係異常情報を取得
+        /// </summary>
+        /// <returns>異常検知リスト</returns>
+        public List<ErrorStatus> GetAllErrorStatus_Connect(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT
+                            emerg.SID
+                            ,emerg.PlantSID
+                            ,emerg.StationSID
+                            ,stion.Name
+                            ,emerg.SolvedFlg
+                            ,emerg.StartTime
+                            ,emerg.EndTime
+                            ,emerg.BodyNo
+                            ,emerg.CamID
+                            ,emerg.StatusMsg
+                            ,emerg.ErrCode
+                        FROM
+                            D_EMERGENCY emerg
+                        Left join M_STATION stion
+						ON stion.SID = emerg.StationSID
+                        WHERE
+                            emerg.PlantSID = '{plantsid}'
+                        AND                        
+                            emerg.StationSID = '{stationsid}'
+                        AND 
+                            emerg.SolvedFlg = 0
+                        AND
+                            emerg.ErrCode <> 00000;
+                        ;
+                        ";
+
+                    DataTable dataTable = helper.Execute(cmd, CommandType.Text);
+
+                    List<ErrorStatus> list = m_daoCommon.ConvertToListOf<ErrorStatus>(dataTable);
+
+                    return list;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
 
         /// <summary>
         /// 処置前異常情報を取得
@@ -238,6 +294,46 @@ namespace RcdDao
                             emerg.SolvedFlg = 0
                         AND
                             emerg.ErrCode = 00000
+                    ;
+                    ";
+
+                    DataTable result = helper.Execute(cmd, CommandType.Text);
+
+                    return result.Rows.Count >= 1;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+        }
+
+        /// <summary>
+        /// 異常検知有無取得
+        /// </summary>
+        /// <returns>異常ステータス(走行停止)が存在する場合True</returns>
+        public bool HasErrors_connect(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT 
+                            TOP 1 emerg.SID
+                        FROM
+                            D_EMERGENCY emerg
+                        WHERE
+                            emerg.PlantSID = '{plantsid}'
+                        AND
+                            emerg.StationSID = '{stationsid}'
+                        AND 
+                            emerg.DelFlg = 0
+                        AND 
+                            emerg.SolvedFlg = 0
+                        AND
+                            emerg.ErrCode <> 00000
                     ;
                     ";
 

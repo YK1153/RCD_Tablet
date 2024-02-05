@@ -75,6 +75,7 @@ namespace RcdDao
                             ,ControlStatus
                             ,ContinueStatus
                             ,OriPosiStatus
+                            ,ConveyorStatus
                         FROM
                             dbo.D_RCD_STATUS
                         WHERE
@@ -113,6 +114,8 @@ namespace RcdDao
             public int ContinueStatus { get; set; }
 
             public int OriPosiStatus { get; set; }
+
+            public int ConveyorStatus { get; set; }
 
         }
 

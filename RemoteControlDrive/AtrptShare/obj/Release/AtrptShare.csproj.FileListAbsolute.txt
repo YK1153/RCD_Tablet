@@ -20,3 +20,4 @@ C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソース�
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csproj.CoreCompileInputs.cache
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.dll
 C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソースコード\Tablet\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.pdb
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\AtrptShare\obj\Release\AtrptShare.csproj.AssemblyReference.cache

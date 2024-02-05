@@ -118,8 +118,35 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="back_1920x1080" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\back_1920x1080.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="blackimage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blackimage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_alert_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_alert_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_alert_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_alert_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_alert_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_alert_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_alert_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_alert_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_buzzer_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_buzzer_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_buzzer_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_buzzer_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_buzzer_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_buzzer_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_buzzer_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_buzzer_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bt_carsig_blue_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_carsig_blue_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,8 +160,62 @@
   <data name="bt_carsig_yellow_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_carsig_yellow_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bt_close_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_close_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_close_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_close_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bt_close_noframe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_close_noframe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_close_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_close_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_continuity_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_continuity_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_continuity_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_continuity_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_continuity_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_continuity_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_continuity_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_continuity_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_drive_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_drive_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_drive_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_drive_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_drive_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_drive_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_drive_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_drive_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_event_list_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_event_list_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_event_list_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_event_list_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_event_list_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_event_list_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_exit_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_exit_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_exit_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_exit_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_exit_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_exit_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_exit_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_exit_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bt_lamp_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_lamp_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,8 +223,80 @@
   <data name="bt_lamp_onright" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_lamp_onright.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bt_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bt_open_noframe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_open_noframe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_reset_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_reset_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_reset_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_reset_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_reset_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_reset_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_reset_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_reset_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_return_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_return_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_return_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_return_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_return_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_return_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_return_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_return_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_run_list_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_run_list_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_run_list_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_run_list_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_run_list_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_run_list_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_status_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_status_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_status_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_status_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_status_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_status_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_swirtch_set_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_swirtch_set_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_swirtch_set_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_swirtch_set_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_continuity_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_continuity_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_continuity_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_continuity_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_single_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_single_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_switch_single_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_switch_single_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bt_unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,6 +310,18 @@
   <data name="bt_wakersig_red_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_wakersig_red_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bt_warning_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_warning_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_warning_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_warning_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_warning_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_warning_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_warning_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_warning_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bt_working_noB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_working_noB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -165,6 +330,18 @@
   </data>
   <data name="squeareblack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\squeareblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tab_non_ope_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tab_non_ope_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tab_non_ope_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tab_non_ope_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tab_ope_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tab_ope_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tab_ope_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tab_ope_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="各個連続つまみ_各個" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\各個連続つまみ_各個.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -37,7 +37,7 @@
             // 
             this.lbl_WarningDetectMsg.AutoSize = true;
             this.lbl_WarningDetectMsg.Font = new System.Drawing.Font("MS UI Gothic", 32F);
-            this.lbl_WarningDetectMsg.ForeColor = System.Drawing.Color.Black;
+            this.lbl_WarningDetectMsg.ForeColor = System.Drawing.Color.White;
             this.lbl_WarningDetectMsg.Location = new System.Drawing.Point(285, 32);
             this.lbl_WarningDetectMsg.Name = "lbl_WarningDetectMsg";
             this.lbl_WarningDetectMsg.Size = new System.Drawing.Size(191, 43);
@@ -57,6 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(40)))), ((int)(((byte)(61)))));
             this.ClientSize = new System.Drawing.Size(800, 355);
             this.Controls.Add(this.dgv_warningList);
             this.Controls.Add(this.lbl_WarningDetectMsg);

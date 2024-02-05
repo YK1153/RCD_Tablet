@@ -154,6 +154,14 @@ namespace RcdTablet
 
             public FacCtrlSndMsg() : base(msgId) { }
         }
+        [DisplayName("コンベア停止解消通知")]
+        public class CovMoveSnd:ManagerSndMsg
+        {
+            private const string msgId = "CA";
+
+            public CovMoveSnd() : base(msgId) { }
+
+        }
         #endregion
 
         /// <summary>

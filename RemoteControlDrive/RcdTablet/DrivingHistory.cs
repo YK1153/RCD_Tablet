@@ -79,6 +79,9 @@ namespace RcdTablet
             cmbAllOrError.SelectedIndex = 2;
             dgv_drivingHistory.CellFormatting += formResultList_CellFormatting;
             dgv_drivingHistory.Font = new Font("MS UI Gothic", m_parent.C_FONT_SIZE);
+
+            dgv_drivingHistory.RowsDefaultCellStyle.BackColor = Color.White;
+            dgv_drivingHistory.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245,245,245);
         }
 
         private class C_RESULT_LIST

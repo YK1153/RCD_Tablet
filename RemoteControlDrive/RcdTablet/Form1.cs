@@ -22,6 +22,9 @@ using System.Configuration;
 using static RcdDao.DCarStatus;
 using static RcdTablet.Utils;
 using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
+using System.Resources;
+
 namespace RcdTablet
 {
     public partial class clsTablet : Form
@@ -184,6 +187,7 @@ namespace RcdTablet
         private string m_IP_ADDRESS = ConfigurationManager.AppSettings["m_IP_ADDRESS"];
         private int m_CL_PORT = int.Parse(ConfigurationManager.AppSettings["m_CL_PORT"]);
         private bool m_hasErrors = false;
+        private bool m_hasErrorsCon = false;
         private bool errorflag = false;
 
         private string prepath_image = ConfigurationManager.AppSettings["IMAGE_PATH"];
@@ -210,7 +214,7 @@ namespace RcdTablet
         /// </summary>
         bool confirmed;
 
-
+        private int selectedtabHistry = 999;
 
 
         private int WC;
@@ -233,6 +237,7 @@ namespace RcdTablet
             
 
             m_stationDaoList = m_StationDao.GetSelectInfo(m_PLANT_ID);
+            LOGGER.Info("工程情報を取得しました。");
 
             List<string> m_stationNameList = m_stationDaoList.Select(m =>
             {
@@ -240,15 +245,41 @@ namespace RcdTablet
             }
                 ).ToList();
             cb_stationlist.DataSource = m_stationNameList;
+            
             m_station = m_stationDaoList.FirstOrDefault(s => s.SID == m_STATION_ID);
             manageViewer2.setStation(m_station);
-            SetMapViewer(m_stationDaoList.SingleOrDefault(s => s.SID == m_station.SID).Image);
+            //SetMapViewer(m_stationDaoList.SingleOrDefault(s => s.SID == m_station.SID).Image);
 
-            userControl11.WpfButtonClick += btn_userControl_Click;
-            onesec_btnctrl1.WpfButtonClick += btn_onesec_Click;
+            //userControl11.WpfButtonClick += btn_userControl_Click;
+            //onesec_btnctrl1.WpfButtonClick += btn_onesec_Click;
 
-            tb_allowControl.TabPages.Add(new TabPage("制御可能"));
-            tb_allowControl.TabPages.Add(new TabPage("制御不可"));
+            tb_allowControl.TabPages.Add(new TabPage(""));
+            tb_allowControl.TabPages.Add(new TabPage(""));
+            //ResourceManager resources = Properties.Resources.ResourceManager;
+
+            //IContainer components = new Container();
+            //ImageList myImages = new ImageList(components);
+
+            //tb_allowControl.ImageList = myImages;
+
+            //myImages.ImageStream = (ImageListStreamer)resources.GetObject("tab_non_ope_on.png");
+
+            //myImages.ColorDepth = ColorDepth.Depth8Bit;
+            //myImages.ImageSize = new Size(140, 46);
+            //myImages.TransparentColor = Color.Transparent;
+            //tb_allowControl.TabPages[0].Size = new Size(140, 46);
+            tb_allowControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tb_allowControl.DrawItem += new DrawItemEventHandler(tb_allowControl_DrawItem);
+
+            //selectedtabHistry = tb_allowControl.SelectedIndex;
+
+            tb_allowControl.TabPages[0].ImageIndex = 1;
+            tb_allowControl.TabPages[1].ImageIndex = 2;
+
+            
+
+            //ButtonImageViewModel BIVM = (ButtonImageViewModel)DataContext ;
+            //BIVM.ImageSource = new BitmapImage(new Uri("pack://siteoforigin:,,,/resources/各個連続つまみ_各個.png"));
 
             //tp_allowControl.Controls.Add(dgvfacility_allow);
             //tb_allowControl.ItemSize = new Size(80, 120);
@@ -257,6 +288,47 @@ namespace RcdTablet
             m_imageSrv.ReceiveMessage += new CommUdpSrv.ReceiveMessageEventHandler(IsrvReceiveMessage);
             m_imageSrv.StartListen();
 
+        }
+
+        private void tb_allowControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            //対象のTabControlを取得
+            TabControl tab = (TabControl)sender;
+            //タブページのテキストを取得
+            string txt = tab.TabPages[e.Index].Text;
+
+            //タブのテキストと背景を描画するためのブラシを決定する
+            Brush foreBrush, backBrush;
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                //選択されているタブのテキストを赤、背景を青とする
+                foreBrush = Brushes.Red;
+                backBrush = Brushes.Blue;
+            }
+            else
+            {
+                //選択されていないタブのテキストは灰色、背景を白とする
+                foreBrush = Brushes.Gray;
+                backBrush = Brushes.White;
+            }
+
+            //StringFormatを作成
+            StringFormat sf = new StringFormat();
+            //中央に表示する
+            sf.Alignment = StringAlignment.Center;
+            sf.LineAlignment = StringAlignment.Center;
+
+            //背景の描画
+            if(selectedtabHistry != tb_allowControl.SelectedIndex)
+            {
+                e.Graphics.FillRectangle(backBrush, e.Bounds);
+                tb_allowControl.TabPages[0].ImageIndex = 1;
+                tb_allowControl.TabPages[1].ImageIndex = 2;
+                //Textの描画
+                e.Graphics.DrawString(txt, e.Font, foreBrush, e.Bounds, sf);
+                selectedtabHistry = tb_allowControl.SelectedIndex;
+            }
+            
         }
         #endregion
 
@@ -291,8 +363,9 @@ namespace RcdTablet
             m_rcdCl = new CommCl(m_IP_ADDRESS, m_CL_PORT);
             m_rcdCl.Connected += OnConnected;
             m_rcdCl.Disconnected += OnDisconnected;
-            m_rcdCl.RecieveServerMessage += OnSrvMsgReceived;
+            m_rcdCl.RecieveServerMessage += OnSrvMsgReceived;            
             m_rcdCl.Connect();
+            LOGGER.Info("OperationPCとのクライアント接続を開始中・・・。");
 
             m_facilityStatusMsgs = new MFacilityDao().GetFacilityStatusMsgs();
 
@@ -306,7 +379,14 @@ namespace RcdTablet
             };
             m_statInfoTimer.Elapsed += OnStatInfoTimerElapsed;
 
-            m_statInfoTimer.Start(); 
+            LOGGER.Info("ステータスタイマーを開始");
+            Console.WriteLine(btn_DrivingHistory.Location);
+            
+            if(m_ope_flag == StsConn.Connnecting)
+            {
+                m_statInfoTimer.Start();
+            }
+             
 
             dgvfacility_allow.Font = new Font(dgvfacility_allow.Font.Name, C_FONT_SIZE);
             //dgvFacility_noControl.Font = new Font(dgvfacility_allow.Font.Name, 16);
@@ -314,6 +394,7 @@ namespace RcdTablet
             SetDoubleBuffer(dgvfacility_allow);
             //SetDoubleBuffer(dgvFacility_noControl);
             SetDoubleBuffer(dgvCarStatus);
+            
         }
         //ビューモード
         private void SetSetting()
@@ -524,6 +605,32 @@ namespace RcdTablet
             });
         }
 
+        private void btn_Conveyor_Click(object sender, EventArgs e)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                DRcdStatus managestatus = m_managerMode.FirstOrDefault();
+                if (managestatus.ConveyorStatus == 1)
+                {
+                    LOGGER.Info("コンベア停止解除ボタン押下：コンベア動作中の為、処理終了。");
+                    return;
+                }
+                CovMoveSnd msg = new CovMoveSnd();
+                LOGGER.Info($"コンベア停止解消押下");
+                SendTcp(msg);
+                // 連打防止待ち
+                Task.Run(() =>
+                {
+                    PreventRepeatBtn(btn_Conveyor, C_DEFAULT_BTN_WAIT);
+                });
+
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
         ///// <summary>
         /////　走行履歴
         ///// </summary>
@@ -732,17 +839,76 @@ namespace RcdTablet
         //警告ボタン
         private void btn_warning_Click(object sender, EventArgs e)
         {
-            using (FormWarninig FormWarninig = new FormWarninig(this))
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
             {
-                FormWarninig.Tag = this;
-                FormWarninig.ShowDialog(this);
+                using (FormWarninig FormWarninig = new FormWarninig(this))
+                {
+                    FormWarninig.Tag = this;
+                    FormWarninig.ShowDialog(this);
+                }
             }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
-        /// <summary>
-        /// コントロールのイベントメソッドを設定
-        /// </summary>
-        private void SubscribeControlEvents()
+        private void btn_General_MouseDown(object sender, EventArgs e)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+            try
+            {
+                if (((Button)sender).Name.Equals(btn_andonStop.Name))
+                {
+                    btn_andonStop.BackgroundImage = RcdTablet.Properties.Resources.bt_buzzer_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_close.Name))
+                {
+                    btn_close.BackgroundImage = RcdTablet.Properties.Resources.bt_close_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_continue.Name))
+                {
+                    btn_continue.BackgroundImage = RcdTablet.Properties.Resources.bt_continuity_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_DrivingHistory.Name))
+                {
+                    btn_DrivingHistory.BackgroundImage = RcdTablet.Properties.Resources.bt_run_list_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_errorDetect.Name))
+                {
+                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.bt_alert_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_EventHistory.Name))
+                {
+                    btn_EventHistory.BackgroundImage = RcdTablet.Properties.Resources.bt_event_list_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_OriPosi.Name))
+                {
+                    btn_OriPosi.BackgroundImage = RcdTablet.Properties.Resources.bt_return_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_preparetion.Name))
+                {
+                    btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.bt_drive_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_sysstatus.Name))
+                {
+                    btn_sysstatus.BackgroundImage = RcdTablet.Properties.Resources.bt_status_down;
+                }
+                else if (((Button)sender).Name.Equals(btn_warning.Name))
+                {
+                    btn_warning.BackgroundImage = RcdTablet.Properties.Resources.bt_warning_down;
+                }
+            }
+            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        }
+
+
+            /// <summary>
+            /// コントロールのイベントメソッドを設定
+            /// </summary>
+            private void SubscribeControlEvents()
         {
             //pMapViewerWrap.Paint += DrawBorder;
 
@@ -1335,6 +1501,11 @@ namespace RcdTablet
                     m_statInfoTimer.Stop();
                     m_statInfoTimer.Dispose();
                 }
+                if(m_EmerStopTImer != null)
+                {
+                    m_EmerStopTImer.Stop();
+                    m_statInfoTimer.Dispose();
+                }
 
                 if (m_rcdCl != null)
                 {
@@ -1469,6 +1640,10 @@ namespace RcdTablet
                     DialogResult res = MessageBox.Show("データベースに接続できません。設定ファイルを修正し再起動してください。");
                     manageViewer2.onfacilityCoordinate = new Facility_Coordinate();
                     Close();
+                }
+                else
+                {
+                    LOGGER.Info("データベースに接続成功しました。");
                 }
             }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
@@ -1620,10 +1795,11 @@ namespace RcdTablet
                 m_statInfoTimer.Stop();
 
                 //　設備状態情報取得
-                List<FacilityStatus_Tablet> facilityStatusList = new MFacilityDao().GetAllFacilityStatus_Tablet(m_PLANT_ID,m_STATION_ID);
-                List<FacilityStatus_Tablet> facilityStatusAllowList = new MFacilityDao().GetAllFacilityStatus_Tablet_TYPE(m_PLANT_ID, m_STATION_ID);
-                List<FacilityStatus_Tablet> facilityStatusNCList = new MFacilityDao().GetAllFacilityStatus_Tablet_NC(m_PLANT_ID, m_STATION_ID);
 
+                List<FacilityStatus_Tablet> facilityStatusList = new MFacilityDao().GetAllFacilityStatus_Tablet(m_PLANT_ID,m_STATION_ID);
+                //List<FacilityStatus_Tablet> facilityStatusAllowList = new MFacilityDao().GetAllFacilityStatus_Tablet_TYPE(m_PLANT_ID, m_STATION_ID);
+                //List<FacilityStatus_Tablet> facilityStatusNCList = new MFacilityDao().GetAllFacilityStatus_Tablet_NC(m_PLANT_ID, m_STATION_ID);
+                LOGGER.Info($"設備情報取得数: {facilityStatusList.Count()}");
                 //#if DEBUG
                 //                facilityStatusList.Add(new FacilityStatus_Tablet(1,"1",0,1,"3灯信号機",1,"赤",1,1,"ステータスオプション"));
 
@@ -1675,6 +1851,7 @@ namespace RcdTablet
                 
 
                 dgvfacility_allow.Refresh();
+                LOGGER.Info("設備情報リスト更新完了");
                 //dgvFacility_noControl.Refresh();
 
                 //設備配置情報取得
@@ -1684,6 +1861,7 @@ namespace RcdTablet
 
                 // 車両ステータス情報情報取得・表示
                 List<CarStatus_Tablet> carStatusList = new DCarStatus().GetAllCarStatus_Tablet(m_PLANT_ID,m_STATION_ID);
+                LOGGER.Info($"車両ステータス情報取得数: {facilityStatusList.Count()}");
 
                 DrawCarStatusList(carStatusList);
 
@@ -1761,13 +1939,15 @@ namespace RcdTablet
                 //}
 
                 SetCarStatusList(carStatusList);
-                
+                LOGGER.Info("車両ステータス情報取得完了");
 
                 // 設備状態情報表示
                 //SetFacilityInfoList(facilityStatusList);
 
                 // ステータス確認
                 m_managerMode = d_RcdStatusDao.GetMngMode(m_PLANT_ID, m_STATION_ID);
+                LOGGER.Info("経路ステータス取得");
+                LOGGER.Info($"取得ステータス⇒運転準備：{m_managerMode[0].PreoarationStatus},各個連続：{m_managerMode[0].ControlStatus},原位置復帰：{m_managerMode[0].OriPosiStatus},連続ON：{m_managerMode[0].ContinueStatus},コンベア：{m_managerMode[0].ConveyorStatus}");
 
                 statusbtn_enable();
 
@@ -1779,12 +1959,15 @@ namespace RcdTablet
                 //m_Facility_Coordinate = new MFacilityDao().GetALLFacilityCoordinate();
 
                 m_hasErrors = new DEmergencyDao().HasErrors(m_PLANT_ID,m_STATION_ID);
+                m_hasErrorsCon = new DEmergencyDao().HasErrors_connect(m_PLANT_ID, m_STATION_ID);
+
                 //errorCtrlUnit = new DErrorStatus().errorCtrlUnitSID();
 
                 SetDetectBtnColor();
                 if (m_hasErrors && !errorflag)
                 {
-                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.異常検知;
+                    //btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.異常検知;
+                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.bt_alert_on;
                     using (ErrorDetect ErrorDetectForm = new ErrorDetect(this))
                     {
                         ErrorDetectForm.Tag = this;
@@ -1793,11 +1976,18 @@ namespace RcdTablet
                         manageViewer2.onfacilityCoordinate = new Facility_Coordinate();
                     }
                 }
-                if (!m_hasErrors)
+                if (m_hasErrorsCon)
                 {
-                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.異常検知_検知なし;
-                    errorflag = false;
+                    //btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.異常検知;
+                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.bt_alert_on;
                 }
+                if (!m_hasErrors && !m_hasErrorsCon)
+                {
+                    //btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.異常検知_検知なし;
+                    errorflag = false;
+                    btn_errorDetect.BackgroundImage = RcdTablet.Properties.Resources.bt_alert_off;
+                }
+                
 
                 m_statInfoTimer.Start();
                 //m_statInfoTimer.Start();
@@ -2386,22 +2576,34 @@ namespace RcdTablet
                 m_ope_flag = stsConn_flg;
                 if (m_ope_flag == StsConn.Connnecting)
                 {
+                    m_statInfoTimer.Start();
                     Invoke((Action)(() =>
                     {
                         //OperationPC 接続状態表示：接続中
-                        btn_preparetion.Enabled = true;
+                        btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.bt_drive_off;
+                        //btn_preparetion.Enabled = true;
                         //btn_onesec.Enabled = true;
-                        btn_continue.Enabled = true;
+                        
+                        //btn_continue.Enabled = true;
                     }));
                 }
                 else
                 {
+                    if(m_statInfoTimer.Enabled == true)
+                    {
+                        m_statInfoTimer.Stop();
+                    }
+                    
                     Invoke((Action)(() =>
                     {
                         //OperationPC 接続状態表示：切断中
-                        btn_preparetion.Enabled = false;
+                        btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.bt_drive_disable;
+                        //btn_preparetion.Enabled = false;
                         //btn_onesec.Enabled = false;
-                        btn_continue.Enabled = false;
+                        //btn_continue.Enabled = false;
+                        btn_continue.BackgroundImage = RcdTablet.Properties.Resources.bt_continuity_disable;
+                        btn_OriPosi.BackgroundImage = RcdTablet.Properties.Resources.bt_return_disable;
+                        
                     }));
                 }
             }
@@ -2451,39 +2653,39 @@ namespace RcdTablet
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
 
-        private void btn_userControl_Click(object sender, EventArgs e)
-        {
-            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
-            try
-            {
-                if(m_carBindingList.Count(cs => cs.BodyNo != null && !cs.SystemStatus.Equals("0")) == 0)
-                {
-                    MessageBox.Show("走行停止対象車両が見つかりません。", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+        //private void btn_userControl_Click(object sender, EventArgs e)
+        //{
+        //    LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} Start");
+        //    try
+        //    {
+        //        if(m_carBindingList.Count(cs => cs.BodyNo != null && !cs.SystemStatus.Equals("0")) == 0)
+        //        {
+        //            MessageBox.Show("走行停止対象車両が見つかりません。", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            return;
+        //        }
 
-                if(m_EmerStopTImer == null)
-                {
-                    m_EmerStopTImer = new System.Timers.Timer
-                    {
-                        Interval = m_STATUS_UPDATE_INTERVAL,
-                        Enabled = false
-                    };
-                    m_EmerStopTImer.Elapsed += OnEmarStopTimerElapsed;
-                    m_EmerStopTImer.Start();
-                }
-                else
-                {
-                    m_EmerStopTImer.Stop();
-                    m_EmerStopTImer.Dispose();
-                    m_EmerStopTImer = null;
-                }
+        //        if(m_EmerStopTImer == null)
+        //        {
+        //            m_EmerStopTImer = new System.Timers.Timer
+        //            {
+        //                Interval = m_STATUS_UPDATE_INTERVAL,
+        //                Enabled = false
+        //            };
+        //            m_EmerStopTImer.Elapsed += OnEmarStopTimerElapsed;
+        //            m_EmerStopTImer.Start();
+        //        }
+        //        else
+        //        {
+        //            m_EmerStopTImer.Stop();
+        //            m_EmerStopTImer.Dispose();
+        //            m_EmerStopTImer = null;
+        //        }
                 
-            }
-            catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
-            catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
-            finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
-        }
+        //    }
+        //    catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
+        //    catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
+        //    finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
+        //}
 
         //private void btn_emergencystop_Click(object sender, EventArgs e)
         //{
@@ -2554,25 +2756,51 @@ namespace RcdTablet
             {
                 if(m_managerMode[0].PreoarationStatus == (int)btnStatus.OFF)
                 {
-                    btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.blackimage;
+                    btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.bt_drive_disable;
                     //btn_onesec.Enabled = false;
-                    btn_OriPosi.Enabled = false;
-                    btn_continue.Enabled = false;
+                    //btn_OriPosi.Enabled = false;
+                    btn_OriPosi.BackgroundImage = RcdTablet.Properties.Resources.bt_return_disable;
+                    //btn_continue.Enabled = false;
+                    btn_continue.BackgroundImage = RcdTablet.Properties.Resources.bt_continuity_disable;
                 }
                 else
                 {
-                    btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.運転準備_ON;
+                    //btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.運転準備_ON;
+                    btn_preparetion.BackgroundImage = RcdTablet.Properties.Resources.bt_drive_on;
                     //btn_onesec.Enabled = true;
                     if (m_managerMode[0].ControlStatus == (int)ManagerMode.Manual)
                     {
-                        btn_OriPosi.Enabled = true;
-                        btn_continue.Enabled = false;
+                        rB_onesec.BackgroundImage = RcdTablet.Properties.Resources.bt_switch_right;
+                        //btn_OriPosi.Enabled = true;
+                        if(m_managerMode[0].OriPosiStatus == (int)btnStatus.OFF)
+                        {
+                            btn_OriPosi.BackgroundImage = RcdTablet.Properties.Resources.bt_return_on;
+                        }
+                        else
+                        {
+                            btn_OriPosi.BackgroundImage = RcdTablet.Properties.Resources.bt_return_off;
+                        }
+                        
+                        //btn_continue.Enabled = false;
+                        btn_continue.BackgroundImage = RcdTablet.Properties.Resources.bt_continuity_off;
+                        
+                        //var viewModel = (ButtonImageViewModel)DataContext;
+                        //viewModel.ImageSource = new BitmapImage(new Uri("your_image_path_here"));
                     }
                     else if(m_managerMode[0].ControlStatus == (int)ManagerMode.Auto && m_managerMode[0].OriPosiStatus == (int)ManagerStatus.PushOPBotton)
                     {
                         btn_OriPosi.Enabled = false;
                         btn_continue.Enabled = true;
                     }
+                }
+
+                if(m_managerMode[0].ConveyorStatus == 0)
+                {
+                    btn_Conveyor.Enabled = true;
+                }
+                else
+                {
+                    btn_Conveyor.Enabled = false;
                 }
             }
             catch (UserException ue) { ExceptionProcess.UserExceptionProcess(ue); }
@@ -2612,13 +2840,16 @@ namespace RcdTablet
             switch (tabindex)
             {
                 case (C_ALLOW_FACILITY):
+                    LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End");
                     return m_facilityALBindingList;
                 case (C_NOT_CONTROL):
+                    LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End");
                     return m_facilityNCBindingList;
                 default:
+                    LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End");
                     return null;
             }
-            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End");
+           
         }
 
         #endregion

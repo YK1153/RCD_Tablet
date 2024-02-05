@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace RcdTablet
 {
@@ -23,6 +25,8 @@ namespace RcdTablet
         //private AppLog LOGGER = AppLog.GetInstance();
 
         public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(UserControl1));
+        public delegate void ChangeImageEventHandler(string path);
+        public event ChangeImageEventHandler ChangeImage;
 
         public event RoutedEventHandler Click
         {
@@ -30,13 +34,15 @@ namespace RcdTablet
             remove { RemoveHandler(ClickEvent, value); }
         }
 
+
         public UserControl1()
         {
             InitializeComponent();
             this.Background = System.Windows.Media.Brushes.Transparent;
 
-
             this.PreviewMouseDown += UserControl1_PreviewMouseDown;
+            //DataContext = new ButtonImageViewModel();
+
         }
 
         public event EventHandler WpfButtonClick;
@@ -58,6 +64,29 @@ namespace RcdTablet
                 //circleButton.RaiseEvent(new RoutedEventArgs(UserControl1.ClickEvent));
             }
         }
+
+        public class ButtonImageViewModel2 : INotifyPropertyChanged
+        {
+            private ImageSource _ImageSource;
+
+            public ImageSource ImageSource
+            {
+                get { return _ImageSource; }
+                set
+                {
+                    _ImageSource = value;
+                    OnPropertyChanged("ImageSource");
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
         //private void OnClick()
         //{
