@@ -262,5 +262,10 @@ namespace RcdTablet
             catch (Exception ex) { ExceptionProcess.ComnExceptionProcess(ex); }
             finally { LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} End"); }
         }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

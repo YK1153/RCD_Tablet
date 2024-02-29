@@ -333,7 +333,7 @@ namespace MapViewer
 
                 PanelResize();
 
-                m_CommonCordinate = new PointF(m_bitmap.Size.Width / 10, m_bitmap.Size.Height / 10);
+                //m_CommonCordinate = new PointF(m_bitmap.Size.Width / 10, m_bitmap.Size.Height / 10);
                 RaitoCheck(m_CommonCordinate);
                 ChangeRatio();
             }
@@ -640,12 +640,19 @@ namespace MapViewer
             return Imagesize;
 
         }
+
+        public void setCommonCordinate(PointF Maxmindiff)
+        {
+            m_CommonCordinate = Maxmindiff;
+            ChangeRatio();
+        }
     }
     public class FacilityImageEventArgs
     {
         public receive_Viewer rec;
         public int index;
     }
+
     //public class TerminalStatus
     //{
     //    /// <summary>

@@ -35,12 +35,13 @@
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(1507, 12);
+            this.btn_close.Image = global::RcdTablet.Properties.Resources.bt_close_up;
+            this.btn_close.Location = new System.Drawing.Point(1591, 12);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(246, 39);
+            this.btn_close.Size = new System.Drawing.Size(162, 39);
             this.btn_close.TabIndex = 0;
-            this.btn_close.Text = "閉じる";
             this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
             // dgv_EventHistry
             // 
@@ -67,6 +68,7 @@
             this.ClientSize = new System.Drawing.Size(1789, 629);
             this.Controls.Add(this.dgv_EventHistry);
             this.Controls.Add(this.btn_close);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "EventHistory";
             this.Text = "EventHistory";
             this.Load += new System.EventHandler(this.EventHistory_Load);

@@ -121,6 +121,9 @@
   <data name="back_1920x1080" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\back_1920x1080.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="back_1920x1080_ver2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\back_1920x1080_ver2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="blackimage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blackimage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,6 +175,9 @@
   <data name="bt_close_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_close_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bt_comveyor_sample" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_comveyor_sample.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bt_continuity_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_continuity_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -183,6 +189,18 @@
   </data>
   <data name="bt_continuity_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_continuity_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_conveyor_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_conveyor_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_conveyor_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_conveyor_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_conveyor_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_conveyor_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bt_conveyor_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bt_conveyor_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bt_drive_disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_drive_disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -327,6 +345,9 @@
   </data>
   <data name="bt_working_noframe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bt_working_noframe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SourceHanSans_VF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SourceHanSans-VF.otf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="squeareblack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\squeareblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

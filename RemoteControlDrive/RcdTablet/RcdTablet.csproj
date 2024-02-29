@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -206,10 +208,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CircleButton\CircleButton.csproj">
-      <Project>{e475d6d6-ab8d-4513-aece-8f101eb68a0e}</Project>
-      <Name>CircleButton</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CommWrapper\CommWrapper.csproj">
       <Project>{3d7d34b6-f7dc-4b20-b785-add9e386e659}</Project>
       <Name>CommWrapper</Name>
@@ -285,6 +283,8 @@
     <None Include="Resources\bt_working_noB.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SourceHanSans-VF.otf" />
+    <None Include="Resources\画像素材_20240208.zip" />
     <None Include="Resources\異常検知.png" />
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +495,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tab_ope_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_comveyor_sample.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back_1920x1080_ver2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bt_conveyor_on.png" />
+    <None Include="Resources\bt_conveyor_off.png" />
+    <None Include="Resources\bt_conveyor_down.png" />
+    <None Include="Resources\bt_conveyor_disable.png" />
+    <Content Include="Resources\[01]メイン画面_20240206.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

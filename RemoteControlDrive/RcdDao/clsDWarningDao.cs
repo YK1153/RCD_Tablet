@@ -237,6 +237,43 @@ namespace RcdDao
             }
         }
 
+        public bool HasWarning(int plantsid, int stationsid)
+        {
+            LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} start");
+            try
+            {
+                using (SqlHelper helper = m_daoCommon.getSqlHelper())
+                {
+                    string cmd = $@"
+                        SELECT 
+                            TOP 1 warni.SID
+                        FROM
+                            D_WARNING warni
+                        WHERE
+                            warni.PlantSID = '{plantsid}'
+                        AND
+                            warni.StationSID = '{stationsid}'
+                        AND 
+                            warni.DelFlg = 0
+                        AND 
+                            warni.SolvedFlg = 0
+                        AND
+                            warni.ErrCode = 00000
+                    ;
+                    ";
+
+                    DataTable result = helper.Execute(cmd, CommandType.Text);
+
+                    return result.Rows.Count >= 1;
+                }
+            }
+            finally
+            {
+                LOGGER.Debug($"{MethodBase.GetCurrentMethod().Name} end");
+            }
+
+        }
+
 
         #endregion
 

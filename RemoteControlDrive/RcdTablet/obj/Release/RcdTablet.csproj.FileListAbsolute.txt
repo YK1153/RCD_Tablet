@@ -105,3 +105,4 @@ C:\ドキュメント\トヨタ自走\納品用\20230927\検収資料\ソース�
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\UC12.g.cs
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\UC12.baml
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet.FormLogin.resources
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Release\RcdTablet_Content.g.cs

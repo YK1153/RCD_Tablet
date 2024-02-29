@@ -73,6 +73,16 @@ namespace RcdTablet.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap back_1920x1080_ver2 {
+            get {
+                object obj = ResourceManager.GetObject("back_1920x1080_ver2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap blackimage {
             get {
                 object obj = ResourceManager.GetObject("blackimage", resourceCulture);
@@ -243,6 +253,16 @@ namespace RcdTablet.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap bt_comveyor_sample {
+            get {
+                object obj = ResourceManager.GetObject("bt_comveyor_sample", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap bt_continuity_disable {
             get {
                 object obj = ResourceManager.GetObject("bt_continuity_disable", resourceCulture);
@@ -276,6 +296,46 @@ namespace RcdTablet.Properties {
         internal static System.Drawing.Bitmap bt_continuity_on {
             get {
                 object obj = ResourceManager.GetObject("bt_continuity_on", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap bt_conveyor_disable {
+            get {
+                object obj = ResourceManager.GetObject("bt_conveyor_disable", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap bt_conveyor_down {
+            get {
+                object obj = ResourceManager.GetObject("bt_conveyor_down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap bt_conveyor_off {
+            get {
+                object obj = ResourceManager.GetObject("bt_conveyor_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap bt_conveyor_on {
+            get {
+                object obj = ResourceManager.GetObject("bt_conveyor_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -757,6 +817,16 @@ namespace RcdTablet.Properties {
             get {
                 object obj = ResourceManager.GetObject("bt_working_noframe", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] SourceHanSans_VF {
+            get {
+                object obj = ResourceManager.GetObject("SourceHanSans_VF", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

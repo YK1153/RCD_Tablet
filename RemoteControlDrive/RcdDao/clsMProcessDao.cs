@@ -241,7 +241,7 @@ namespace RcdDao
             [UserInput]
             [SqlParam(queryNames: new string[] { "Add", "Update" })]
             [Pattern("[0-9]{1,8}", "1~8桁の数字")]
-            public float IaxisMAX { get; set; }
+            public float XaxisMAX { get; set; }
 
             [UserInput]
             [SqlParam(queryNames: new string[] { "Add", "Update" })]

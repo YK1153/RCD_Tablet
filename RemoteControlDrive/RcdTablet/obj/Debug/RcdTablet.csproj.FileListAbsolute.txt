@@ -183,3 +183,4 @@ C:\Users\admin\Documents\トヨタ自走\RemoteControlDrive\RemoteControlDrive\R
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Debug\UC12.g.cs
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Debug\UC12.baml
 C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Debug\RcdTablet.FormLogin.resources
+C:\ドキュメント\トヨタ自走\Tabletソフト\RemoteControlDrive\RcdTablet\obj\Debug\RcdTablet_Content.g.cs
